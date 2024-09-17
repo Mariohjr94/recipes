@@ -1,5 +1,5 @@
 {
-  "name": "34a.classroommanager",
+  "name": "recipe app",
   "version": "1.0.0",
   "description": "",
   "main": "server/index.js",
@@ -11,10 +11,9 @@
     "build": "vite build client",
     "server": "node server"
   },
-  "author": "Fullstack Academy of Code",
+  "author": "Mario Herrera Jr ",
   "license": "ISC",
   "devDependencies": {
-    "@faker-js/faker": "^8.0.2",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^4.0.0",
@@ -22,14 +21,25 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
-    "dotenv": "^16.1.4",
-    "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.0",
-    "morgan": "^1.10.0",
+     "bcrypt": "^5.1.1",
+    "body": "^5.1.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "gridfs-stream": "^1.1.1",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.1.4",
     "pg": "^8.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.0",
-    "react-router-dom": "^6.12.1"
+    "react-router-dom": "^6.12.1",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.4",
+    "multer-gridfs-storage": "^5.0.2",
+    "parser": "^0.1.4",
+    "socket.io": "^4.7.5"
   }
 }
