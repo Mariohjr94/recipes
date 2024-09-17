@@ -1,5 +1,5 @@
 {
-  "name": "recipe app",
+  "name": "The Chef de Partie",
   "version": "1.0.0",
   "description": "",
   "main": "server/index.js",
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
-     "bcrypt": "^5.1.1",
+    "bcrypt": "^5.1.1",
     "body": "^5.1.0",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
