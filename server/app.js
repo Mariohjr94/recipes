@@ -3,7 +3,11 @@ const express = require("express");
 const morgan = require("morgan");
 const app = express();
 const jwt = require("jsonwebtoken");
+const helmet = require("helmet")
+const cors = require("cors");
 
+app.use(helmet());
+app.use(cors());
 // Logging middleware
 app.use(morgan("dev"));
 
@@ -21,7 +25,8 @@ app.use((req, res, next) => {
 
   try {
     req.user = jwt.verify(token, process.env.JWT);
-  } catch {
+  } catch (err) {
+    console.log("JWT verification failed:", err.message);
     req.user = null;
   }
 
@@ -29,8 +34,13 @@ app.use((req, res, next) => {
 });
 
 // Backend routes
-app.use("/auth", require("./auth"));
-app.use("/api", require("./api"));
+const authRoutes = require("./auth");
+const recipeRoutes = require("./api/recipes");
+const categoryRoutes = require("./api/categories");
+
+app.use("/auth", authRoutes);
+app.use("/api/recipes", recipeRoutes);
+app.use("/api/categories", categoryRoutes);
 
 // Serves the HTML file that Vite builds
 app.get("/", (req, res) => {
