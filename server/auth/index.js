@@ -1,19 +1,20 @@
 const router = require("express").Router();
 const db = require("../db");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
-// Register a new instructor account
+// Register a new  account
 router.post("/register", async (req, res, next) => {
   try {
     const {
-      rows: [instructor],
+      rows: [admin],
     } = await db.query(
-      "INSERT INTO instructor (username, password) VALUES ($1, $2) RETURNING *",
+      "INSERT INTO admin (username, password) VALUES ($1, $2) RETURNING *",
       [req.body.username, req.body.password]
     );
 
     // Create a token with the instructor id
-    const token = jwt.sign({ id: instructor.id }, process.env.JWT);
+    const token = jwt.sign({ id: admin.id }, process.env.JWT);
 
     res.status(201).send({ token });
   } catch (error) {
@@ -21,22 +22,32 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
-// Login to an existing instructor account
+// Login to an existing admin account
 router.post("/login", async (req, res, next) => {
   try {
     const {
-      rows: [instructor],
+      rows: [admin],
     } = await db.query(
-      "SELECT * FROM instructor WHERE username = $1 AND password = $2",
+      "SELECT * FROM admin WHERE username = $1 AND password = $2",
       [req.body.username, req.body.password]
     );
 
-    if (!instructor) {
+    if (!admin) {
+      return res.status(401).send("Invalid login credentials.");
+    }
+
+    // Compare the provided password with the stored hashed password
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      admin.password
+    );
+
+    if (!validPassword) {
       return res.status(401).send("Invalid login credentials.");
     }
 
     // Create a token with the instructor id
-    const token = jwt.sign({ id: instructor.id }, process.env.JWT);
+    const token = jwt.sign({ id: admin.id }, process.env.JWT);
 
     res.send({ token });
   } catch (error) {
@@ -44,16 +55,16 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-// Get the currently logged in instructor
+// Get the currently logged in admin
 router.get("/me", async (req, res, next) => {
   try {
     const {
-      rows: [instructor],
-    } = await db.query("SELECT * FROM instructor WHERE id = $1", [
+      rows: [admin],
+    } = await db.query("SELECT * FROM admin WHERE id = $1", [
       req.user?.id,
     ]);
 
-    res.send(instructor);
+    res.send(admin);
   } catch (error) {
     next(error);
   }
