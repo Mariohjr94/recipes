@@ -2,19 +2,21 @@ const router = require("express").Router();
 const db = require("../db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const authenticateToken = require("../middleware/authenticateToken")
 
 // Register a new  account
 router.post("/register", async (req, res, next) => {
   try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const {
       rows: [admin],
     } = await db.query(
       "INSERT INTO admin (username, password) VALUES ($1, $2) RETURNING *",
-      [req.body.username, req.body.password]
+      [req.body.username, hashedPassword]
     );
 
     // Create a token with the instructor id
-    const token = jwt.sign({ id: admin.id }, process.env.JWT);
+    const token = jwt.sign({ id: admin.id }, process.env.JWT_SECRET);
 
     res.status(201).send({ token });
   } catch (error) {
@@ -28,8 +30,8 @@ router.post("/login", async (req, res, next) => {
     const {
       rows: [admin],
     } = await db.query(
-      "SELECT * FROM admin WHERE username = $1 AND password = $2",
-      [req.body.username, req.body.password]
+      "SELECT * FROM admin WHERE username = $1",
+      [req.body.username]
     );
 
     if (!admin) {
@@ -47,7 +49,7 @@ router.post("/login", async (req, res, next) => {
     }
 
     // Create a token with the instructor id
-    const token = jwt.sign({ id: admin.id }, process.env.JWT);
+    const token = jwt.sign({ id: admin.id }, process.env.JWT_SECRET);
 
     res.send({ token });
   } catch (error) {

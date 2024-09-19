@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken");
 const helmet = require("helmet")
 const cors = require("cors");
 
+require('dotenv').config();
+
 app.use(helmet());
 app.use(cors());
 // Logging middleware
@@ -17,21 +19,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // Static file-serving middleware
 app.use(express.static(path.join(__dirname, "..", "client/dist")));
-
-// Check requests for a token and attach the decoded id to the request
-app.use((req, res, next) => {
-  const auth = req.headers.authorization;
-  const token = auth?.startsWith("Bearer ") ? auth.slice(7) : null;
-
-  try {
-    req.user = jwt.verify(token, process.env.JWT);
-  } catch (err) {
-    console.log("JWT verification failed:", err.message);
-    req.user = null;
-  }
-
-  next();
-});
 
 // Backend routes
 const authRoutes = require("./auth");

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db");
+const authenticateToken = require("../middleware/authenticateToken")
 
 // Middleware to check if the user is logged in (admin)
 router.use((req, res, next) => {
@@ -38,7 +39,7 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // Create a new recipe
-router.post("/", async (req, res, next) => {
+router.post("/", authenticateToken, async (req, res, next) => {
   try {
     const { name, ingredients, instructions, image, category_id } = req.body;
     const {
@@ -54,7 +55,7 @@ router.post("/", async (req, res, next) => {
 });
 
 // Update a recipe
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", authenticateToken, async (req, res, next) => {
   try {
     const { name, ingredients, instructions, image, category_id } = req.body;
     const {
@@ -75,7 +76,7 @@ router.put("/:id", async (req, res, next) => {
 });
 
 // Delete a recipe by id
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", authenticateToken, async (req, res, next) => {
   try {
     const {
       rows: [recipe],
