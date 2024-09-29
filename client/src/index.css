@@ -1,0 +1,10 @@
+/* src/styles/variables.css */
+:root {
+  --primary-bg-color: #ffffff;     /* Dark background color */
+  --card-bg-color: #ffffff;        /* White background color for cards */
+  --button-bg-color: #333333;      /* Dark button background */
+  --button-hover-bg-color: #444444;/* Hover background for buttons */
+  --text-color: #333333;           /* General text color */
+  --link-color: #666666;           /* Link color */
+  --error-color: #ff4d4d;          /* Error message color */
+}

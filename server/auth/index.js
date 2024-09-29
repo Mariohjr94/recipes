@@ -58,7 +58,8 @@ router.post("/login", async (req, res, next) => {
 });
 
 // Get the currently logged in admin
-router.get("/me", async (req, res, next) => {
+router.get("/me", authenticateToken, async (req, res, next) => {
+  console.log("User ID from token:", req.user?.id);
   try {
     const {
       rows: [admin],
@@ -66,7 +67,13 @@ router.get("/me", async (req, res, next) => {
       req.user?.id,
     ]);
 
-    res.send(admin);
+    console.log("Admin from database:", admin);  // Check if admin is found
+
+   if (!admin) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    res.json(admin);
   } catch (error) {
     next(error);
   }
