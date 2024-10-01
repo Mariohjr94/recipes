@@ -41,7 +41,7 @@ try {
     sessionStorage.setItem("token", result.token);  
   }
   
-  navigate("/dashboard");  
+  navigate("/");  
 } catch (err) {
   setLoading(false);
 

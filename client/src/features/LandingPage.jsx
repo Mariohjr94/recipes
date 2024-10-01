@@ -7,20 +7,24 @@ function LandingPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    async function fetchRecipes() {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/recipes`);
-        setRecipes(response.data);
-        setLoading(false);
-      } catch (err) {
-        setError("Failed to load recipes.");
-        setLoading(false);
-      }
-    }
+const fetchRecipes = async () => {
+  try {
+    const token = sessionStorage.getItem('token');
+    const response = await axios.get('http://localhost:3000/api/recipes', {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+    setRecipes(response.data); 
+  } catch (error) {
+    console.error("Failed to load recipes.", error);
+  }
+};
 
-    fetchRecipes();
-  }, []);
+useEffect(() => {
+  fetchRecipes();
+}, []);
+
 
   if (loading) return <p>Loading recipes...</p>;
   if (error) return <p>{error}</p>;

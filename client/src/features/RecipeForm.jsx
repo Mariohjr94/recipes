@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Container } from "react-bootstrap";
 
 function RecipeForm({ recipe = {}, onSave }) {
   const [name, setName] = useState(recipe.name || "");
@@ -29,41 +30,44 @@ function RecipeForm({ recipe = {}, onSave }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="mb-3">
-        <label className="form-label" htmlFor="name">Recipe Name</label>
-        <input
-          type="text"
-          className="form-control"
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </div>
-      <div className="mb-3">
-        <label className="form-label" htmlFor="ingredients">Ingredients (comma separated)</label>
-        <input
-          type="text"
-          className="form-control"
-          id="ingredients"
-          value={ingredients}
-          onChange={(e) => setIngredients(e.target.value)}
-          required
-        />
-      </div>
-      <div className="mb-3">
-        <label className="form-label" htmlFor="instructions">Instructions</label>
-        <textarea
-          className="form-control"
-          id="instructions"
-          value={instructions}
-          onChange={(e) => setInstructions(e.target.value)}
-          required
-        />
-      </div>
-      <button type="submit" className="btn btn-primary">{recipe.id ? "Update" : "Add"} Recipe</button>
-    </form>
+    <div className="container">
+      <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="name">Recipe Name</label>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="ingredients">Ingredients (comma separated)</label>
+            <input
+              type="text"
+              className="form-control"
+              id="ingredients"
+              value={ingredients}
+              onChange={(e) => setIngredients(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="instructions">Instructions</label>
+            <textarea
+              className="form-control"
+              id="instructions"
+              value={instructions}
+              onChange={(e) => setInstructions(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">{recipe.id ? "Update" : "Add"} Recipe</button>
+        </form>
+    </div>
+   
   );
 }
 

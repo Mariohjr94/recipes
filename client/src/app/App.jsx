@@ -1,11 +1,11 @@
-import { Routes, Route } from 'react-router-dom';
-import NavBar from "../features/Navbar"
+import { Routes, Route, Navigate } from 'react-router-dom';
+import NavBar from "../features/Navbar";
 import LandingPage from '../features/LandingPage';
 import AuthForm from '../features/auth/AuthForm';
 import Dashboard from '../features/dashboard/Dashboard';
 import RecipeDetails from '../features/RecipeDetails';
+import RecipeForm from '../features/RecipeForm';
 import { useMeQuery } from '../features/auth/authSlice';
-
 
 function App() {
   const { data: me, isFetching } = useMeQuery();
@@ -13,29 +13,41 @@ function App() {
 
   console.log("Me data:", me);
 
-   if (isFetching) {
+  if (isFetching) {
     return <div>Loading...</div>;
   }
 
-   return (
+  return (
     <>
-    <NavBar/>
-    <Routes>
-      {/* Public routes */}
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/recipe/:id" element={<RecipeDetails />} />
+      <NavBar />
+      <Routes>
+        {/* Public routes */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/recipe/:id" element={<RecipeDetails />} />
 
-      {/* Admin routes */}
-      {loggedIn ? (
-        <Route path="/dashboard" element={<Dashboard />} />
-      ) : (
-        // Redirect to login if not logged in and trying to access dashboard
-        <Route path="/dashboard" element={<AuthForm />} />
-      )}
+        {/* Login Route (accessible only if not logged in) */}
+        <Route
+          path="/auth/login"
+          element={loggedIn ? <Navigate to="/dashboard" /> : <AuthForm />}
+        />
 
-      {/* Default fallback */}
-      <Route path="*" element={loggedIn ? <Dashboard /> : <AuthForm />} />
-    </Routes>
+        {/* Admin routes */}
+        {loggedIn ? (
+          <>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/add-recipe" element={<RecipeForm />} />
+          </>
+        ) : (
+          <>
+            {/* Redirect to login if trying to access dashboard or add recipe without being logged in */}
+            <Route path="/dashboard" element={<Navigate to="/auth/login" />} />
+            <Route path="/add-recipe" element={<RecipeForm/>} />
+          </>
+        )}
+
+        {/* Default fallback */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
     </>
   );
 }

@@ -4,14 +4,10 @@ const db = require("../db");
 const authenticateToken = require("../middleware/authenticateToken")
 
 // Middleware to check if the user is logged in (admin)
-router.use((req, res, next) => {
-  if (!req.user) {
-    return res.status(401).send("You must be logged in to do that.");
-  }
-  next();
-});
+router.use(authenticateToken); 
 
-// Get all recipes
+// Get all recipes (public, no authentication)
+
 router.get("/", async (req, res, next) => {
   try {
     const { rows: recipes } = await db.query("SELECT * FROM recipe");
@@ -38,6 +34,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+// Protected Routes (require login):
 // Create a new recipe
 router.post("/", authenticateToken, async (req, res, next) => {
   try {

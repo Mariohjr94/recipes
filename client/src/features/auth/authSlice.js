@@ -1,6 +1,5 @@
-// src/features/auth/authSlice.js
 import { createSlice } from '@reduxjs/toolkit';
-import { api } from '../../app/api';  // Assuming you have an api.js setup
+import { api } from '../../app/api';
 
 const TOKEN = "token";
 
@@ -9,6 +8,7 @@ const authApi = api.injectEndpoints({
   endpoints: (builder) => ({
     me: builder.query({
       query: () => '/auth/me',
+      providesTags: ['Me'], // Provides the `Me` tag so it's cached properly
     }),
     login: builder.mutation({
       query: (credentials) => ({
@@ -16,19 +16,31 @@ const authApi = api.injectEndpoints({
         method: 'POST',
         body: credentials,
       }),
+      // Invalidate the 'me' query so the user info is refreshed after login
       invalidatesTags: ['Me'],
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;  // this will contain token or login response
+          // Dispatch the token to Redux and sessionStorage
+          dispatch(storeToken({ token: data.token }));
+        } catch (err) {
+          console.log('Login failed:', err);
+        }
+      }
     }),
+  
+    
     register: builder.mutation({
       query: (credentials) => ({
         url: '/auth/register',
         method: 'POST',
         body: credentials,
       }),
-      invalidatesTags: ['Me'],
+      invalidatesTags: ['Me'], // Invalidate to refetch `me` after registration
     }),
     logout: builder.mutation({
       queryFn: () => ({ data: {} }),
-      invalidatesTags: ['Me'],
+      invalidatesTags: ['Me'], // Invalidate to clear `me` data on logout
     }),
   }),
 });
@@ -37,7 +49,7 @@ const authApi = api.injectEndpoints({
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    token: null,
+    token: sessionStorage.getItem(TOKEN) || null,
     user: null,
   },
   reducers: {
@@ -50,6 +62,24 @@ const authSlice = createSlice({
       window.sessionStorage.removeItem(TOKEN);
     },
   },
+  extraReducers: (builder) => {
+    // Listen to 'me' query and store user data after login
+    builder.addMatcher(
+      authApi.endpoints.me.matchFulfilled,
+      (state, { payload }) => {
+        state.user = payload;  // Store the user info in state
+      }
+    );
+    // Clear user info on logout
+ builder.addMatcher(
+    authApi.endpoints.logout.matchFulfilled,
+    (state) => {
+      state.user = null;
+      state.token = null;  
+      window.sessionStorage.removeItem(TOKEN);  
+      }
+    );
+  }
 });
 
 // Export RTK Query hooks
@@ -60,8 +90,8 @@ export const {
   useLogoutMutation
 } = authApi;
 
-console.log({ authApi });  // Add this line in authSlice.js
-
+// Redux actions
 export const { storeToken, clearToken } = authSlice.actions;
-export default authSlice.reducer;
 
+// Export the reducer to integrate into the store
+export default authSlice.reducer;
