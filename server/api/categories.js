@@ -2,15 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db");
 
-// Middleware to check if the user is logged in (admin)
-router.use((req, res, next) => {
-  if (!req.user) {
-    return res.status(401).send("You must be logged in to do that.");
-  }
-  next();
-});
-
-// Get all categories
+// Public route to get all categories (no login required)
 router.get("/", async (req, res, next) => {
   try {
     const { rows: categories } = await db.query("SELECT * FROM category");
@@ -20,7 +12,15 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// Create a new category
+// Middleware to check if the user is logged in (for POST and DELETE routes)
+router.use((req, res, next) => {
+  if (!req.user) {
+    return res.status(401).send("You must be logged in to do that.");
+  }
+  next();
+});
+
+// Authenticated route to create a new category
 router.post("/", async (req, res, next) => {
   try {
     const { name } = req.body;
@@ -36,7 +36,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-// Delete a category by id
+// Authenticated route to delete a category by id
 router.delete("/:id", async (req, res, next) => {
   try {
     const {

@@ -27,7 +27,7 @@ const categoryRoutes = require("./api/categories");
 
 app.use("/auth", authRoutes);
 app.use("/api/recipes", recipeRoutes);
-app.use("/api/categories", categoryRoutes);
+app.use("/api/categories" ,categoryRoutes);
 
 // Serves the HTML file that Vite builds
 app.get("/", (req, res) => {
