@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 
 function RecipeForm({ recipe = {}, onSave }) {
   const token = useSelector((state) => state.auth.token)
@@ -11,7 +12,8 @@ function RecipeForm({ recipe = {}, onSave }) {
   const [instructions, setInstructions] = useState(recipe.instructions || "");
   const [categories, setCategories] = useState([]); 
   const [categoryId, setCategoryId] = useState(recipe.category_id || "");  
-  const [image, setImage] = useState(null);  
+  const [image, setImage] = useState(null); 
+  const navigate = useNavigate() 
 
   // Fetch categories from the backend when the component loads
 useEffect(() => {
@@ -86,7 +88,12 @@ useEffect(() => {
         await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/recipes`, formData, { headers });
       }
       
-      onSave();  // Call onSave to refresh the recipe list
+      if(onSave) {
+        onSave();  // Call onSave to refresh the recipe list
+      }
+       // Navigate to landing page after successful submission
+      navigate("/");
+
     } catch (error) {
       console.error("Failed to save the recipe:", error);
     }
@@ -95,7 +102,8 @@ useEffect(() => {
  return (
   
     <div className="d-flex justify-content-center align-items-center vh-100">
-      <form onSubmit={handleSubmit}>
+       <div className="card p-4">
+<form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label" htmlFor="name">Recipe Name</label>
           <input
@@ -187,6 +195,8 @@ useEffect(() => {
           {recipe.id ? "Update" : "Add"} Recipe
         </button>
       </form>
+       </div>
+      
     </div>
   );
 }
