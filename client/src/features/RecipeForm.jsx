@@ -52,15 +52,20 @@ useEffect(() => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const formData = new FormData();  // Use FormData to handle image upload
+    const formData = new FormData();  
     formData.append("name", name);
     formData.append("ingredients", JSON.stringify(ingredients));
     formData.append("instructions", instructions);
     formData.append("category_id", categoryId);
 
     if (image) {
-      formData.append("image", image);  // Append the image file
+      formData.append("image", image);  
     }
+
+  // Log FormData
+  for (let [key, value] of formData.entries()) {
+    console.log(`${key}: ${value}`);
+  }
 
     try {
       if (!token) {
@@ -70,7 +75,7 @@ useEffect(() => {
 
       const headers = {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'multipart/form-data'  // Important for file uploads
+        'Content-Type': 'multipart/form-data'  
       };
 
       if (recipe.id) {
@@ -88,6 +93,7 @@ useEffect(() => {
   };
 
  return (
+  
     <div className="d-flex justify-content-center align-items-center vh-100">
       <form onSubmit={handleSubmit}>
         <div className="mb-3">

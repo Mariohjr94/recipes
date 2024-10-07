@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db");
+const multer = require('multer');
+const upload = multer(); 
 const authenticateToken = require("../middleware/authenticateToken")
 
 // Middleware to check if the user is logged in (admin)
@@ -36,20 +38,30 @@ router.get("/:id", async (req, res, next) => {
 
 // Protected Routes (require login):
 // Create a new recipe
-router.post("/", authenticateToken, async (req, res, next) => {
+router.post("/", authenticateToken, upload.single('image'), async (req, res, next) => {
   try {
-    const { name, ingredients, instructions, image, category_id } = req.body;
-    const {
-      rows: [recipe],
-    } = await db.query(
+    const { name, ingredients, instructions, category_id } = req.body;
+    const image = req.file ? req.file.buffer : null;  // Handle image
+
+// Log incoming data for debugging
+    console.log("Received data:", req.body);
+
+   const parsedIngredients = JSON.parse(ingredients);  
+
+    // Insert into the database
+    const { rows: [recipe] } = await db.query(
       "INSERT INTO recipe (name, ingredients, instructions, image, category_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [name, ingredients, instructions, image, category_id]
+      [name, parsedIngredients, instructions, image, category_id]
     );
+
     res.status(201).send(recipe);
   } catch (error) {
+    console.error("Error inserting recipe:", error);
     next(error);
   }
 });
+
+
 
 // Update a recipe
 router.put("/:id", authenticateToken, async (req, res, next) => {

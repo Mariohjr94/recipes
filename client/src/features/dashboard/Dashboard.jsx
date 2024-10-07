@@ -7,6 +7,11 @@ import LogoutButton from "../auth/LogoutButton";
 function Dashboard() {
   const { data: me } = useMeQuery();
 
+    const handleSave = () => {
+    // After saving, navigate to the landing page
+    navigate('/');
+  };
+
   return (
     <main className="container mt-5">
       <h1>Welcome, {me?.username}!</h1>
@@ -14,7 +19,7 @@ function Dashboard() {
 
       <div className="mt-4">
         <h2>Manage Recipes</h2>
-        <RecipeForm />  {/* Form to add/edit recipes */}
+        <RecipeForm onSave={handleSave} />  {/* Form to add/edit recipes */}
         <RecipeTable /> {/* Table to display and manage recipes */}
       </div>
     </main>
