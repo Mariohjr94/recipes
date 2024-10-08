@@ -16,6 +16,7 @@ const fetchRecipes = async () => {
       },
     });
     setRecipes(response.data); 
+    setLoading(false)
   } catch (error) {
     console.error("Failed to load recipes.", error);
   }
@@ -25,13 +26,17 @@ useEffect(() => {
   fetchRecipes();
 }, []);
 
+console.log("recipes:", recipes);
+console.log("recipes:", recipes);
+recipes.forEach((recipe) => console.log("Image data for recipe:", recipe.image));
+
 
   if (loading) return <p>Loading recipes...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-5">Delicious Recipes</h1>
+      <h1 className="text-center mb-5"> Recipes</h1>
       <div className="row">
         {recipes.map((recipe) => (
           <div key={recipe.id} className="col-md-4 mb-4">
@@ -39,8 +44,7 @@ useEffect(() => {
               <img src={recipe.image} className="card-img-top" alt={recipe.name} />
               <div className="card-body">
                 <h5 className="card-title">{recipe.name}</h5>
-                <p className="card-text">{recipe.ingredients.join(", ")}</p>
-                <a href={`/recipe/${recipe.id}`} className="btn btn-primary">
+                <a href={`/recipe/${recipe.id}`} className="btn btn-secondary">
                   View Recipe
                 </a>
               </div>

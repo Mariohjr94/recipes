@@ -10,12 +10,23 @@ router.use(authenticateToken);
 
 // Get all recipes (public, no authentication)
 
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const { rows: recipes } = await db.query("SELECT * FROM recipe");
-    res.send(recipes);
+    const { rows: recipes } = await db.query('SELECT * FROM recipe');
+
+    // Convert the buffer (image) to base64 format
+    const updatedRecipes = recipes.map((recipe) => {
+     if (Buffer.isBuffer(recipe.image)) {
+        recipe.image = `data:image/jpeg;base64,${Buffer.from(recipe.image).toString('base64')}`;
+      }
+      return recipe;
+    });
+
+    console.log(updatedRecipes);
+
+    res.json(updatedRecipes);
   } catch (error) {
-    next(error);
+    next(error); // Forward the error to the error handler middleware
   }
 });
 

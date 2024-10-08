@@ -8,3 +8,23 @@
   --link-color: #666666;           /* Link color */
   --error-color: #ff4d4d;          /* Error message color */
 }
+
+
+.card {
+  height: 100%; /* Ensure all cards are equal height */
+  display: flex;
+  flex-direction: column; /* Align content in a column */
+}
+
+.card-img-top {
+  height: 200px; /* Set a fixed height for the image */
+  object-fit: cover; /* Ensures the image covers the entire area while maintaining aspect ratio */
+  width: 100%; /* Ensures the image takes full width */
+}
+
+.card-body {
+  flex-grow: 1; /* Pushes the card body content to fill remaining space */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Spreads the content evenly */
+}
