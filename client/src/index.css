@@ -9,6 +9,9 @@
   --error-color: #ff4d4d;          /* Error message color */
 }
 
+body {
+  padding-top: 56px; /* Adjust the value based on your navbar's height */
+}
 
 .card {
   height: 100%; /* Ensure all cards are equal height */
@@ -40,4 +43,5 @@
 .category-buttons button {
   margin: 5px;  /* Adjust this value as needed */
 }
+
 

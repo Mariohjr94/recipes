@@ -82,7 +82,7 @@ useEffect(() => {
       <div className="row">
         {filteredRecipes.length > 0 ? (
           filteredRecipes.map((recipe) => (
-            <div key={recipe.id} className="col-md-4 mb-4">
+            <div key={recipe.id} className="col-6 col-md-4 col-lg-3 mb-4">
               <div className="card h-100">
                 <img src={recipe.image} className="card-img-top" alt={recipe.name} />
                 <div className="card-body">

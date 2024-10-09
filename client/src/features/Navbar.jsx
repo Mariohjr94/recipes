@@ -3,6 +3,7 @@ import { Navbar, Nav, Form, Button, FormControl, Container } from 'react-bootstr
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation, clearToken } from '../features/auth/authSlice';  
+import { IoIosSearch } from "react-icons/io";
 
 function CustomNavbar() {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ function CustomNavbar() {
   };
 
   return (
-    <Navbar bg="light" expand="lg" className="px-3">
+    <Navbar bg="light" expand="lg" className="fixed-top px-3">
       <Container fluid>
         <Navbar.Brand as={Link} to="/" className="fw-bold">
           E<span style={{ color: '#00c2b2' }}>CC</span>
@@ -47,8 +48,7 @@ function CustomNavbar() {
         <Navbar.Collapse id="navbarScroll">
           <Nav className="me-auto my-2 my-lg-0" navbarScroll>
             <Nav.Link as={Link} to="/">Home</Nav.Link>
-            <Nav.Link as={Link} to="/categories">Categories</Nav.Link>
-
+    
             {/* Conditionally render "Add Recipe" if the user is logged in */}
             {isLoggedIn && (
               <Nav.Link as={Link} to="/add-recipe">Add Recipe</Nav.Link>
@@ -63,8 +63,8 @@ function CustomNavbar() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <Button variant="outline-secondary" type="submit">
-              <i className="bi bi-search"></i>
+            <Button variant=" secondary" type="submit">
+              <i className="bi bi-search"><IoIosSearch /></i>
             </Button>
           </Form>
           <Nav>
