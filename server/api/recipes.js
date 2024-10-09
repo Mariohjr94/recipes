@@ -3,13 +3,9 @@ const router = express.Router();
 const db = require("../db");
 const multer = require('multer');
 const upload = multer(); 
-const authenticateToken = require("../middleware/authenticateToken")
-
-// Middleware to check if the user is logged in (admin)
-router.use(authenticateToken); 
+const authenticateToken = require("../middleware/authenticateToken");
 
 // Get all recipes (public, no authentication)
-
 router.get('/', async (req, res, next) => {
   try {
     const { rows: recipes } = await db.query('SELECT * FROM recipe');
@@ -30,7 +26,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// Get a recipe by id
+// Get a recipe by id (public, no authentication)
 router.get("/:id", async (req, res, next) => {
   try {
     const {
@@ -39,6 +35,11 @@ router.get("/:id", async (req, res, next) => {
 
     if (!recipe) {
       return res.status(404).send("Recipe not found.");
+    }
+
+    // Convert image to base64 if it's a Buffer
+    if (Buffer.isBuffer(recipe.image)) {
+      recipe.image = `data:image/jpeg;base64,${Buffer.from(recipe.image).toString('base64')}`;
     }
 
     res.send(recipe);
@@ -54,10 +55,10 @@ router.post("/", authenticateToken, upload.single('image'), async (req, res, nex
     const { name, ingredients, instructions, category_id } = req.body;
     const image = req.file ? req.file.buffer : null;  // Handle image
 
-// Log incoming data for debugging
+    // Log incoming data for debugging
     console.log("Received data:", req.body);
 
-   const parsedIngredients = JSON.parse(ingredients);  
+    const parsedIngredients = JSON.parse(ingredients);  
 
     // Insert into the database
     const { rows: [recipe] } = await db.query(
@@ -71,8 +72,6 @@ router.post("/", authenticateToken, upload.single('image'), async (req, res, nex
     next(error);
   }
 });
-
-
 
 // Update a recipe
 router.put("/:id", authenticateToken, async (req, res, next) => {

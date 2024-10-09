@@ -87,7 +87,7 @@ useEffect(() => {
                 <img src={recipe.image} className="card-img-top" alt={recipe.name} />
                 <div className="card-body">
                   <h5 className="card-title text-center">{recipe.name}</h5>
-                  <a href={`/recipe/${recipe.id}`} className="btn btn-dark">
+                  <a href={`/recipe/${recipe.id}`} className="btn btn-outline-secondary">
                     View Recipe
                   </a>
                 </div>

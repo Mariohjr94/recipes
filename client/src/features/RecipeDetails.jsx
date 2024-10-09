@@ -13,6 +13,7 @@ function RecipeDetails() {
     async function fetchRecipe() {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`);
+        console.log("recipe data",response.data);
         setRecipe(response.data);
         setLoading(false);
       } catch (err) {
