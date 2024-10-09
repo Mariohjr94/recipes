@@ -28,3 +28,16 @@
   flex-direction: column;
   justify-content: space-between; /* Spreads the content evenly */
 }
+
+/* buttons */
+
+.category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.category-buttons button {
+  margin: 5px;  /* Adjust this value as needed */
+}
+

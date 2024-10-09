@@ -10,6 +10,7 @@ import { useMeQuery } from '../features/auth/authSlice';
 function App() {
   const { data: me, isFetching } = useMeQuery();
   const loggedIn = !!me?.id;
+  
 
   console.log("Me data:", me);
 
@@ -20,6 +21,7 @@ function App() {
   return (
     <>
       <NavBar />
+
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<LandingPage />} />
