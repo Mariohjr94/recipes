@@ -9,7 +9,7 @@ function RecipeForm({ recipe = {}, onSave }) {
   const token = useSelector((state) => state.auth.token)
   const [name, setName] = useState(recipe.name || "");
   const [ingredients, setIngredients] = useState(recipe.ingredients || [""]);
-  const [instructions, setInstructions] = useState(recipe.instructions || "");
+  const [instructions, setInstructions] = useState(recipe.instructions ||[ ""]);
   const [categories, setCategories] = useState([]); 
   const [categoryId, setCategoryId] = useState(recipe.category_id || "");  
   const [image, setImage] = useState(null); 
@@ -50,6 +50,24 @@ useEffect(() => {
     setIngredients(updatedIngredients);
   };
 
+  // Handle instruction input change for a specific index
+  const handleInstructionChange = (index, value) => {
+    const updatedInstructions = [...instructions];
+    updatedInstructions[index] = value;
+    setInstructions(updatedInstructions);
+  };
+
+  // Add a new empty instruction input field
+  const addInstructionField = () => {
+    setInstructions([...instructions, ""]);
+  };
+
+  // Remove a specific instruction input field
+  const removeInstructionField = (index) => {
+    const updatedInstructions = instructions.filter((_, i) => i !== index);
+    setInstructions(updatedInstructions);
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,7 +75,7 @@ useEffect(() => {
     const formData = new FormData();  
     formData.append("name", name);
     formData.append("ingredients", JSON.stringify(ingredients));
-    formData.append("instructions", instructions);
+    formData.append("instructions", JSON.stringify(instructions));
     formData.append("category_id", categoryId);
 
     if (image) {
@@ -147,16 +165,35 @@ useEffect(() => {
           </button>
         </div>
         
-        {/* Instructions Section */}
+    {/* Instructions Section */}
         <div className="mb-3">
           <label className="form-label" htmlFor="instructions">Instructions</label>
-          <textarea
-            className="form-control"
-            id="instructions"
-            value={instructions}
-            onChange={(e) => setInstructions(e.target.value)}
-            required
-          />
+          {instructions.map((instruction, index) => (
+            <div key={index} className="d-flex mb-2">
+              <input
+                type="text"
+                className="form-control me-2"
+                value={instruction}
+                onChange={(e) => handleInstructionChange(index, e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => removeInstructionField(index)}
+                disabled={instructions.length === 1}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="btn btn-secondary mt-2"
+            onClick={addInstructionField}
+          >
+            Add Instruction
+          </button>
         </div>
 
         {/* Category Dropdown */}

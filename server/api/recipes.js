@@ -58,12 +58,13 @@ router.post("/", authenticateToken, upload.single('image'), async (req, res, nex
     // Log incoming data for debugging
     console.log("Received data:", req.body);
 
-    const parsedIngredients = JSON.parse(ingredients);  
+    const parsedIngredients = JSON.parse(ingredients); 
+    const parsedInstructions = JSON.parse(instructions);
 
     // Insert into the database
     const { rows: [recipe] } = await db.query(
       "INSERT INTO recipe (name, ingredients, instructions, image, category_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [name, parsedIngredients, instructions, image, category_id]
+      [name, parsedIngredients, parsedInstructions, image, category_id]
     );
 
     res.status(201).send(recipe);
