@@ -39,7 +39,7 @@ function CustomNavbar() {
   };
 
   return (
-    <Navbar bg="light" expand="lg" className="fixed-top px-3">
+    <Navbar bg="light" expand="lg" className="fixed-top px-3 navbar">
       <Container fluid>
         <Navbar.Brand as={Link} to="/" className="fw-bold">
           E<span style={{ color: '#00c2b2' }}>CC</span>

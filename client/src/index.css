@@ -13,6 +13,10 @@ body {
   padding-top: 56px; /* Adjust the value based on your navbar's height */
 }
 
+.navbar {
+   box-shadow: 0 5px 4px 0 rgba(0,0,0,.1);
+}
+
 .card {
   height: 100%; /* Ensure all cards are equal height */
   display: flex;
