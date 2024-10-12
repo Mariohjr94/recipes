@@ -42,7 +42,7 @@ function CustomNavbar() {
     <Navbar bg="light" expand="lg" className="fixed-top px-3 navbar">
       <Container fluid>
         <Navbar.Brand as={Link} to="/" className="fw-bold">
-          E<span style={{ color: '#00c2b2' }}>CC</span>
+          E<span style={{ color: '#ffc107' }}>CC</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
@@ -73,7 +73,7 @@ function CustomNavbar() {
                 <Nav.Link as={Link} to="/profile">
                   {user?.username || 'Profile'}
                 </Nav.Link>
-                <Button variant="outline-danger" onClick={handleLogout} className="ms-2">
+                <Button variant="secondary" onClick={handleLogout} className="ms-2">
                   Logout
                 </Button>
               </>
