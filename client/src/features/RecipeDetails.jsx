@@ -1,6 +1,6 @@
-// src/features/recipes/RecipeDetails.jsx
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux"; 
 import axios from "axios";
 
 function RecipeDetails() {
@@ -8,20 +8,25 @@ function RecipeDetails() {
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [editMode, setEditMode] = useState(false); 
 
+  const token = useSelector((state) => state.auth.token);
+  const isLoggedIn = !!token; 
+
+  // Fetch recipe details
   useEffect(() => {
-    async function fetchRecipe() {
+    const fetchRecipe = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`);
-        console.log("recipe data",response.data);
-        setRecipe(response.data);
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`
+        );
+        setRecipe(data);
         setLoading(false);
-      } catch (err) {
+      } catch (error) {
         setError("Failed to load recipe.");
         setLoading(false);
       }
-    }
-
+    };
     fetchRecipe();
   }, [id]);
 
@@ -29,34 +34,52 @@ function RecipeDetails() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className=" recipe-details container mt-5">
-      <div className="card">
-        <h1 className=" recipe-title text-center mt-5 mb-5">{recipe.name}</h1>
-        <div className="recipe-image-container">
-          <img src={recipe.image} alt={recipe.name} className="img-fluid mb-4 recipe-image" />
-        </div>
-
-          {/* Servings and Time Section */}
-          <div className="recipe-meta d-flex justify-content-between mt-4">
-            <div>Yield: {recipe.servings || "Not specified"}</div>
+    <div className="recipe-details container mt-5">
+      <div className="container">
+      {!editMode ? (
+        <>
+          <h1 className="recipe-title">{recipe.name}</h1>
+          <div className="recipe-image-container">
+            <img
+              src={recipe.image}
+              alt={recipe.name}
+              className="img-fluid recipe-image"
+            />
           </div>
 
-          <div className="container mt-5">
-          <h3 className="subtitle">Ingredients</h3>
-            <ul>
-              {recipe.ingredients.map((ingredient, index) => (
-                <li key={index}>{ingredient}</li>
-              ))}
-            </ul>
-            <h3 className=" subtitle mt-5">Instructions</h3>
-            <ol>
-              {recipe.instructions.map((instruction, index) => (
-                <li className="mb-5" key={index}>{instruction}</li>
-              ))}
-            </ol>
-      </div>
-      </div>
+          <h3 className="mt-5">Ingredients</h3>
+          <ul className="ingredients-list">
+            {recipe.ingredients.map((ingredient, index) => (
+              <li key={index}>{ingredient}</li>
+            ))}
+          </ul>
+
+          <h3 className="mt-5">Instructions</h3>
+          <ol className="instructions-list">
+            {recipe.instructions.map((instruction, index) => (
+              <li key={index}>{instruction}</li>
+            ))}
+          </ol>
+
+          {/* Show Edit button if user is logged in */}
+          {isLoggedIn ? (
+            <button
+              className="btn btn-dark mt-4"
+              onClick={() => setEditMode(true)}
+            >
+              Edit Recipe
+            </button>
+          ) : null} {/* Hide the button if not logged in */}
+        </>
+      ) : (
+        <>
+          <h1>Edit Recipe</h1>
+          {/* Your edit form goes here */}
+        </>
+      )}
     </div>
+      </div>
+      
   );
 }
 
