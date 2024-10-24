@@ -11,7 +11,13 @@ function RecipeDetails() {
   const [editMode, setEditMode] = useState(false); 
 
   const token = useSelector((state) => state.auth.token);
-  const isLoggedIn = !!token; 
+  const isLoggedIn = !!token; // Check if a token exists
+
+  // Form state for editing
+  const [name, setName] = useState("");
+  const [ingredients, setIngredients] = useState([]);
+  const [instructions, setInstructions] = useState([]);
+   const [image, setImage] = useState(null); // Add image state
 
   // Fetch recipe details
   useEffect(() => {
@@ -21,6 +27,9 @@ function RecipeDetails() {
           `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`
         );
         setRecipe(data);
+        setName(data.name);
+        setIngredients(data.ingredients);
+        setInstructions(data.instructions);
         setLoading(false);
       } catch (error) {
         setError("Failed to load recipe.");
@@ -30,12 +39,42 @@ function RecipeDetails() {
     fetchRecipe();
   }, [id]);
 
+const handleSave = async () => {
+  try {
+    const headers = { Authorization: `Bearer ${token}` };
+    
+    const formData = new FormData();
+
+    if (recipe.image && !image) {
+      formData.append("image", recipe.image);  
+    } else if (image) {
+      formData.append("image", image);  // Use the newly selected image
+    }
+    
+    formData.append("name", name || recipe.name); 
+    formData.append("ingredients", JSON.stringify(ingredients)); 
+    formData.append("instructions", JSON.stringify(instructions)); // 
+
+    await axios.put(
+      `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`,
+      formData,
+      { headers }
+    );
+
+    setEditMode(false); 
+  } catch (error) {
+    console.error("Failed to update recipe:", error);
+  }
+};
+
+console.log(recipe);
+
   if (loading) return <p>Loading recipe...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <div className="recipe-details container mt-5">
-      <div className="container">
+
       {!editMode ? (
         <>
           <h1 className="recipe-title">{recipe.name}</h1>
@@ -61,25 +100,107 @@ function RecipeDetails() {
             ))}
           </ol>
 
-          {/* Show Edit button if user is logged in */}
-          {isLoggedIn ? (
+          {isLoggedIn && (
             <button
-              className="btn btn-dark mt-4"
+              className="btn btn-primary mt-4"
               onClick={() => setEditMode(true)}
             >
               Edit Recipe
             </button>
-          ) : null} {/* Hide the button if not logged in */}
+          )}
         </>
       ) : (
         <>
           <h1>Edit Recipe</h1>
-          {/* Your edit form goes here */}
+
+          {/* Edit Form */}
+          <div className="mb-3">
+            <label>Recipe Name</label>
+            <input
+              type="text"
+              className="form-control"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+
+          {/* Image Upload Section */}
+<div className="mb-3">
+  <label>Recipe Image</label>
+  <input
+    type="file"
+    className="form-control"
+    onChange={(e) => setRecipe({ ...recipe, image: e.target.files[0] })}
+  />
+</div>
+
+
+          {/* Ingredients Input */}
+          <div className="mb-3">
+            <label>Ingredients</label>
+            {ingredients.map((ingredient, index) => (
+              <input
+                key={index}
+                type="text"
+                className="form-control mb-2"
+                value={ingredient}
+                onChange={(e) =>
+                  setIngredients(
+                    ingredients.map((ing, i) =>
+                      i === index ? e.target.value : ing
+                    )
+                  )
+                }
+              />
+            ))}
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => setIngredients([...ingredients, ""])}
+            >
+              Add Ingredient
+            </button>
+          </div>
+
+          {/* Instructions Input */}
+          <div className="mb-3">
+            <label>Instructions</label>
+            {instructions.map((instruction, index) => (
+              <input
+                key={index}
+                type="text"
+                className="form-control mb-2"
+                value={instruction}
+                onChange={(e) =>
+                  setInstructions(
+                    instructions.map((inst, i) =>
+                      i === index ? e.target.value : inst
+                    )
+                  )
+                }
+              />
+            ))}
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => setInstructions([...instructions, ""])}
+            >
+              Add Instruction
+            </button>
+          </div>
+
+          <button className="btn btn-success" onClick={handleSave}>
+            Save Changes
+          </button>
+          <button
+            className="btn btn-secondary ml-2"
+            onClick={() => setEditMode(false)}
+          >
+            Cancel
+          </button>
         </>
       )}
     </div>
-      </div>
-      
   );
 }
 

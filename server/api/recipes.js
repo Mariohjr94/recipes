@@ -58,13 +58,13 @@ router.post("/", authenticateToken, upload.single('image'), async (req, res, nex
     // Log incoming data for debugging
     console.log("Received data:", req.body);
 
-    const parsedIngredients = JSON.parse(ingredients); 
-    const parsedInstructions = JSON.parse(instructions);
+    // const parsedIngredients = JSON.parse(ingredients); 
+    // const parsedInstructions = JSON.parse(instructions);
 
     // Insert into the database
     const { rows: [recipe] } = await db.query(
       "INSERT INTO recipe (name, ingredients, instructions, image, category_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [name, parsedIngredients, parsedInstructions, image, category_id]
+      [name, ingredients, instructions, image, category_id]
     );
 
     res.status(201).send(recipe);
@@ -75,16 +75,29 @@ router.post("/", authenticateToken, upload.single('image'), async (req, res, nex
 });
 
 // Update a recipe
-router.put("/:id", authenticateToken, async (req, res, next) => {
+router.put("/:id", authenticateToken, upload.single('image'), async (req, res, next) => {
   try {
-    const { name, ingredients, instructions, image, category_id } = req.body;
-    const {
-      rows: [recipe],
-    } = await db.query(
-      "UPDATE recipe SET name = $1, ingredients = $2, instructions = $3, image = $4, category_id = $5 WHERE id = $6 RETURNING *",
-      [name, ingredients, instructions, image, category_id, req.params.id]
-    );
+    const { name, ingredients, instructions, category_id } = req.body;
 
+    const image = req.file ? req.file.buffer : undefined;
+
+     const query = `
+      UPDATE recipe 
+      SET name = $1, ingredients = $2, instructions = $3, 
+          image = COALESCE($4, image), category_id = $5 
+      WHERE id = $6 
+      RETURNING *`;
+    
+    const values = [
+      name, 
+      JSON.parse(ingredients), 
+      JSON.parse(instructions),
+      image, 
+      category_id, 
+      req.params.id];
+
+    const { rows: [recipe] } = await db.query(query, values);
+   
     if (!recipe) {
       return res.status(404).send("Recipe not found.");
     }
