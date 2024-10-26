@@ -124,8 +124,9 @@ console.log(recipe);
           )}
         </>
       ) : (
-        <>
-          <h1>Edit Recipe</h1>
+        <div className="d-flex justify-content-center align-items-center vh-100">
+          <div className="card p-4">
+             <h1 className="text-center  mb-5">Edit Recipe</h1>
 
           {/* Edit Form */}
           <div className="mb-3">
@@ -227,12 +228,14 @@ console.log(recipe);
             Save Changes
           </button>
           <button
-            className="btn btn-secondary ml-2 ms-1"
+            className="btn btn-secondary ml-2 mt-2"
             onClick={() => setEditMode(false)}
           >
             Cancel
           </button>
-        </>
+        </div>
+          </div>
+         
       )}
     </div>
   );
