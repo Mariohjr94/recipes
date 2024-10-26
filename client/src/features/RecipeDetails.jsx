@@ -67,7 +67,7 @@ if (image) {
     formData.append("name", name || recipe.name); 
     formData.append("ingredients", JSON.stringify(ingredients)); 
     formData.append("instructions", JSON.stringify(instructions));
-    formData.append("category", categoryId || recipe.category);
+     formData.append("category_id", categoryId || recipe.category_id);
 
     await axios.put(
       `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`,
