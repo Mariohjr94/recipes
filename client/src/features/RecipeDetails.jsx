@@ -9,6 +9,7 @@ function RecipeDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editMode, setEditMode] = useState(false); 
+  const [categories, setCategories] = useState([]);
 
   const token = useSelector((state) => state.auth.token);
   const isLoggedIn = !!token; // Check if a token exists
@@ -18,6 +19,7 @@ function RecipeDetails() {
   const [ingredients, setIngredients] = useState([]);
   const [instructions, setInstructions] = useState([]);
    const [image, setImage] = useState(null); // Add image state
+     const [categoryId, setCategoryId] = useState("");  
 
   // Fetch recipe details
   useEffect(() => {
@@ -39,21 +41,33 @@ function RecipeDetails() {
     fetchRecipe();
   }, [id]);
 
+   // Fetch available categories for the dropdown
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/categories`);
+        setCategories(data);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    };
+    fetchCategories();
+  }, []);
+
 const handleSave = async () => {
   try {
     const headers = { Authorization: `Bearer ${token}` };
     
     const formData = new FormData();
 
-    if (recipe.image && !image) {
-      formData.append("image", recipe.image);  
-    } else if (image) {
-      formData.append("image", image);  // Use the newly selected image
-    }
+if (image) {
+  formData.append("image", image);  // Only append if a new image is selected
+}
     
     formData.append("name", name || recipe.name); 
     formData.append("ingredients", JSON.stringify(ingredients)); 
-    formData.append("instructions", JSON.stringify(instructions)); // 
+    formData.append("instructions", JSON.stringify(instructions));
+    formData.append("category", categoryId || recipe.category);
 
     await axios.put(
       `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`,
@@ -124,15 +138,35 @@ console.log(recipe);
             />
           </div>
 
+
+          {/* Category Dropdown */}
+          <div className="mb-3">
+            <label className="form-label" htmlFor="category">Category</label>
+            <select
+              className="form-select"
+              id="category"
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}  // Update category on change
+            >
+              <option value="">Select a category</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+
           {/* Image Upload Section */}
-<div className="mb-3">
-  <label>Recipe Image</label>
-  <input
-    type="file"
-    className="form-control"
-    onChange={(e) => setRecipe({ ...recipe, image: e.target.files[0] })}
-  />
-</div>
+          <div className="mb-3">
+            <label>Recipe Image</label>
+            <input
+              type="file"
+              className="form-control"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+          </div>
 
 
           {/* Ingredients Input */}
