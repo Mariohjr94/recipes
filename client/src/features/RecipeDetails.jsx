@@ -116,7 +116,7 @@ console.log(recipe);
 
           {isLoggedIn && (
             <button
-              className="btn btn-primary mt-4"
+              className="btn btn-dark mt-4"
               onClick={() => setEditMode(true)}
             >
               Edit Recipe
@@ -216,7 +216,7 @@ console.log(recipe);
             ))}
             <button
               type="button"
-              className="btn btn-secondary"
+              className=" btn btn-secondary"
               onClick={() => setInstructions([...instructions, ""])}
             >
               Add Instruction
@@ -227,7 +227,7 @@ console.log(recipe);
             Save Changes
           </button>
           <button
-            className="btn btn-secondary ml-2"
+            className="btn btn-secondary ml-2 ms-1"
             onClick={() => setEditMode(false)}
           >
             Cancel

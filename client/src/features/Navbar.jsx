@@ -15,6 +15,10 @@ function CustomNavbar() {
   const [logout] = useLogoutMutation();
   const isLoggedIn = useSelector((state) => !!state.auth.token);
   const user = useSelector((state) => state.auth.user);
+  const [menuExpanded, setMenuExpanded] = useState(false);
+
+const handleToggle = () => setMenuExpanded(!menuExpanded);
+const closeMenu = () => setMenuExpanded(false);
 
   useEffect(() => {
     console.log("Is Logged In:", isLoggedIn);
@@ -39,54 +43,47 @@ function CustomNavbar() {
   };
 
   return (
-    <Navbar bg="light" expand="lg" className="fixed-top px-3 navbar">
-      <Container fluid>
-        <Navbar.Brand as={Link} to="/" className="fw-bold">
-          E<span style={{ color: '#ffc107' }}>CC</span>
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav className="me-auto my-2 my-lg-0" navbarScroll>
-            <Nav.Link as={Link} to="/">Home</Nav.Link>
-    
-            {/* Conditionally render "Add Recipe" if the user is logged in */}
-            {isLoggedIn && (
-              <Nav.Link as={Link} to="/add-recipe">Add Recipe</Nav.Link>
-            )}
-          </Nav>
-          <Form className="d-flex me-2" onSubmit={handleSearch}>
-            <FormControl
-              type="search"
-              placeholder="Search here..."
-              className="me-2"
-              aria-label="Search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <Button variant=" secondary" type="submit">
-              <i className="bi bi-search"><IoIosSearch /></i>
+    <Navbar bg="light" expand="lg" expanded={menuExpanded} onToggle={handleToggle} className="fixed-top px-3 navbar">
+  <Container fluid>
+    <Navbar.Brand as={Link} to="/" className="fw-bold">
+      E<span style={{ color: '#ffc107' }}>CC</span>
+    </Navbar.Brand>
+    <Navbar.Toggle aria-controls="navbarScroll" onClick={handleToggle} />
+    <Navbar.Collapse id="navbarScroll">
+      <Nav className="me-auto my-2 my-lg-0" navbarScroll>
+        <Nav.Link as={Link} to="/" onClick={closeMenu}>Home</Nav.Link>
+        {isLoggedIn && (
+          <Nav.Link as={Link} to="/add-recipe" onClick={closeMenu}>Add Recipe</Nav.Link>
+        )}
+      </Nav>
+      <Form className="d-flex me-2" onSubmit={(e) => { handleSearch(e); closeMenu(); }}>
+        <FormControl
+          type="search"
+          placeholder="Search here..."
+          className="me-2"
+          aria-label="Search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <Button variant="secondary" type="submit">
+          <IoIosSearch />
+        </Button>
+      </Form>
+      <Nav>
+        {isLoggedIn ? (
+          <>
+            <Nav.Link as={Link} to="/profile" onClick={closeMenu}>
+              {user?.username || 'Profile'}
+            </Nav.Link>
+            <Button variant="secondary" onClick={() => { handleLogout(); closeMenu(); }} className="ms-2">
+              Logout
             </Button>
-          </Form>
-          <Nav>
-            {isLoggedIn ? (
-              <>
-                <Nav.Link as={Link} to="/profile">
-                  {user?.username || 'Profile'}
-                </Nav.Link>
-                <Button variant="secondary" onClick={handleLogout} className="ms-2">
-                  Logout
-                </Button>
-              </>
-            ) : (
-              // Only show the login button if accessed directly via the /login route
-              <>
-                {/* Hide login link from general users */}
-              </>
-            )}
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+          </>
+        ) : null}
+      </Nav>
+    </Navbar.Collapse>
+  </Container>
+</Navbar>
   );
 }
 
