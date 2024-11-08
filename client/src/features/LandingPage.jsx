@@ -8,7 +8,8 @@ function LandingPage() {
   const [categories, setCategories] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-   const [selectedCategory, setSelectedCategory] = useState(null); 
+  const [selectedCategory, setSelectedCategory] = useState(null); 
+  const [searchTerm, setSearchTerm] = useState('');
 
 const fetchRecipes = async () => {
   try {
@@ -48,6 +49,22 @@ const fetchRecipes = async () => {
     setSelectedCategory(categoryId);
   };
 
+   const handleSearch = (event) => {
+    const value = event.target.value;
+    setSearchTerm(value);
+
+    if (value.trim() === '') {
+      // If the search bar is cleared, reset to show all recipes or the selected category
+      handleCategoryClick(selectedCategory);
+    } else {
+      // Filter recipes based on the search term
+      const filtered = recipes.filter(recipe =>
+        recipe.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredRecipes(filtered);
+    }
+  };
+
 useEffect(() => {
   fetchRecipes();
   fetchCategories();
@@ -60,6 +77,17 @@ useEffect(() => {
    return (
     <div className="container mt-5">
       <h1 className="text-center mb-5">Recipes</h1>
+
+      {/* Search Bar */}
+      <div className="mb-4">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search for recipes..."
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+      </div>
 
       {/* Category Buttons */}
       <div className="mb-5 text-center category-buttons">
@@ -95,7 +123,7 @@ useEffect(() => {
             </div>
           ))
         ) : (
-          <p>No recipes available for this category.</p>
+          <p>No recipes available.</p>
         )}
       </div>
     </div>

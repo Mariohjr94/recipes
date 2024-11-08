@@ -6,16 +6,16 @@ import { useLogoutMutation, clearToken } from '../features/auth/authSlice';
 import { IoIosSearch } from "react-icons/io";
 
 function CustomNavbar() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState('');
+  const [showResults, setShowResults] = useState(false); 
   
   // Check if the user is logged in and fetch user data from Redux store
   
-  const [logout] = useLogoutMutation();
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => !!state.auth.token);
   const user = useSelector((state) => state.auth.user);
   const [menuExpanded, setMenuExpanded] = useState(false);
+  const [logout] = useLogoutMutation();
 
 const handleToggle = () => setMenuExpanded(!menuExpanded);
 const closeMenu = () => setMenuExpanded(false);
@@ -36,12 +36,6 @@ const closeMenu = () => setMenuExpanded(false);
     }
   };
 
-  // Handle Search
-  const handleSearch = (event) => {
-    event.preventDefault();
-    navigate(`/search?query=${searchTerm}`);
-  };
-
   return (
     <Navbar bg="light" expand="lg" expanded={menuExpanded} onToggle={handleToggle} className="fixed-top px-3 navbar">
   <Container fluid>
@@ -56,19 +50,6 @@ const closeMenu = () => setMenuExpanded(false);
           <Nav.Link as={Link} to="/add-recipe" onClick={closeMenu}>Add Recipe</Nav.Link>
         )}
       </Nav>
-      <Form className="d-flex me-2" onSubmit={(e) => { handleSearch(e); closeMenu(); }}>
-        <FormControl
-          type="search"
-          placeholder="Search here..."
-          className="me-2"
-          aria-label="Search"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <Button variant="secondary" type="submit">
-          <IoIosSearch />
-        </Button>
-      </Form>
       <Nav>
         {isLoggedIn ? (
           <>
