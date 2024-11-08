@@ -5,6 +5,7 @@ import AuthForm from '../features/auth/AuthForm';
 import Dashboard from '../features/dashboard/Dashboard';
 import RecipeDetails from '../features/RecipeDetails';
 import RecipeForm from '../features/RecipeForm';
+import SearchResults from '../features/SearchResult';
 import { useMeQuery } from '../features/auth/authSlice';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         {/* Public routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/recipe/:id" element={<RecipeDetails />} />
+        <Route path="/search" element={<SearchResults />} />
 
         {/* Login Route (accessible only if not logged in) */}
         <Route

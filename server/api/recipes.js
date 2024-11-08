@@ -48,6 +48,22 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+//search recipes
+router.get('/search', async (req, res) => {
+  const searchTerm = req.query.query;  // Retrieve the query parameter
+  try {
+    const result = await db.query(
+      'SELECT * FROM recipes WHERE name ILIKE $1',
+      [`%${searchTerm}%`]
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching recipes:', error);
+    res.status(500).json({ message: 'Failed to fetch recipes' });
+  }
+});
+
+
 // Protected Routes (require login):
 // Create a new recipe
 router.post("/", authenticateToken, upload.single('image'), async (req, res, next) => {
