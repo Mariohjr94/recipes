@@ -3,6 +3,9 @@ const db = new Pool({
   connectionString:
     process.env.DATABASE_URL ||
     "postgres://localhost:5432/recipe_app",
+      ssl: {
+    rejectUnauthorized: false, // Allows self-signed certificates
+  },
 });
 
 async function query(sql, params, callback) {
