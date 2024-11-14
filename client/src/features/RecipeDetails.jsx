@@ -18,8 +18,8 @@ function RecipeDetails() {
   const [name, setName] = useState("");
   const [ingredients, setIngredients] = useState([]);
   const [instructions, setInstructions] = useState([]);
-   const [image, setImage] = useState(null); // Add image state
-     const [categoryId, setCategoryId] = useState("");  
+  const [image, setImage] = useState(null); // Add image state
+  const [categoryId, setCategoryId] = useState("");  
 
   // Fetch recipe details
   useEffect(() => {
