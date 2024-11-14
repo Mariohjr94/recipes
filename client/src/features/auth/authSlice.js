@@ -50,17 +50,17 @@ const authApi = api.injectEndpoints({
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    token: sessionStorage.getItem(TOKEN) || null,
+    token: localStorage.getItem(TOKEN) || null,
     user: null,
   },
   reducers: {
     storeToken(state, action) {
       state.token = action.payload.token;
-      window.sessionStorage.setItem(TOKEN, action.payload.token);
+      window.localStorage.setItem(TOKEN, action.payload.token);
     },
     clearToken(state) {
       state.token = null;
-      window.sessionStorage.removeItem(TOKEN);
+      window.localStorage.removeItem(TOKEN);
     },
   },
   extraReducers: (builder) => {
@@ -72,12 +72,12 @@ const authSlice = createSlice({
       }
     );
     // Clear user info on logout
- builder.addMatcher(
+  builder.addMatcher(
     authApi.endpoints.logout.matchFulfilled,
     (state) => {
       state.user = null;
       state.token = null;  
-      window.sessionStorage.removeItem(TOKEN);  
+      window.localStorage.removeItem(TOKEN);  
       }
     );
   }

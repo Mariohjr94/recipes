@@ -38,7 +38,7 @@ try {
   console.log("Login successful, redirecting to dashboard...", result);
   
   if (result.token) {
-    sessionStorage.setItem("token", result.token);  
+    localStorage.setItem("token", result.token);  
   }
   
   navigate("/");  

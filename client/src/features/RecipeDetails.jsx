@@ -67,7 +67,7 @@ if (image) {
     formData.append("name", name || recipe.name); 
     formData.append("ingredients", JSON.stringify(ingredients)); 
     formData.append("instructions", JSON.stringify(instructions));
-     formData.append("category_id", categoryId || recipe.category_id);
+    formData.append("category_id", categoryId || recipe.category_id);
 
     await axios.put(
       `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`,
@@ -126,7 +126,7 @@ console.log(recipe);
       ) : (
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="card p-4">
-             <h1 className="text-center  mb-5">Edit Recipe</h1>
+          <h1 className="text-center  mb-5">Edit Recipe</h1>
 
           {/* Edit Form */}
           <div className="mb-3">
@@ -235,7 +235,6 @@ console.log(recipe);
           </button>
         </div>
           </div>
-         
       )}
     </div>
   );
