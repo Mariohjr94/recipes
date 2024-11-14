@@ -39,7 +39,7 @@ async function seed() {
     //seeding info  -----------------------
 
      // Insert some default categories 
-    const categories = ['Breakfast', 'Lunch', 'Dinner'];
+    const categories = ['Breakfast', 'Lunch', 'Dinner', 'Soup', 'Side Dish', 'Rubs', 'Seafood', 'Sauces', 'Sandwich and Wraps', 'Salads', 'Dessert', 'Chicken', 'Beef', 'Appetizer'];
     for (const name of categories) {
       await db.query('INSERT INTO category (name) VALUES ($1);', [name]);
     }
