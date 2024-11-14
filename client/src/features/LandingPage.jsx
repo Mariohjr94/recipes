@@ -14,7 +14,7 @@ function LandingPage() {
 const fetchRecipes = async () => {
   try {
     const token = sessionStorage.getItem('token');
-    const response = await axios.get('http://localhost:3000/api/recipes', {
+    const response = await axios.get(`.meta.env.VITE_API_BASE_URL/api/recipes`, {
       headers: {
         Authorization: `Bearer ${token}`, 
       },
@@ -30,7 +30,7 @@ const fetchRecipes = async () => {
  // Fetch categories from API
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/categories');
+      const response = await axios.get(`import.meta.env.VITE_API_BASE_URL/api/categories`);
       setCategories(response.data);
     } catch (error) {
       console.error("Failed to load categories.", error);
