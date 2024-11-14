@@ -13,7 +13,7 @@ function LandingPage() {
 
 const fetchRecipes = async () => {
   try {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/recipes`, {
       headers: {
         Authorization: `Bearer ${token}`, 

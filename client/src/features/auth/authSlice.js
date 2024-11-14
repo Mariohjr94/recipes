@@ -22,7 +22,7 @@ const authApi = api.injectEndpoints({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;  // this will contain token or login response
-          // Dispatch the token to Redux and sessionStorage
+          // Dispatch the token to Redux and localStorage
           dispatch(storeToken({ token: data.token }));
         } catch (err) {
           console.log('Login failed:', err);
