@@ -30,7 +30,7 @@ app.use("/api/recipes", recipeRoutes);
 app.use("/api/categories" ,categoryRoutes);
 
 // Serves the HTML file that Vite builds
-app.get("/", (req, res) => {
+app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client/dist/index.html"));
 });
 
