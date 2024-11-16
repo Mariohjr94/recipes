@@ -90,8 +90,8 @@ router.post("/", authenticateToken, upload.single('image'), async (req, res, nex
     // Parse JSON fields
     let parsedIngredients, parsedInstructions;
     try {
-      // parsedIngredients = JSON.parse(ingredients);
-      // parsedInstructions = JSON.parse(instructions);
+      parsedIngredients = JSON.parse(ingredients);
+      parsedInstructions = JSON.parse(instructions);
     } catch (error) {
       console.log("Validation failed: Invalid JSON format for ingredients or instructions", { ingredients, instructions });
       return res.status(400).send({ error: "Invalid JSON format for ingredients or instructions" });
@@ -100,7 +100,7 @@ router.post("/", authenticateToken, upload.single('image'), async (req, res, nex
     // Insert into the database
     const { rows: [recipe] } = await db.query(
       "INSERT INTO recipe (name, ingredients, instructions, image, category_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [name, ingredients, instructions, image, category_id]
+      [name, parsedIngredients, parsedInstructions, image, category_id]
     );
 
     res.status(201).send(recipe);

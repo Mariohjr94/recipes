@@ -74,8 +74,8 @@ useEffect(() => {
     
     const formData = new FormData();  
     formData.append("name", name);
-    formData.append("ingredients", ingredients);
-    formData.append("instructions", instructions);
+    formData.append("ingredients", JSON.stringify(ingredients));
+    formData.append("instructions", JSON.stringify(instructions));
     formData.append("category_id", categoryId);
 
     if (image) {
