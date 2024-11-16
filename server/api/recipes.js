@@ -68,25 +68,30 @@ router.get('/search', async (req, res) => {
 // Create a new recipe
 router.post("/", authenticateToken, upload.single('image'), async (req, res, next) => {
   try {
-      console.log("Uploaded file details:", req.file);
-      console.log("Name:", name);
-      console.log("Ingredients:", parsedIngredients);
-      console.log("Instructions:", parsedInstructions);
-      console.log("Image:", image ? "Image provided" : "No image");
-      console.log("Category ID:", category_id);
-    const { name, ingredients, instructions, category_id } = req.body;
-    const image = req.file ? req.file.buffer : null;  // Handle image
+    console.log("Uploaded file details:", req.file);
 
-    // Log incoming data for debugging
-    console.log("Received data:", req.body);
+    // Safely destructure with default values
+    const { name = "", ingredients = "[]", instructions = "[]", category_id = null } = req.body;
+    const image = req.file ? req.file.buffer : null;
 
-    // const parsedIngredients = JSON.parse(ingredients); 
-    // const parsedInstructions = JSON.parse(instructions);
+    // Validate required fields
+    if (!name || !ingredients || !instructions || !category_id) {
+      return res.status(400).send({ error: "Missing required fields" });
+    }
+
+    // Parse JSON fields
+    let parsedIngredients, parsedInstructions;
+    try {
+      parsedIngredients = JSON.parse(ingredients);
+      parsedInstructions = JSON.parse(instructions);
+    } catch (error) {
+      return res.status(400).send({ error: "Invalid JSON for ingredients or instructions" });
+    }
 
     // Insert into the database
     const { rows: [recipe] } = await db.query(
       "INSERT INTO recipe (name, ingredients, instructions, image, category_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [name, ingredients, instructions, image, category_id]
+      [name, parsedIngredients, parsedInstructions, image, category_id]
     );
 
     res.status(201).send(recipe);
@@ -95,6 +100,7 @@ router.post("/", authenticateToken, upload.single('image'), async (req, res, nex
     next(error);
   }
 });
+
 
 // Update a recipe
 router.put("/:id", authenticateToken, upload.single('image'), async (req, res, next) => {
