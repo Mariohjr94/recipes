@@ -68,6 +68,12 @@ router.get('/search', async (req, res) => {
 // Create a new recipe
 router.post("/", authenticateToken, upload.single('image'), async (req, res, next) => {
   try {
+      console.log("Uploaded file details:", req.file);
+      console.log("Name:", name);
+      console.log("Ingredients:", parsedIngredients);
+      console.log("Instructions:", parsedInstructions);
+      console.log("Image:", image ? "Image provided" : "No image");
+      console.log("Category ID:", category_id);
     const { name, ingredients, instructions, category_id } = req.body;
     const image = req.file ? req.file.buffer : null;  // Handle image
 
