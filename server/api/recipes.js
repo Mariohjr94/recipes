@@ -68,15 +68,23 @@ router.get('/search', async (req, res) => {
 // Create a new recipe
 router.post("/", authenticateToken, upload.single('image'), async (req, res, next) => {
   try {
-    console.log("Uploaded file details:", req.file);
-
-    // Safely destructure with default values
-    const { name = "", ingredients = "[]", instructions = "[]", category_id = null } = req.body;
+    const { name, ingredients, instructions, category_id } = req.body;
     const image = req.file ? req.file.buffer : null;
 
     // Validate required fields
     if (!name || !ingredients || !instructions || !category_id) {
+      console.log("Validation failed: Missing required fields", { name, ingredients, instructions, category_id });
       return res.status(400).send({ error: "Missing required fields" });
+    }
+
+    // Validate file type and size
+    if (req.file && !req.file.mimetype.startsWith("image/")) {
+      console.log("Validation failed: Invalid file type:", req.file.mimetype);
+      return res.status(400).send({ error: "Invalid file type. Only images are allowed." });
+    }
+    if (req.file && req.file.size > 5 * 1024 * 1024) {
+      console.log("Validation failed: File size exceeds limit:", req.file.size);
+      return res.status(400).send({ error: "File size exceeds 5MB limit." });
     }
 
     // Parse JSON fields
@@ -85,7 +93,8 @@ router.post("/", authenticateToken, upload.single('image'), async (req, res, nex
       parsedIngredients = JSON.parse(ingredients);
       parsedInstructions = JSON.parse(instructions);
     } catch (error) {
-      return res.status(400).send({ error: "Invalid JSON for ingredients or instructions" });
+      console.log("Validation failed: Invalid JSON format for ingredients or instructions", { ingredients, instructions });
+      return res.status(400).send({ error: "Invalid JSON format for ingredients or instructions" });
     }
 
     // Insert into the database
@@ -100,6 +109,7 @@ router.post("/", authenticateToken, upload.single('image'), async (req, res, nex
     next(error);
   }
 });
+
 
 
 // Update a recipe
