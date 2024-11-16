@@ -28,6 +28,15 @@ function RecipeDetails() {
         const { data } = await axios.get(
           `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`
         );
+
+            // Parse ingredients and instructions if they are strings
+        if (typeof data.ingredients === "string") {
+          data.ingredients = JSON.parse(data.ingredients);
+        }
+        if (typeof data.instructions === "string") {
+          data.instructions = JSON.parse(data.instructions);
+        }
+        
         setRecipe(data);
         setName(data.name);
         setIngredients(data.ingredients);
