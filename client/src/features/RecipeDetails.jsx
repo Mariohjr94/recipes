@@ -29,24 +29,31 @@ function RecipeDetails() {
           `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`
         );
 
-            // Parse ingredients and instructions if they are strings
-        if (typeof data.ingredients === "string") {
-          data.ingredients = JSON.parse(data.ingredients);
-        }
-        if (typeof data.instructions === "string") {
-          data.instructions = JSON.parse(data.instructions);
-        }
+        // Parse JSON fields safely
+        const parsedIngredients =
+          typeof data.ingredients === "string"
+            ? JSON.parse(data.ingredients)
+            : Array.isArray(data.ingredients)
+            ? data.ingredients
+            : [];
         
-        setRecipe(data);
+  // Set state
+        setRecipe({
+          ...data,
+          ingredients: parsedIngredients,
+          instructions: parsedInstructions,
+        });
         setName(data.name);
-        setIngredients(data.ingredients);
-        setInstructions(data.instructions);
+        setIngredients(parsedIngredients);
+        setInstructions(parsedInstructions);
         setLoading(false);
       } catch (error) {
+        console.error("Failed to fetch recipe:", error);
         setError("Failed to load recipe.");
         setLoading(false);
       }
     };
+
     fetchRecipe();
   }, [id]);
 
