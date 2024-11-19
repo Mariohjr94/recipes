@@ -36,6 +36,13 @@ function RecipeDetails() {
             : Array.isArray(data.ingredients)
             ? data.ingredients
             : [];
+
+        const parsedInstructions =
+          typeof data.instructions === "string"
+            ? JSON.parse(data.instructions)
+            : Array.isArray(data.instructions)
+            ? data.instructions
+            : [];
         
   // Set state
         setRecipe({
