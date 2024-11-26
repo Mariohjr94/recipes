@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => {
 
     // Convert the buffer (image) to base64 format
     const updatedRecipes = recipes.map((recipe) => {
-     if (Buffer.isBuffer(recipe.image)) {
+      if (Buffer.isBuffer(recipe.image)) {
         recipe.image = `data:image/jpeg;base64,${Buffer.from(recipe.image).toString('base64')}`;
       }
       return recipe;
@@ -41,6 +41,32 @@ router.get("/:id", async (req, res, next) => {
     if (Buffer.isBuffer(recipe.image)) {
       recipe.image = `data:image/jpeg;base64,${Buffer.from(recipe.image).toString('base64')}`;
     }
+
+     // Safely parse ingredients and instructions
+    recipe.ingredients =
+      typeof recipe.ingredients === "string"
+        ? (() => {
+            try {
+              return JSON.parse(recipe.ingredients);
+            } catch {
+              console.error("Invalid ingredients format in DB:", recipe.ingredients);
+              return [];
+            }
+          })()
+        : recipe.ingredients;
+
+    recipe.instructions =
+      typeof recipe.instructions === "string"
+        ? (() => {
+            try {
+              return JSON.parse(recipe.instructions);
+            } catch {
+              console.error("Invalid instructions format in DB:", recipe.instructions);
+              return [];
+            }
+          })()
+        : recipe.instructions;
+
 
     res.send(recipe);
   } catch (error) {

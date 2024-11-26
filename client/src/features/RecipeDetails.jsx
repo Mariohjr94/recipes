@@ -29,20 +29,34 @@ function RecipeDetails() {
           `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`
         );
 
-        // Parse JSON fields safely
-        const parsedIngredients =
-          typeof data.ingredients === "string"
-            ? JSON.parse(data.ingredients)
-            : Array.isArray(data.ingredients)
-            ? data.ingredients
-            : [];
+  // Safely parse ingredients and instructions
+      const parsedIngredients =
+        typeof data.ingredients === "string"
+          ? (() => {
+              try {
+                return JSON.parse(data.ingredients);
+              } catch {
+                console.error("Invalid ingredients format:", data.ingredients);
+                return [];
+              }
+            })()
+          : Array.isArray(data.ingredients)
+          ? data.ingredients
+          : [];
 
-        const parsedInstructions =
-          typeof data.instructions === "string"
-            ? JSON.parse(data.instructions)
-            : Array.isArray(data.instructions)
-            ? data.instructions
-            : [];
+              const parsedInstructions =
+        typeof data.instructions === "string"
+          ? (() => {
+              try {
+                return JSON.parse(data.instructions);
+              } catch {
+                console.error("Invalid instructions format:", data.instructions);
+                return [];
+              }
+            })()
+          : Array.isArray(data.instructions)
+          ? data.instructions
+          : [];
         
   // Set state
         setRecipe({
