@@ -26,10 +26,8 @@ function RecipeDetails() {
     const fetchRecipe = async () => {
       try {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`
+          ${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}
         );
-
-          console.log("Fetched recipe:", data); // Debugging
 
   // Safely parse ingredients and instructions
       const parsedIngredients =
@@ -46,7 +44,8 @@ function RecipeDetails() {
           ? data.ingredients
           : [];
 
-        const parsedInstructions = typeof data.instructions === "string"
+              const parsedInstructions =
+        typeof data.instructions === "string"
           ? (() => {
               try {
                 return JSON.parse(data.instructions);
@@ -83,7 +82,7 @@ function RecipeDetails() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/categories`);
+        const { data } = await axios.get(${import.meta.env.VITE_API_BASE_URL}/api/categories);
         setCategories(data);
       } catch (error) {
         console.error("Failed to fetch categories:", error);
@@ -94,7 +93,7 @@ function RecipeDetails() {
 
 const handleSave = async () => {
   try {
-    const headers = { Authorization: `Bearer ${token}` };
+    const headers = { Authorization: Bearer ${token} };
     
     const formData = new FormData();
 
@@ -108,7 +107,7 @@ if (image) {
     formData.append("category_id", categoryId || recipe.category_id);
 
     await axios.put(
-      `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`,
+      ${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id},
       formData,
       { headers }
     );
@@ -146,15 +145,20 @@ console.log(recipe);
           </ul>
 
           <h3 className="mt-5">Instructions</h3>
-{recipe.instructions.length > 0 ? (
-  <ol className="instructions-list">
-    {recipe.instructions.map((instruction, index) => (
-      <li key={index}>{instruction}</li>
-    ))}
-  </ol>
-) : (
-  <p>No instructions provided.</p>
-)}
+          <ol className="instructions-list">
+            {recipe.instructions.map((instruction, index) => (
+              <li key={index}>{instruction}</li>
+            ))}
+          </ol>
+
+          {isLoggedIn && (
+            <button
+              className="btn btn-dark mt-4"
+              onClick={() => setEditMode(true)}
+            >
+              Edit Recipe
+            </button>
+          )}
         </>
       ) : (
         <div className="d-flex justify-content-center align-items-center vh-100">
