@@ -65,7 +65,8 @@ router.get("/:id", async (req, res, next) => {
               return [];
             }
           })()
-        : recipe.instructions;
+          : Array.isArray(recipe.instructions) ? recipe.instructions 
+          : [];
 
 
     res.send(recipe);
