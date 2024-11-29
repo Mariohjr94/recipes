@@ -29,6 +29,8 @@ function RecipeDetails() {
           `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`
         );
 
+          console.log("Fetched recipe:", data); // Debugging
+
   // Safely parse ingredients and instructions
       const parsedIngredients =
         typeof data.ingredients === "string"
@@ -44,8 +46,7 @@ function RecipeDetails() {
           ? data.ingredients
           : [];
 
-              const parsedInstructions =
-        typeof data.instructions === "string"
+        const parsedInstructions = typeof data.instructions === "string"
           ? (() => {
               try {
                 return JSON.parse(data.instructions);
@@ -145,20 +146,15 @@ console.log(recipe);
           </ul>
 
           <h3 className="mt-5">Instructions</h3>
-          <ol className="instructions-list">
-            {recipe.instructions.map((instruction, index) => (
-              <li key={index}>{instruction}</li>
-            ))}
-          </ol>
-
-          {isLoggedIn && (
-            <button
-              className="btn btn-dark mt-4"
-              onClick={() => setEditMode(true)}
-            >
-              Edit Recipe
-            </button>
-          )}
+{recipe.instructions.length > 0 ? (
+  <ol className="instructions-list">
+    {recipe.instructions.map((instruction, index) => (
+      <li key={index}>{instruction}</li>
+    ))}
+  </ol>
+) : (
+  <p>No instructions provided.</p>
+)}
         </>
       ) : (
         <div className="d-flex justify-content-center align-items-center vh-100">
