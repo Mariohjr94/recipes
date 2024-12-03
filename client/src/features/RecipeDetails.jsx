@@ -93,7 +93,7 @@ function RecipeDetails() {
 
 const handleSave = async () => {
   try {
-    const headers = { Authorization: Bearer ${token} };
+    const headers = { Authorization: Bearer `${token}` };
     
     const formData = new FormData();
 
