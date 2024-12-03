@@ -25,8 +25,8 @@ function RecipeDetails() {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const { data } = await axios.get(
-          ${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}
+        const { data } = await axios.get( 
+        `$import.meta.env.VITE_API_BASE_URL/api/recipes/${id}`
         );
 
   // Safely parse ingredients and instructions
@@ -58,7 +58,7 @@ function RecipeDetails() {
           ? data.instructions
           : [];
         
-  // Set state
+  // Set state   ${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}
         setRecipe({
           ...data,
           ingredients: parsedIngredients,
@@ -82,7 +82,7 @@ function RecipeDetails() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await axios.get(${import.meta.env.VITE_API_BASE_URL}/api/categories);
+        const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/categories`);
         setCategories(data);
       } catch (error) {
         console.error("Failed to fetch categories:", error);
@@ -106,8 +106,7 @@ if (image) {
     formData.append("instructions", JSON.stringify(instructions));
     formData.append("category_id", categoryId || recipe.category_id);
 
-    await axios.put(
-      ${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id},
+    await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`,
       formData,
       { headers }
     );
