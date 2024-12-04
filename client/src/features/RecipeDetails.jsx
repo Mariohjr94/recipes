@@ -14,51 +14,25 @@ function RecipeDetails() {
   const token = useSelector((state) => state.auth.token);
   const isLoggedIn = !!token; // Check if a token exists
 
-  // Form state for editing
   const [name, setName] = useState("");
   const [ingredients, setIngredients] = useState([]);
   const [instructions, setInstructions] = useState([]);
-  const [image, setImage] = useState(null); // Add image state
-  const [categoryId, setCategoryId] = useState("");  
+  const [image, setImage] = useState(null);
+  const [categoryId, setCategoryId] = useState("");
 
-  // Fetch recipe details
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const { data } = await axios.get( 
-        `$import.meta.env.VITE_API_BASE_URL/api/recipes/${id}`
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`
         );
-
-  // Safely parse ingredients and instructions
-      const parsedIngredients =
-        typeof data.ingredients === "string"
-          ? (() => {
-              try {
-                return JSON.parse(data.ingredients);
-              } catch {
-                console.error("Invalid ingredients format:", data.ingredients);
-                return [];
-              }
-            })()
-          : Array.isArray(data.ingredients)
+        const parsedIngredients = Array.isArray(data.ingredients)
           ? data.ingredients
-          : [];
-
-              const parsedInstructions =
-        typeof data.instructions === "string"
-          ? (() => {
-              try {
-                return JSON.parse(data.instructions);
-              } catch {
-                console.error("Invalid instructions format:", data.instructions);
-                return [];
-              }
-            })()
-          : Array.isArray(data.instructions)
+          : JSON.parse(data.ingredients || "[]");
+        const parsedInstructions = Array.isArray(data.instructions)
           ? data.instructions
-          : [];
-        
-  // Set state   ${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}
+          : JSON.parse(data.instructions || "[]");
+
         setRecipe({
           ...data,
           ingredients: parsedIngredients,
@@ -68,95 +42,62 @@ function RecipeDetails() {
         setIngredients(parsedIngredients);
         setInstructions(parsedInstructions);
         setLoading(false);
-      } catch (error) {
-        console.error("Failed to fetch recipe:", error);
+      } catch (err) {
+        console.error("Failed to fetch recipe:", err);
         setError("Failed to load recipe.");
         setLoading(false);
       }
     };
-
     fetchRecipe();
   }, [id]);
 
-   // Fetch available categories for the dropdown
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/categories`);
         setCategories(data);
-      } catch (error) {
-        console.error("Failed to fetch categories:", error);
+      } catch (err) {
+        console.error("Failed to fetch categories:", err);
       }
     };
     fetchCategories();
   }, []);
 
-const handleSave = async () => {
-  try {
-    const headers = { Authorization: Bearer `${token}` };
-    
-    const formData = new FormData();
+  const handleSave = async () => {
+    try {
+      const headers = { Authorization: `Bearer ${token}` };
+      const formData = new FormData();
 
-if (image) {
-  formData.append("image", image);  // Only append if a new image is selected
-}
-    
-    formData.append("name", name || recipe.name); 
-    formData.append("ingredients", JSON.stringify(ingredients)); 
-    formData.append("instructions", JSON.stringify(instructions));
-    formData.append("category_id", categoryId || recipe.category_id);
+      if (image) {
+        formData.append("image", image);
+      }
+      formData.append("name", name);
+      formData.append("ingredients", JSON.stringify(ingredients));
+      formData.append("instructions", JSON.stringify(instructions));
+      formData.append("category_id", categoryId || recipe.category_id);
 
-    await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`,
-      formData,
-      { headers }
-    );
+      await axios.put(
+        `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`,
+        formData,
+        { headers }
+      );
 
-    setEditMode(false); 
-  } catch (error) {
-    console.error("Failed to update recipe:", error);
-  }
-};
-
-console.log(recipe);
+      setEditMode(false);
+    } catch (err) {
+      console.error("Failed to update recipe:", err);
+    }
+  };
 
   if (loading) return <p>Loading recipe...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <div className="recipe-details container mt-5">
-
       {!editMode ? (
         <>
-          <h1 className="recipe-title">{recipe.name}</h1>
-          <div className="recipe-image-container">
-            <img
-              src={recipe.image}
-              alt={recipe.name}
-              className="img-fluid recipe-image"
-            />
-          </div>
-
-          <h3 className="mt-5">Ingredients</h3>
-          <ul className="ingredients-list">
-            {recipe.ingredients.map((ingredient, index) => (
-              <li key={index}>{ingredient}</li>
-            ))}
-          </ul>
-
-          <h3 className="mt-5">Instructions</h3>
-          <ol className="instructions-list">
-            {recipe.instructions.map((instruction, index) => (
-              <li key={index}>{instruction}</li>
-            ))}
-          </ol>
-
+          <h1>{recipe.name}</h1>
           {isLoggedIn && (
-            <button
-              className="btn btn-dark mt-4"
-              onClick={() => setEditMode(true)}
-            >
-              Edit Recipe
-            </button>
+            <button onClick={() => setEditMode(true)}>Edit Recipe</button>
           )}
         </>
       ) : (
