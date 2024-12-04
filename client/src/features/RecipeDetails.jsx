@@ -121,6 +121,26 @@ useEffect(() => {
       {!editMode ? (
         <>
           <h1>{recipe.name}</h1>
+          {recipe && recipe.ingredients && recipe.ingredients.length > 0 ? (
+            <ul>
+              {recipe.ingredients.map((ingredient, index) => (
+                <li key={index}>{ingredient}</li>
+              ))}
+            </ul>
+            ) : (
+          <p>No ingredients provided.</p>
+)}
+
+{recipe && recipe.instructions && recipe.instructions.length > 0 ? (
+  <ol>
+    {recipe.instructions.map((instruction, index) => (
+      <li key={index}>{instruction}</li>
+    ))}
+  </ol>
+) : (
+  <p>No instructions provided.</p>
+)}
+
           {isLoggedIn && (
             <button className="btn btn-secondary" onClick={() => setEditMode(true)}>Edit Recipe</button>
           )}
