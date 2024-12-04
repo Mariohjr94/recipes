@@ -97,7 +97,7 @@ function RecipeDetails() {
         <>
           <h1>{recipe.name}</h1>
           {isLoggedIn && (
-            <button onClick={() => setEditMode(true)}>Edit Recipe</button>
+            <button className="btn btn-secondary" onClick={() => setEditMode(true)}>Edit Recipe</button>
           )}
         </>
       ) : (
