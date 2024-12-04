@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux"; 
 import axios from "axios";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -118,38 +120,77 @@ useEffect(() => {
 
   return (
     <div className="recipe-details container mt-5">
-      {!editMode ? (
-        <>
-          <h1>{recipe.name}</h1>
-          <img className="img-fluid rounded shadow-sm" style={{ maxWidth: "300px", maxHeight: "300px", cursor: "pointer" }}
-    src={recipe?.image}
-    alt={recipe?.name || "Recipe image"}
-    onClick={() => window.open(recipe.image, "_blank")}
-  />
+  {!editMode ? (
+    <>
+      {/* Recipe Title */}
+      <h1 className="text-center mb-4">{recipe.name}</h1>
+
+      {/* Recipe Image */}
+      <div className="text-center mb-4">
+        <img
+          className="img-fluid rounded shadow"
+          style={{ maxWidth: "400px", cursor: "pointer" }}
+          src={recipe?.image}
+          alt={recipe?.name || "Recipe image"}
+          onClick={() => window.open(recipe.image, "_blank")}
+        />
+      </div>
+
+      {/* Recipe Details */}
+      <div className="row">
+        {/* Ingredients Section */}
+        <div className="col-md-6">
+          <h3 className="mb-3 text-danger">Ingredients</h3>
           {recipe && recipe.ingredients && recipe.ingredients.length > 0 ? (
-            <ul>
+            <ul className="list-unstyled">
               {recipe.ingredients.map((ingredient, index) => (
-                <li key={index}>{ingredient}</li>
+                <li key={index} className="mb-2">
+                  <i className="bi bi-dot"></i> {ingredient}
+                </li>
               ))}
             </ul>
-            ) : (
-          <p>No ingredients provided.</p>
-)}
-
-{recipe && recipe.instructions && recipe.instructions.length > 0 ? (
-  <ol>
-    {recipe.instructions.map((instruction, index) => (
-      <li key={index}>{instruction}</li>
-    ))}
-  </ol>
-) : (
-  <p>No instructions provided.</p>
-)}
-
-          {isLoggedIn && (
-            <button className="btn btn-secondary" onClick={() => setEditMode(true)}>Edit Recipe</button>
+          ) : (
+            <p>No ingredients provided.</p>
           )}
-        </>
+        </div>
+
+        {/* Instructions Section */}
+        <div className="col-md-6">
+          <h3 className="mb-3 text-danger">Preparation</h3>
+          {recipe && recipe.instructions && recipe.instructions.length > 0 ? (
+            <ol>
+              {recipe.instructions.map((instruction, index) => (
+                <li key={index} className="mb-3">
+                  {instruction}
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p>No instructions provided.</p>
+          )}
+        </div>
+      </div>
+
+      {/* Optional Tips Section */}
+      {recipe.tips && recipe.tips.length > 0 && (
+        <div className="mt-4">
+          <h3 className="mb-3 text-danger">Tips</h3>
+          <p>{recipe.tips}</p>
+        </div>
+      )}
+
+      {/* Edit Button */}
+      {isLoggedIn && (
+        <div className="text-center mt-4">
+          <button
+            className="btn btn-secondary btn-lg"
+            onClick={() => setEditMode(true)}
+          >
+            Edit Recipe
+          </button>
+        </div>
+      )}
+    </>
       ) : (
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="card p-4">
