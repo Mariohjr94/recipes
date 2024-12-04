@@ -121,7 +121,7 @@ useEffect(() => {
       {!editMode ? (
         <>
           <h1>{recipe.name}</h1>
-          <img className="card-img-top" src={recipe?.image} alt={recipe?.name || "Recipe image"} />
+          <img className="card-img-cover" src={recipe?.image} alt={recipe?.name || "Recipe image"} />
           {recipe && recipe.ingredients && recipe.ingredients.length > 0 ? (
             <ul>
               {recipe.ingredients.map((ingredient, index) => (
