@@ -20,40 +20,62 @@ function RecipeDetails() {
   const [image, setImage] = useState(null);
   const [categoryId, setCategoryId] = useState("");
 
-  useEffect(() => {
-    const fetchRecipe = async () => {
-      try {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`
-        );
-        const parsedIngredients = Array.isArray(data.ingredients)
-          ? data.ingredients
-          : JSON.parse(data.ingredients || "[]");
-        const parsedInstructions = Array.isArray(data.instructions)
-          ? data.instructions
-          : JSON.parse(data.instructions || "[]");
+useEffect(() => {
+  const fetchRecipe = async () => {
+    try {
+      console.log("Fetching recipe with ID:", id);
 
-        setRecipe({
-          ...data,
-          ingredients: parsedIngredients,
-          instructions: parsedInstructions,
-        });
-        setName(data.name);
-        setIngredients(parsedIngredients);
-        setInstructions(parsedInstructions);
-        setLoading(false);
-      } catch (err) {
-        console.error("Failed to fetch recipe:", err);
-        setError("Failed to load recipe.");
-        setLoading(false);
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`
+      );
+
+      if (!response || !response.data) {
+        throw new Error("No data found in response.");
       }
-    };
-    fetchRecipe();
-  }, [id]);
 
-  console.log("Fetched Recipe Data:", data);
+      const data = response.data;
+      console.log("API Response Data:", data);
 
-  
+      const parsedIngredients = Array.isArray(data.ingredients)
+        ? data.ingredients
+        : JSON.parse(data.ingredients || "[]");
+
+      const parsedInstructions = Array.isArray(data.instructions)
+        ? data.instructions
+        : JSON.parse(data.instructions || "[]");
+
+      console.log("Parsed Ingredients:", parsedIngredients);
+      console.log("Parsed Instructions:", parsedInstructions);
+
+      setRecipe({
+        ...data,
+        ingredients: parsedIngredients,
+        instructions: parsedInstructions,
+      });
+
+      setName(data.name);
+      setIngredients(parsedIngredients);
+      setInstructions(parsedInstructions);
+
+      console.log("Recipe state set:", {
+        ...data,
+        ingredients: parsedIngredients,
+        instructions: parsedInstructions,
+      });
+
+      setLoading(false);
+    } catch (err) {
+      console.error("Failed to fetch recipe:", err);
+      setError("Failed to load recipe.");
+      setLoading(false);
+    }
+  };
+
+  fetchRecipe();
+}, [id]);
+
+
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
