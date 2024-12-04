@@ -159,7 +159,7 @@ useEffect(() => {
           </div>
 
           {/* Instructions Section */}
-          <div className="col-md-6">
+          <div className="col-md-6 mt-3">
             <h4 className="text-danger">Instructions</h4>
             {recipe && recipe.instructions && recipe.instructions.length > 0 ? (
               <ol className="list-group list-group-numbered">
