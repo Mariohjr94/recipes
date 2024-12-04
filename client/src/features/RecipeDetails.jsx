@@ -51,6 +51,9 @@ function RecipeDetails() {
     fetchRecipe();
   }, [id]);
 
+  console.log("Fetched Recipe Data:", data);
+
+  
   useEffect(() => {
     const fetchCategories = async () => {
       try {
