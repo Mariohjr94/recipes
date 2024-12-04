@@ -119,7 +119,28 @@ useEffect(() => {
   if (error) return <p>{error}</p>;
 
   return (
-<div className="container mt-5">
+    <div className="container">
+ <div className="recipe-details container mt-5">
+  {!editMode ? (
+    <>
+      {/* Recipe Title */}
+      <h1 className="text-center mb-4">{recipe.name}</h1>
+
+      {/* Recipe Image */}
+      <div className="text-center mb-4">
+        <img
+          className="img-fluid rounded shadow"
+          style={{ maxWidth: "400px", cursor: "pointer" }}
+          src={recipe?.image}
+          alt={recipe?.name || "Recipe image"}
+          onClick={() => window.open(recipe.image, "_blank")}
+        />
+      </div>
+
+      {/* Recipe Details */}
+      <div className="row">
+        {/* Ingredients Section */}
+        <div cla<div className="container mt-5">
   {!editMode ? (
     <div className="card shadow-lg">
       {/* Card Header */}
@@ -187,8 +208,7 @@ useEffect(() => {
           </button>
         )}
       </div>
-    </div>x
-    </>
+    </div>
       ) : (
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="card p-4">
