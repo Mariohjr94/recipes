@@ -143,7 +143,7 @@ useEffect(() => {
         {/* Ingredients and Instructions */}
         <div className="row">
           {/* Ingredients Section */}
-          <div className="col-md-6">
+          <div className="col-md-6 mt-3">
             <h4 className="text-danger">Ingredients</h4>
             {recipe && recipe.ingredients && recipe.ingredients.length > 0 ? (
               <ul className="list-group list-group-flush">
@@ -159,7 +159,7 @@ useEffect(() => {
           </div>
 
           {/* Instructions Section */}
-          <div className="col-md-6">
+          <div className="col-md-6 mt-3">
             <h4 className="text-danger">Instructions</h4>
             {recipe && recipe.instructions && recipe.instructions.length > 0 ? (
               <ol className="list-group list-group-numbered">
