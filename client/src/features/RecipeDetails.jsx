@@ -119,78 +119,75 @@ useEffect(() => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="container">
- <div className="recipe-details container mt-5">
+<div className="container mt-5">
   {!editMode ? (
-    <>
-      {/* Recipe Title */}
-      <h1 className="text-center mb-4">{recipe.name}</h1>
-
-      {/* Recipe Image */}
-      <div className="text-center mb-4">
-        <img
-          className="img-fluid rounded shadow"
-          style={{ maxWidth: "400px", cursor: "pointer" }}
-          src={recipe?.image}
-          alt={recipe?.name || "Recipe image"}
-          onClick={() => window.open(recipe.image, "_blank")}
-        />
+    <div className="card shadow-lg">
+      {/* Card Header */}
+      <div className="card-header bg-danger text-white text-center">
+        <h2 className="card-title mb-0">{recipe.name}</h2>
       </div>
 
-      {/* Recipe Details */}
-      <div className="row">
-        {/* Ingredients Section */}
-        <div className="col-md-6">
-          <h3 className="mb-3 text-danger">Ingredients</h3>
-          {recipe && recipe.ingredients && recipe.ingredients.length > 0 ? (
-            <ul className="list-unstyled">
-              {recipe.ingredients.map((ingredient, index) => (
-                <li key={index} className="mb-2">
-                  <i className="bi bi-dot"></i> {ingredient}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No ingredients provided.</p>
-          )}
+      {/* Card Body */}
+      <div className="card-body">
+        {/* Recipe Image */}
+        <div className="text-center mb-4">
+          <img
+            className="img-fluid rounded"
+            style={{ maxWidth: "300px", cursor: "pointer" }}
+            src={recipe?.image}
+            alt={recipe?.name || "Recipe image"}
+            onClick={() => window.open(recipe.image, "_blank")}
+          />
         </div>
 
-        {/* Instructions Section */}
-        <div className="col-md-6">
-          <h3 className="mb-3 text-danger">Preparation</h3>
-          {recipe && recipe.instructions && recipe.instructions.length > 0 ? (
-            <ol>
-              {recipe.instructions.map((instruction, index) => (
-                <li key={index} className="mb-3">
-                  {instruction}
-                </li>
-              ))}
-            </ol>
-          ) : (
-            <p>No instructions provided.</p>
-          )}
+        {/* Ingredients and Instructions */}
+        <div className="row">
+          {/* Ingredients Section */}
+          <div className="col-md-6">
+            <h4 className="text-danger">Ingredients</h4>
+            {recipe && recipe.ingredients && recipe.ingredients.length > 0 ? (
+              <ul className="list-group list-group-flush">
+                {recipe.ingredients.map((ingredient, index) => (
+                  <li key={index} className="list-group-item">
+                    {ingredient}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No ingredients provided.</p>
+            )}
+          </div>
+
+          {/* Instructions Section */}
+          <div className="col-md-6">
+            <h4 className="text-danger">Instructions</h4>
+            {recipe && recipe.instructions && recipe.instructions.length > 0 ? (
+              <ol className="list-group list-group-numbered">
+                {recipe.instructions.map((instruction, index) => (
+                  <li key={index} className="list-group-item">
+                    {instruction}
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p>No instructions provided.</p>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Optional Tips Section */}
-      {recipe.tips && recipe.tips.length > 0 && (
-        <div className="mt-4">
-          <h3 className="mb-3 text-danger">Tips</h3>
-          <p>{recipe.tips}</p>
-        </div>
-      )}
-
-      {/* Edit Button */}
-      {isLoggedIn && (
-        <div className="text-center mt-4">
+      {/* Card Footer */}
+      <div className="card-footer text-center">
+        {isLoggedIn && (
           <button
             className="btn btn-secondary btn-lg"
             onClick={() => setEditMode(true)}
           >
             Edit Recipe
           </button>
-        </div>
-      )}
+        )}
+      </div>
+    </div>x
     </>
       ) : (
         <div className="d-flex justify-content-center align-items-center vh-100">
