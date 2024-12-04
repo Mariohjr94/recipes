@@ -118,10 +118,6 @@ useEffect(() => {
   if (loading) return <p>Loading recipe...</p>;
   if (error) return <p>{error}</p>;
 
-  console.log("API Response Data:", data);
-  console.log("Parsed Instructions:", parsedInstructions);
-
-
   return (
  <div className="container mt-5">
   {!editMode ? (
