@@ -119,7 +119,8 @@ useEffect(() => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="recipe-details container mt-5">
+    <div className="container">
+ <div className="recipe-details container mt-5">
   {!editMode ? (
     <>
       {/* Recipe Title */}
@@ -305,6 +306,8 @@ useEffect(() => {
           </div>
       )}
     </div>
+    </div>
+   
   );
 }
 
