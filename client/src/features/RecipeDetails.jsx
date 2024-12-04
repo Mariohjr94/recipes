@@ -121,7 +121,11 @@ useEffect(() => {
       {!editMode ? (
         <>
           <h1>{recipe.name}</h1>
-          <img className="card-img-cover" src={recipe?.image} alt={recipe?.name || "Recipe image"} />
+          <img className="img-fluid rounded shadow-sm" style={{ maxWidth: "300px", maxHeight: "300px", cursor: "pointer" }}
+    src={recipe?.image}
+    alt={recipe?.name || "Recipe image"}
+    onClick={() => window.open(recipe.image, "_blank")}
+  />
           {recipe && recipe.ingredients && recipe.ingredients.length > 0 ? (
             <ul>
               {recipe.ingredients.map((ingredient, index) => (
