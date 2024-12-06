@@ -120,38 +120,28 @@ router.post("/", authenticateToken, upload.single('image'), async (req, res, nex
       return res.status(400).send({ error: "File size exceeds 5MB limit." });
     }
 
-    // Parse and validate JSON fields
-    let parsedIngredients = [];
-    let parsedInstructions = [];
+    // Parse JSON fields
+    let parsedIngredients, parsedInstructions;
     try {
-      parsedIngredients = Array.isArray(JSON.parse(ingredients)) ? JSON.parse(ingredients) : [JSON.parse(ingredients)];
-      parsedInstructions = Array.isArray(JSON.parse(instructions)) ? JSON.parse(instructions) : [JSON.parse(instructions)];
+      parsedIngredients = JSON.parse(ingredients);
+      parsedInstructions = JSON.parse(instructions);
     } catch (error) {
       console.log("Validation failed: Invalid JSON format for ingredients or instructions", { ingredients, instructions });
       return res.status(400).send({ error: "Invalid JSON format for ingredients or instructions" });
     }
 
-    // Ensure ingredients and instructions are arrays
-    if (!Array.isArray(parsedIngredients)) {
-      parsedIngredients = [parsedIngredients];
-    }
-    if (!Array.isArray(parsedInstructions)) {
-      parsedInstructions = [parsedInstructions];
-    }
-
     // Insert into the database
     const { rows: [recipe] } = await db.query(
       "INSERT INTO recipe (name, ingredients, instructions, image, category_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [name, JSON.stringify(parsedIngredients), JSON.stringify(parsedInstructions), image, category_id]
+      [name, parsedIngredients, parsedInstructions, image, category_id]
     );
 
     res.status(201).send(recipe);
   } catch (error) {
-    console.error("Error inserting recipe:", error.message || error);
+    console.error("Error inserting recipe:", error);
     next(error);
   }
 });
-
 
 
 
