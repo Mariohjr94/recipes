@@ -123,7 +123,7 @@ useEffect(() => {
   {!editMode ? (
     <div className="card shadow-lg">
       {/* Card Header */}
-      <div className="card-header bg-danger text-white text-center">
+      <div className="card-header bg-secondary text-white text-center">
         <h2 className="card-title mb-0">{recipe.name}</h2>
       </div>
 
@@ -144,7 +144,7 @@ useEffect(() => {
         <div className="row">
           {/* Ingredients Section */}
           <div className="col-md-6 mt-3">
-            <h4 className="text-danger">Ingredients</h4>
+            <h4 className="text-secondary">Ingredients</h4>
             {recipe && recipe.ingredients && recipe.ingredients.length > 0 ? (
               <ul className="list-group list-group-flush">
                 {recipe.ingredients.map((ingredient, index) => (
