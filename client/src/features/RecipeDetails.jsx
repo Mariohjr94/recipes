@@ -109,6 +109,11 @@ useEffect(() => {
         { headers }
       );
 
+    // Fetch the updated recipe from the server
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`
+    );
+
       setEditMode(false);
       setRecipe(response.data)
     } catch (err) {
