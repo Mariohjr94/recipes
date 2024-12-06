@@ -72,7 +72,10 @@ router.get("/:id", async (req, res, next) => {
         : [];
 
 
-    res.send(recipe);
+    res.send({
+  ...recipe,
+  instructions: recipe.instructions || [],
+});
   } catch (error) {
     next(error);
   }

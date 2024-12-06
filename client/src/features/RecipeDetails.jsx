@@ -164,9 +164,9 @@ useEffect(() => {
             {recipe && recipe.instructions && recipe.instructions.length > 0 ? (
               <ol className="list-group list-group-numbered">
                 {recipe.instructions.map((instruction, index) => (
-                  <li key={index} className="list-group-item">
+                  <ol key={index} className="list-group-item">
                     {instruction}
-                  </li>
+                  </ol>
                 ))}
               </ol>
             ) : (
