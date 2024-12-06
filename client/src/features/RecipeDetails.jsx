@@ -315,7 +315,7 @@ useEffect(() => {
           <button className="btn btn-success" onClick={handleSave}>
             Save Changes
           </button>
-          <button className="btn btn-danger ml-2 mt-2 btn-lg" onClick={handleDelete}> Delete</button>
+          <button className="btn btn-danger ml-2 mt-2" onClick={handleDelete}> Delete</button>
           <button
             className="btn btn-secondary ml-2 mt-2"
             onClick={() => setEditMode(false)}
