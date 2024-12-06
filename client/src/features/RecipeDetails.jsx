@@ -110,6 +110,7 @@ useEffect(() => {
       );
 
       setEditMode(false);
+      setRecipe(response.data)
     } catch (err) {
       console.error("Failed to update recipe:", err);
     }
