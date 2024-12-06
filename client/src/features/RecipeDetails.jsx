@@ -119,7 +119,7 @@ useEffect(() => {
   if (error) return <p>{error}</p>;
 
   return (
- <div className="container mt-5">
+  <div className="container mt-5">
   {!editMode ? (
     <div className="card shadow-lg">
       {/* Card Header */}

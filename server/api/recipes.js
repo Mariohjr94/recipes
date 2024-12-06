@@ -55,18 +55,21 @@ router.get("/:id", async (req, res, next) => {
           })()
         : recipe.ingredients;
 
-    recipe.instructions =
-      typeof recipe.instructions === "string"
-        ? (() => {
-            try {
-              return JSON.parse(recipe.instructions);
-            } catch {
-              console.error("Invalid instructions format in DB:", recipe.instructions);
-              return [];
-            }
-          })()
-          : Array.isArray(recipe.instructions) ? recipe.instructions 
-          : [];
+     recipe.instructions =
+      Array.isArray(recipe.instructions) // Check if it's already an array
+        ? recipe.instructions
+        : typeof recipe.instructions === "string" // Check if it's a string
+        ? recipe.instructions.includes("[") || recipe.instructions.includes("{")
+          ? (() => {
+              try {
+                return JSON.parse(recipe.instructions);
+              } catch {
+                console.error("Invalid instructions JSON format:", recipe.instructions);
+                return [];
+              }
+            })()
+          : [recipe.instructions] // Treat as a single instruction if it's a plain string
+        : [];
 
 
     res.send(recipe);
