@@ -121,6 +121,23 @@ useEffect(() => {
     }
   };
 
+  const handleDelete = async () => {
+  try {
+    const headers = { Authorization: `Bearer ${token}` };
+
+    await axios.delete(
+      `${import.meta.env.VITE_API_BASE_URL}/api/recipes/${id}`,
+      { headers }
+    );
+
+    // Redirect to another page (e.g., the recipe list page)
+    window.location.href = "/";
+  } catch (err) {
+    console.error("Failed to delete recipe:", err);
+  }
+};
+
+
   if (loading) return <p>Loading recipe...</p>;
   if (error) return <p>{error}</p>;
 
@@ -298,6 +315,7 @@ useEffect(() => {
           <button className="btn btn-success" onClick={handleSave}>
             Save Changes
           </button>
+          <button className="btn btn-danger btn-lg" onClick={handleDelete}> Delete</button>
           <button
             className="btn btn-secondary ml-2 mt-2"
             onClick={() => setEditMode(false)}
