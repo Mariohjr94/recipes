@@ -173,7 +173,9 @@ useEffect(() => {
             <div className="row">
               {/* Left Column: Title and Image */}
               <div className="col-md-6">
+                <div className="card header">
                 <h2 className="text-secondary d-flex align-items-center">{recipe.name}</h2>
+                </div>
                 <div className="text-center mb-4">
                   <img
                     className="img-fluid rounded"
