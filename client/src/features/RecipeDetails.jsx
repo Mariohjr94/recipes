@@ -169,60 +169,70 @@ useEffect(() => {
   <div className="container mt-5">
   {!editMode ? (
     <div className="card shadow-lg">
-      <div className="card-body">
-        <div className="row">
-          {/* Left Column: Title and Image */}
-          <div className="col-md-6">
-            {/* Title */}
-            <h2 className="text-secondary">{recipe.name}</h2>
+      {/* Card Header */}
+      <div className="card-header bg-light text-dark text-center">
+        <h2 className="card-title mb-0">{recipe.name}</h2>
+      </div>
 
-            {/* Recipe Image */}
-            <div className="text-center mb-4">
-              <img
-                className="img-fluid rounded"
-                style={{ maxWidth: "100%", cursor: "pointer" }}
-                src={recipe?.image}
-                alt={recipe?.name || "Recipe image"}
-                onClick={() => window.open(recipe.image, "_blank")}
-              />
-            </div>
+      {/* Card Body */}
+      <div className="card-body">
+        {/* Recipe Image */}
+        <div className="text-center mb-4">
+          <img
+            className="img-fluid rounded"
+            style={{ maxWidth: "300px", cursor: "pointer" }}
+            src={recipe?.image}
+            alt={recipe?.name || "Recipe image"}
+            onClick={() => window.open(recipe.image, "_blank")}
+          />
+        </div>
+
+        {/* Ingredients and Instructions */}
+        <div className="row">
+          {/* Ingredients Section */}
+          <div className="col-md-6 mt-3">
+            <h4 className="text-secondary">Ingredients</h4>
+            {recipe && recipe.ingredients && recipe.ingredients.length > 0 ? (
+              <ul className="list-group list-group-flush">
+                {recipe.ingredients.map((ingredient, index) => (
+                  <li key={index} className="list-group-item">
+                    {ingredient}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No ingredients provided.</p>
+            )}
           </div>
 
-          {/* Right Column: Ingredients and Instructions */}
-          <div className="col-md-6">
-            <div className="mb-4">
-              {/* Ingredients Section */}
-              <h4 className="text-secondary">Ingredients</h4>
-              {recipe && recipe.ingredients && recipe.ingredients.length > 0 ? (
-                <ul className="list-group list-group-flush">
-                  {recipe.ingredients.map((ingredient, index) => (
-                    <li key={index} className="list-group-item">
-                      {ingredient}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No ingredients provided.</p>
-              )}
-            </div>
-
-            <div className="mb-4">
-              {/* Instructions Section */}
-              <h4 className="text-danger">Instructions</h4>
-              {recipe && recipe.instructions && recipe.instructions.length > 0 ? (
-                <ol className="list-group list-group-numbered">
-                  {recipe.instructions.map((instruction, index) => (
-                    <li key={index} className="list-group-item">
-                      {instruction}
-                    </li>
-                  ))}
-                </ol>
-              ) : (
-                <p>No instructions provided.</p>
-              )}
-            </div>
+          {/* Instructions Section */}
+          <div className="col-md-6 mt-3">
+            <h4 className="text-danger">Instructions</h4>
+            {recipe && recipe.instructions && recipe.instructions.length > 0 ? (
+              <ol className="list-group list-group-numbered">
+                {recipe.instructions.map((instruction, index) => (
+                  <li key={index} className="list-group-item">
+                    {instruction}
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p>No instructions provided.</p>
+            )}
           </div>
         </div>
+      </div>
+
+      {/* Card Footer */}
+      <div className="card-footer text-center">
+        {isLoggedIn && (
+          <button
+            className="btn btn-secondary btn-lg"
+            onClick={() => setEditMode(true)}
+          >
+            Edit Recipe
+          </button>
+        )}
       </div>
     </div>
       ) : (
