@@ -342,9 +342,9 @@ useEffect(() => {
               <button className="btn btn-danger" onClick={handleDelete}>
                 Delete Recipe
               </button>
-              <button className="btn btn-secondary" onClick={setEditMode(false)}>
-                Cancel
-              </button>
+             <button className="btn btn-secondary" onClick={() => setEditMode(false)}>
+  Cancel
+</button>
             </div>
           </div>
         </div>
