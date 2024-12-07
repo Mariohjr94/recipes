@@ -170,7 +170,7 @@ useEffect(() => {
   {!editMode ? (
     <div className="card shadow-lg">
       {/* Card Header */}
-      <div className="card-header bg-secondary text-white text-center">
+      <div className="card-header bg-light text-dark text-center">
         <h2 className="card-title mb-0">{recipe.name}</h2>
       </div>
 
