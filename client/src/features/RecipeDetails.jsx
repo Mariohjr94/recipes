@@ -165,193 +165,186 @@ useEffect(() => {
   if (loading) return <p>Loading recipe...</p>;
   if (error) return <p>{error}</p>;
 
-  return (
-  <div className="container mt-5">
-  {!editMode ? (
-    <div className="card shadow-lg">
-      {/* Card Header */}
-      <div className="card-header bg-light text-dark text-center">
-        <h2 className="card-title mb-0">{recipe.name}</h2>
-      </div>
+ return (
+    <div className="container mt-5">
+      {!editMode ? (
+        <div className="card shadow-lg">
+          <div className="card-body">
+            <div className="row">
+              {/* Left Column: Title and Image */}
+              <div className="col-md-6">
+                <h2 className="text-secondary">{recipe.name}</h2>
+                <div className="text-center mb-4">
+                  <img
+                    className="img-fluid rounded"
+                    style={{ maxWidth: "100%", cursor: "pointer" }}
+                    src={recipe?.image}
+                    alt={recipe?.name || "Recipe image"}
+                    onClick={() => window.open(recipe.image, "_blank")}
+                  />
+                </div>
+              </div>
 
-      {/* Card Body */}
-      <div className="card-body">
-        {/* Recipe Image */}
-        <div className="text-center mb-4">
-          <img
-            className="img-fluid rounded"
-            style={{ maxWidth: "300px", cursor: "pointer" }}
-            src={recipe?.image}
-            alt={recipe?.name || "Recipe image"}
-            onClick={() => window.open(recipe.image, "_blank")}
-          />
-        </div>
+              {/* Right Column: Ingredients and Instructions */}
+              <div className="col-md-6">
+                <div className="mb-4">
+                  <h4 className="text-secondary">Ingredients</h4>
+                  {recipe && recipe.ingredients && recipe.ingredients.length > 0 ? (
+                    <ul className="list-group list-group-flush">
+                      {recipe.ingredients.map((ingredient, index) => (
+                        <li key={index} className="list-group-item">
+                          {ingredient}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>No ingredients provided.</p>
+                  )}
+                </div>
 
-        {/* Ingredients and Instructions */}
-        <div className="row">
-          {/* Ingredients Section */}
-          <div className="col-md-6 mt-3">
-            <h4 className="text-secondary">Ingredients</h4>
-            {recipe && recipe.ingredients && recipe.ingredients.length > 0 ? (
-              <ul className="list-group list-group-flush">
-                {recipe.ingredients.map((ingredient, index) => (
-                  <li key={index} className="list-group-item">
-                    {ingredient}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No ingredients provided.</p>
-            )}
+                <div className="mb-4">
+                  <h4 className="text-danger">Instructions</h4>
+                  {recipe && recipe.instructions && recipe.instructions.length > 0 ? (
+                    <ol className="list-group list-group-numbered">
+                      {recipe.instructions.map((instruction, index) => (
+                        <li key={index} className="list-group-item">
+                          {instruction}
+                        </li>
+                      ))}
+                    </ol>
+                  ) : (
+                    <p>No instructions provided.</p>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Instructions Section */}
-          <div className="col-md-6 mt-3">
-            <h4 className="text-danger">Instructions</h4>
-            {recipe && recipe.instructions && recipe.instructions.length > 0 ? (
-              <ol className="list-group list-group-numbered">
-                {recipe.instructions.map((instruction, index) => (
-                  <li key={index} className="list-group-item">
-                    {instruction}
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <p>No instructions provided.</p>
+          <div className="card-footer text-center">
+            {isLoggedIn && (
+              <button
+                className="btn btn-secondary btn-lg"
+                onClick={() => setEditMode(true)}
+              >
+                Edit Recipe
+              </button>
             )}
           </div>
         </div>
-      </div>
-
-      {/* Card Footer */}
-      <div className="card-footer text-center">
-        {isLoggedIn && (
-          <button
-            className="btn btn-secondary btn-lg"
-            onClick={() => setEditMode(true)}
-          >
-            Edit Recipe
-          </button>
-        )}
-      </div>
-    </div>
       ) : (
-         <div className="d-flex justify-content-center align-items-center vh-100">
-      <div className="card p-4">
-        <h1 className="text-center mb-5">Edit Recipe</h1>
-        <div className="mb-3">
-          <label className="form-label">Recipe Name</label>
-          <input
-            type="text"
-            className="form-control"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Ingredients</label>
-          {ingredients.map((ingredient, index) => (
-            <div key={index} className="d-flex mb-2">
+        <div className="d-flex justify-content-center align-items-center vh-100">
+          <div className="card p-4">
+            <h1 className="text-center mb-5">Edit Recipe</h1>
+            <div className="mb-3">
+              <label className="form-label">Recipe Name</label>
               <input
                 type="text"
-                className="form-control me-2"
-                value={ingredient}
-                onChange={(e) => handleIngredientChange(index, e.target.value)}
+                className="form-control"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 required
               />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Ingredients</label>
+              {ingredients.map((ingredient, index) => (
+                <div key={index} className="d-flex mb-2">
+                  <input
+                    type="text"
+                    className="form-control me-2"
+                    value={ingredient}
+                    onChange={(e) => handleIngredientChange(index, e.target.value)}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => removeIngredientField(index)}
+                    disabled={ingredients.length === 1}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
               <button
                 type="button"
-                className="btn btn-danger"
-                onClick={() => removeIngredientField(index)}
-                disabled={ingredients.length === 1}
+                className="btn btn-secondary mt-2"
+                onClick={addIngredientField}
               >
-                Remove
+                Add Ingredient
               </button>
             </div>
-          ))}
-          <button
-            type="button"
-            className="btn btn-secondary mt-2"
-            onClick={addIngredientField}
-          >
-            Add Ingredient
-          </button>
-        </div>
 
-        <div className="mb-3">
-          <label className="form-label">Instructions</label>
-          {instructions.map((instruction, index) => (
-            <div key={index} className="d-flex mb-2">
+            <div className="mb-3">
+              <label className="form-label">Instructions</label>
+              {instructions.map((instruction, index) => (
+                <div key={index} className="d-flex mb-2">
+                  <input
+                    type="text"
+                    className="form-control me-2"
+                    value={instruction}
+                    onChange={(e) => handleInstructionChange(index, e.target.value)}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => removeInstructionField(index)}
+                    disabled={instructions.length === 1}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                className="btn btn-secondary mt-2"
+                onClick={addInstructionField}
+              >
+                Add Instruction
+              </button>
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Category</label>
+              <select
+                className="form-select"
+                value={categoryId}
+                onChange={(e) => setCategoryId(e.target.value)}
+                required
+              >
+                <option value="">Select a category</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Upload Image</label>
               <input
-                type="text"
-                className="form-control me-2"
-                value={instruction}
-                onChange={(e) => handleInstructionChange(index, e.target.value)}
-                required
+                type="file"
+                className="form-control"
+                onChange={(e) => setImage(e.target.files[0])}
               />
-              <button
-                type="button"
-                className="btn btn-danger"
-                onClick={() => removeInstructionField(index)}
-                disabled={instructions.length === 1}
-              >
-                Remove
+            </div>
+
+            <div className="d-flex justify-content-between">
+              <button className="btn btn-success" onClick={handleSave}>
+                Save Changes
+              </button>
+              <button className="btn btn-danger" onClick={handleDelete}>
+                Delete Recipe
+              </button>
+              <button className="btn btn-secondary" onClick={handleCancel}>
+                Cancel
               </button>
             </div>
-          ))}
-          <button
-            type="button"
-            className="btn btn-secondary mt-2"
-            onClick={addInstructionField}
-          >
-            Add Instruction
-          </button>
+          </div>
         </div>
-
-        <div className="mb-3">
-          <label className="form-label">Category</label>
-          <select
-            className="form-select"
-            value={categoryId}
-            onChange={(e) => setCategoryId(e.target.value)}
-            required
-          >
-            <option value="">Select a category</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Upload Image</label>
-          <input
-            type="file"
-            className="form-control"
-            onChange={(e) => setImage(e.target.files[0])}
-          />
-        </div>
-
-        <div className="d-flex justify-content-between">
-          <button className="btn btn-success" onClick={handleSave}>
-            Save Changes
-          </button>
-          <button
-          className="btn btn-secondary"
-          onClick={() => setEditMode(false)} // Exit edit mode
-        >
-          Cancel
-        </button>
-          <button className="btn btn-danger" onClick={handleDelete}>
-            Delete Recipe
-          </button>
-        </div>
-      </div>
-    </div>
       )}
     </div>
   );
