@@ -169,14 +169,15 @@ useEffect(() => {
     <div className="container mt-5">
       {!editMode ? (
         <div className="card shadow-lg">
+           {/* Card Header */}
+          <div className="card-header bg-secondary text-white text-center">
+            <h2 className="card-title mb-0">{recipe.name}</h2>
+          </div>
           <div className="card-body">
             <div className="row">
-              {/* Left Column: Title and Image */}
-              <div className="col-md-6">
-                <div className="card header">
-                <h2 className="text-secondary d-flex align-items-center">{recipe.name}</h2>
-                </div>
-                <div className="text-center mb-4">
+              {/* image */}
+              <div className="col-md-6 d-flex align-items-center">
+                <div className="text-center">
                   <img
                     className="img-fluid rounded"
                     style={{ maxWidth: "60%", cursor: "pointer" }}
