@@ -173,7 +173,7 @@ useEffect(() => {
             <div className="row">
               {/* Left Column: Title and Image */}
               <div className="col-md-6">
-                <h2 className="text-secondary">{recipe.name}</h2>
+                <h2 className="text-secondary text-center">{recipe.name}</h2>
                 <div className="text-center mb-4">
                   <img
                     className="img-fluid rounded"
