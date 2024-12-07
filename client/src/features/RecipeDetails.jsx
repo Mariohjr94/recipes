@@ -188,7 +188,7 @@ useEffect(() => {
               {/* Right Column: Ingredients and Instructions */}
               <div className="col-md-6">
                 <div className="mb-4">
-                  <h4 className="text-secondary mt-3">Ingredients</h4>
+                  <h4 className="text-secondary mt-5">Ingredients</h4>
                   {recipe && recipe.ingredients && recipe.ingredients.length > 0 ? (
                     <ul className="list-group list-group-flush">
                       {recipe.ingredients.map((ingredient, index) => (
