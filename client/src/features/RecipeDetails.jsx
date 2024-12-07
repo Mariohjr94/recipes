@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux"; 
 import axios from "axios";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -15,6 +15,7 @@ function RecipeDetails() {
 
   const token = useSelector((state) => state.auth.token);
   const isLoggedIn = !!token; // Check if a token exists
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [ingredients, setIngredients] = useState([]);
@@ -58,13 +59,6 @@ useEffect(() => {
       setName(data.name);
       setIngredients(parsedIngredients);
       setInstructions(parsedInstructions);
-
-      console.log("Recipe state set:", {
-        ...data,
-        ingredients: parsedIngredients,
-        instructions: parsedInstructions,
-      });
-
       setLoading(false);
     } catch (err) {
       console.error("Failed to fetch recipe:", err);
@@ -89,6 +83,36 @@ useEffect(() => {
     };
     fetchCategories();
   }, []);
+
+  const handleIngredientChange = (index, value) => {
+    const updatedIngredients = [...ingredients];
+    updatedIngredients[index] = value;
+    setIngredients(updatedIngredients);
+  };
+
+  const addIngredientField = () => {
+    setIngredients([...ingredients, ""]);
+  };
+
+  const removeIngredientField = (index) => {
+    const updatedIngredients = ingredients.filter((_, i) => i !== index);
+    setIngredients(updatedIngredients);
+  };
+
+  const handleInstructionChange = (index, value) => {
+    const updatedInstructions = [...instructions];
+    updatedInstructions[index] = value;
+    setInstructions(updatedInstructions);
+  };
+
+  const addInstructionField = () => {
+    setInstructions([...instructions, ""]);
+  };
+
+  const removeInstructionField = (index) => {
+    const updatedInstructions = instructions.filter((_, i) => i !== index);
+    setInstructions(updatedInstructions);
+  };
 
   const handleSave = async () => {
     try {
@@ -131,7 +155,7 @@ useEffect(() => {
     );
 
     // Redirect to another page (e.g., the recipe list page)
-    window.location.href = "/";
+    navigate("/")
   } catch (err) {
     console.error("Failed to delete recipe:", err);
   }
@@ -212,118 +236,116 @@ useEffect(() => {
       </div>
     </div>
       ) : (
-        <div className="d-flex justify-content-center align-items-center vh-100">
-          <div className="card p-4">
-          <h1 className="text-center  mb-5">Edit Recipe</h1>
+         <div className="d-flex justify-content-center align-items-center vh-100">
+      <div className="card p-4">
+        <h1 className="text-center mb-5">Edit Recipe</h1>
+        <div className="mb-3">
+          <label className="form-label">Recipe Name</label>
+          <input
+            type="text"
+            className="form-control"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
 
-          {/* Edit Form */}
-          <div className="mb-3">
-            <label>Recipe Name</label>
-            <input
-              type="text"
-              className="form-control"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-
-
-          {/* Category Dropdown */}
-          <div className="mb-3">
-            <label className="form-label" htmlFor="category">Category</label>
-            <select
-              className="form-select"
-              id="category"
-              value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}  // Update category on change
-            >
-              <option value="">Select a category</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-
-          {/* Image Upload Section */}
-          <div className="mb-3">
-            <label>Recipe Image</label>
-            <input
-              type="file"
-              className="form-control"
-              onChange={(e) => setImage(e.target.files[0])}
-            />
-          </div>
-
-
-          {/* Ingredients Input */}
-          <div className="mb-3">
-            <label>Ingredients</label>
-            {ingredients.map((ingredient, index) => (
+        <div className="mb-3">
+          <label className="form-label">Ingredients</label>
+          {ingredients.map((ingredient, index) => (
+            <div key={index} className="d-flex mb-2">
               <input
-                key={index}
                 type="text"
-                className="form-control mb-2"
+                className="form-control me-2"
                 value={ingredient}
-                onChange={(e) =>
-                  setIngredients(
-                    ingredients.map((ing, i) =>
-                      i === index ? e.target.value : ing
-                    )
-                  )
-                }
+                onChange={(e) => handleIngredientChange(index, e.target.value)}
+                required
               />
-            ))}
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => setIngredients([...ingredients, ""])}
-            >
-              Add Ingredient
-            </button>
-          </div>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => removeIngredientField(index)}
+                disabled={ingredients.length === 1}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="btn btn-secondary mt-2"
+            onClick={addIngredientField}
+          >
+            Add Ingredient
+          </button>
+        </div>
 
-          {/* Instructions Input */}
-          <div className="mb-3">
-            <label>Instructions</label>
-            {instructions.map((instruction, index) => (
+        <div className="mb-3">
+          <label className="form-label">Instructions</label>
+          {instructions.map((instruction, index) => (
+            <div key={index} className="d-flex mb-2">
               <input
-                key={index}
                 type="text"
-                className="form-control mb-2"
+                className="form-control me-2"
                 value={instruction}
-                onChange={(e) =>
-                  setInstructions(
-                    instructions.map((inst, i) =>
-                      i === index ? e.target.value : inst
-                    )
-                  )
-                }
+                onChange={(e) => handleInstructionChange(index, e.target.value)}
+                required
               />
-            ))}
-            <button
-              type="button"
-              className=" btn btn-secondary"
-              onClick={() => setInstructions([...instructions, ""])}
-            >
-              Add Instruction
-            </button>
-          </div>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => removeInstructionField(index)}
+                disabled={instructions.length === 1}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="btn btn-secondary mt-2"
+            onClick={addInstructionField}
+          >
+            Add Instruction
+          </button>
+        </div>
 
+        <div className="mb-3">
+          <label className="form-label">Category</label>
+          <select
+            className="form-select"
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
+            required
+          >
+            <option value="">Select a category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Upload Image</label>
+          <input
+            type="file"
+            className="form-control"
+            onChange={(e) => setImage(e.target.files[0])}
+          />
+        </div>
+
+        <div className="d-flex justify-content-between">
           <button className="btn btn-success" onClick={handleSave}>
             Save Changes
           </button>
-          <button className="btn btn-danger ml-2 mt-2" onClick={handleDelete}> Delete</button>
-          <button
-            className="btn btn-secondary ml-2 mt-2"
-            onClick={() => setEditMode(false)}
-          >
-            Cancel
+          <button className="btn btn-danger" onClick={handleDelete}>
+            Delete Recipe
           </button>
         </div>
-          </div>
+      </div>
+    </div>
       )}
     </div>
   );
