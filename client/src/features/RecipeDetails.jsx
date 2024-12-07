@@ -176,7 +176,7 @@ useEffect(() => {
           <div className="card-body">
             <div className="row">
               {/* image */}
-              <div className="col-md-6 d-flex align-items-center mt-5">
+              <div className="col-md-6 d-flex align-items-center mt-4">
                 <div className="text-center">
                   <img
                     className="img-fluid rounded"
