@@ -340,6 +340,12 @@ useEffect(() => {
           <button className="btn btn-success" onClick={handleSave}>
             Save Changes
           </button>
+          <button
+          className="btn btn-secondary"
+          onClick={() => setEditMode(false)} // Exit edit mode
+        >
+          Cancel
+        </button>
           <button className="btn btn-danger" onClick={handleDelete}>
             Delete Recipe
           </button>
