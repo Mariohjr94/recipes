@@ -177,7 +177,7 @@ useEffect(() => {
                 <div className="text-center mb-4">
                   <img
                     className="img-fluid rounded"
-                    style={{ maxWidth: "100%", cursor: "pointer" }}
+                    style={{ maxWidth: "60%", cursor: "pointer" }}
                     src={recipe?.image}
                     alt={recipe?.name || "Recipe image"}
                     onClick={() => window.open(recipe.image, "_blank")}
