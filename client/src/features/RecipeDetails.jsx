@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux"; 
 import axios from "axios";
 import "bootstrap-icons/font/bootstrap-icons.css";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -12,6 +12,7 @@ function RecipeDetails() {
   const [error, setError] = useState(null);
   const [editMode, setEditMode] = useState(false); 
   const [categories, setCategories] = useState([]);
+  const [showImageModal, setShowImageModal] = useState(false);
 
   const token = useSelector((state) => state.auth.token);
   const isLoggedIn = !!token; // Check if a token exists
@@ -165,6 +166,15 @@ useEffect(() => {
   if (loading) return <p>Loading recipe...</p>;
   if (error) return <p>{error}</p>;
 
+  const handleImageClick = () => {
+  setShowImageModal(true);
+};
+
+const handleCloseModal = () => {
+  setShowImageModal(false);
+};
+
+
  return (
     <div className="container mt-5">
       {!editMode ? (
@@ -183,7 +193,7 @@ useEffect(() => {
                     style={{ maxWidth: "60%", cursor: "pointer" }}
                     src={recipe?.image}
                     alt={recipe?.name || "Recipe image"}
-                    onClick={() => window.open(recipe.image, "_blank")}
+                    onClick={handleImageClick}
                   />
                 </div>
               </div>
