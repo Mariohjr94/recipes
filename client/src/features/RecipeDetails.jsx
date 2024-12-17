@@ -360,30 +360,30 @@ const handleCloseModal = () => {
         </div>
       )}
       {/* Bootstrap Modal - Place this after the main content */}
-    {showImageModal && (
-      <div className="modal fade show d-block" tabIndex="-1" role="dialog">
-        <div className="modal-dialog modal-lg" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">{recipe.name}</h5>
-              <button
-                type="button"
-                className="btn-close"
-                aria-label="Close"
-                onClick={handleCloseModal}
-              ></button>
-            </div>
-            <div className="modal-body text-center">
-              <img
-                src={recipe.image}
-                alt={recipe.name}
-                className="img-fluid rounded"
-              />
+      {showImageModal && (
+        <div className="modal fade show d-block shadow-lg" tabIndex="-1" role="dialog">
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">{recipe.name}</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  aria-label="Close"
+                  onClick={handleCloseModal}
+                ></button>
+              </div>
+              <div className="modal-body text-center">
+                <img
+                  src={recipe.image}
+                  alt={recipe.name}
+                  className="img-fluid rounded"
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    )}
+      )}
     </div>
   );
 }
