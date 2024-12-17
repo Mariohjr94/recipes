@@ -361,8 +361,8 @@ const handleCloseModal = () => {
       )}
       {/* Bootstrap Modal - Place this after the main content */}
       {showImageModal && (
-        <div className="modal fade show d-block shadow-lg" tabIndex="-1" role="dialog">
-          <div className="modal-dialog modal-lg" role="document">
+        <div className="modal fade" tabIndex="-1" role="dialog">
+          <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">{recipe.name}</h5>
