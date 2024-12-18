@@ -190,6 +190,7 @@ const handleCloseModal = () => {
                 <div className="text-center">
                   <img
                     className="img-fluid rounded"
+                    data-toggle="modal" 
                     style={{ maxWidth: "60%", cursor: "pointer" }}
                     src={recipe?.image}
                     alt={recipe?.name || "Recipe image"}
