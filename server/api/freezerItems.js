@@ -60,3 +60,5 @@ router.delete('/freezer-items/:id', async (req, res) => {
     res.status(500).send('Failed to delete freezer item.');
   }
 });
+
+module.exports = router;
