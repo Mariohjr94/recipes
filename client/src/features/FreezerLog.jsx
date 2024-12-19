@@ -6,21 +6,23 @@ function FreezerLog() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchFreezerItems = async () => {
-      try {
-        const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`);
-        setFreezerItems(data || []); // Ensure data is an array
-        setLoading(false);
-      } catch (err) {
-        console.error("Failed to fetch freezer items:", err);
-        setError("Failed to load freezer items.");
-        setLoading(false);
-      }
-    };
+useEffect(() => {
+  const fetchFreezerItems = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`);
+      console.log("API Response for Freezer Items:", response.data);
+      setFreezerItems(response.data || []); // Ensure it is always an array
+      setLoading(false);
+    } catch (err) {
+      console.error("Failed to fetch freezer items:", err);
+      setError("Failed to load freezer items.");
+      setLoading(false);
+    }
+  };
 
-    fetchFreezerItems();
-  }, []);
+  fetchFreezerItems();
+}, []);
+
 
   if (loading) return <div className="text-center mt-5">Loading freezer items...</div>;
   if (error) return <div className="text-center text-danger mt-5">{error}</div>;
