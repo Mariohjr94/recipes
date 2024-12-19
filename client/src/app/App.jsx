@@ -5,6 +5,7 @@ import AuthForm from '../features/auth/AuthForm';
 import Dashboard from '../features/dashboard/Dashboard';
 import RecipeDetails from '../features/RecipeDetails';
 import RecipeForm from '../features/RecipeForm';
+import FreezerLog from '../features/FreezerLog';
 import { useMeQuery } from '../features/auth/authSlice';
 
 function App() {
