@@ -47,7 +47,10 @@ const closeMenu = () => setMenuExpanded(false);
       <Nav className="me-auto my-2 my-lg-0" navbarScroll>
         <Nav.Link as={Link} to="/" onClick={closeMenu}>Home</Nav.Link>
         {isLoggedIn && (
+          <>
           <Nav.Link as={Link} to="/add-recipe" onClick={closeMenu}>Add Recipe</Nav.Link>
+          <Nav.Link as={Link} to="/freezer-logger" onClick={closeMenu}>Freezer Logger</Nav.Link>
+          </>
         )}
       </Nav>
       <Nav>

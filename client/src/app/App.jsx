@@ -44,6 +44,7 @@ function App() {
             {/* Redirect to login if trying to access dashboard or add recipe without being logged in */}
             <Route path="/dashboard" element={<Navigate to="/auth/login" />} />
             <Route path="/add-recipe" element={<RecipeForm/>} />
+            <Route path="/freezer-logger" element={<FreezerLog/>} />
           </>
         )}
 
