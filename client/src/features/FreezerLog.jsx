@@ -1,6 +1,6 @@
 import React from 'react';
 
-function FreezerLogger() {
+function FreezerLog() {
   return (
     <div className="container mt-5">
       <h1>Freezer Logger</h1>
@@ -9,4 +9,4 @@ function FreezerLogger() {
   );
 }
 
-export default FreezerLogger;
+export default FreezerLog;
