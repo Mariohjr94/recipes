@@ -2,13 +2,13 @@ const express = require("express");
 const router = express.Router();
 
 //Get all items from freezer database
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const { rows } = await db.query('SELECT * FROM freezer_items');
-    res.status(200).json(rows);
+    const result = await db.query("SELECT * FROM freezer_items"); // Adjust query to your database
+    res.json(result.rows); // Return JSON data
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Failed to fetch freezer items.');
+    console.error("Failed to fetch freezer items:", err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
