@@ -6,7 +6,7 @@ function FreezerLog() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [name, setName] = useState('');
-    const [quantity, setQuantity] = useState('');\
+    const [quantity, setQuantity] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
 
