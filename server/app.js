@@ -24,10 +24,12 @@ app.use(express.static(path.join(__dirname, "..", "client/dist")));
 const authRoutes = require("./auth");
 const recipeRoutes = require("./api/recipes");
 const categoryRoutes = require("./api/categories");
+const freezerItems = require("api/freezer")
 
 app.use("/auth", authRoutes);
 app.use("/api/recipes", recipeRoutes);
 app.use("/api/categories" ,categoryRoutes);
+app.use("api/freezer-items", freezerItems);
 
 // Serves the HTML file that Vite builds
 app.get("*", (req, res) => {

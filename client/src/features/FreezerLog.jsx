@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function FreezerLog() {
-  const [freezerItems, setFreezerItems] = useState([]); // Initialize as an array
+  const [freezerItems, setFreezerItems] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
