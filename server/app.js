@@ -29,7 +29,7 @@ const freezerItemsRoutes = require("./api/freezerItems");
 app.use("/auth", authRoutes);
 app.use("/api/recipes", recipeRoutes);
 app.use("/api/categories" ,categoryRoutes);
-app.use("api/freezerItems", freezerItemsRoutes);
+app.use("/api/freezerItems", freezerItemsRoutes);
 
 // Serves the HTML file that Vite builds
 app.get("*", (req, res) => {
