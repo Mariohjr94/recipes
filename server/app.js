@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, "..", "client/dist")));
 const authRoutes = require("./auth");
 const recipeRoutes = require("./api/recipes");
 const categoryRoutes = require("./api/categories");
-const freezerItems = require("./api/freezer")
+const freezerItems = require("./api/freezerItems")
 
 app.use("/auth", authRoutes);
 app.use("/api/recipes", recipeRoutes);
