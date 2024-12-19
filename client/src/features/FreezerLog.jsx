@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const FreezerLogger = () => {
+const FreezerLog = () => {
   const [items, setItems] = useState([]);
   const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -59,4 +59,4 @@ const FreezerLogger = () => {
   );
 };
 
-export default FreezerLogger;
+export default FreezerLog;
