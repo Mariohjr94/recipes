@@ -7,6 +7,8 @@ import RecipeDetails from '../features/RecipeDetails';
 import RecipeForm from '../features/RecipeForm';
 import FreezerLog from '../features/FreezerLog';
 import { useMeQuery } from '../features/auth/authSlice';
+import "bootstrap/dist/css/bootstrap.min.css";
+
 
 function App() {
   const { data: me, isFetching } = useMeQuery();

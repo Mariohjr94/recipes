@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function FreezerLog() {
-  const [freezerItems, setFreezerItems] = useState([]);
+  const [freezerItems, setFreezerItems] = useState([]); // Initialize as an array
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -10,7 +10,7 @@ function FreezerLog() {
     const fetchFreezerItems = async () => {
       try {
         const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`);
-        setFreezerItems(data);
+        setFreezerItems(data || []); // Ensure data is an array
         setLoading(false);
       } catch (err) {
         console.error("Failed to fetch freezer items:", err);
@@ -29,24 +29,28 @@ function FreezerLog() {
     <div className="container mt-5">
       <h1 className="text-center mb-4">Freezer Inventory</h1>
       <div className="table-responsive">
-        <table className="table table-hover table-bordered align-middle">
-          <thead className="table-dark">
-            <tr>
-              <th scope="col" style={{ width: "10%" }}>#</th>
-              <th scope="col" style={{ width: "60%" }}>Name</th>
-              <th scope="col" style={{ width: "30%" }}>Quantity</th>
-            </tr>
-          </thead>
-          <tbody>
-            {freezerItems.map((item) => (
-              <tr key={item.id}>
-                <th scope="row">{item.id}</th>
-                <td>{item.name}</td>
-                <td>{item.quantity}</td>
+        {freezerItems.length > 0 ? (
+          <table className="table table-hover table-bordered align-middle">
+            <thead className="table-dark">
+              <tr>
+                <th scope="col" style={{ width: "10%" }}>#</th>
+                <th scope="col" style={{ width: "60%" }}>Name</th>
+                <th scope="col" style={{ width: "30%" }}>Quantity</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {freezerItems.map((item) => (
+                <tr key={item.id}>
+                  <th scope="row">{item.id}</th>
+                  <td>{item.name}</td>
+                  <td>{item.quantity}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className="text-center">No items in the freezer yet. Add some to get started!</p>
+        )}
       </div>
     </div>
   );
