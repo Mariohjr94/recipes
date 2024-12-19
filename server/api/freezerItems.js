@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const db = require("../db");
 
 //Get all items from freezer database
 router.get("/", async (req, res) => {
