@@ -80,7 +80,7 @@ function FreezerLog() {
   const handleDelete = async (id) => {
     const confirmed = window.confirm("Are you sure you want to delete this item?");
     if (!confirmed) return;
-    
+
     try {
       await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items/${id}`);
       setFreezerItems((prevItems) => prevItems.filter((item) => item.id !== id));
@@ -153,7 +153,7 @@ function FreezerLog() {
             />
           </div>
           <div className="col-md-3 mb-2">
-            <button type="submit" className="btn btn-primary w-100">
+            <button type="submit" className="btn btn-secondary w-100">
               {editItem ? "Update Item" : "Add Item"}
             </button>
           </div>
@@ -177,7 +177,7 @@ function FreezerLog() {
                   <td>{item.name}</td>
                   <td>{item.quantity}</td>
                   <td>
-                    <button className="btn btn-primary me-2" onClick={() => handleEdit(item)}>
+                    <button className="btn btn-secondary me-2" onClick={() => handleEdit(item)}>
                       Edit
                     </button>
                     <button className="btn btn-danger" onClick={() => handleDelete(item.id)}>
