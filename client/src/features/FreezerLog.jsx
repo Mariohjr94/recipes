@@ -85,6 +85,17 @@ useEffect(() => {
       {/* Success Message */}
       {successMessage && <div className="alert alert-success text-center">{successMessage}</div>}
 
+       {/* Search Input */}
+        <div className="mb-4">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search freezer items..."
+            value={searchTerm}
+            onChange={handleSearch}
+            />
+        </div>
+
       {/* Add Item Form */}
       <form className="mb-4" onSubmit={handleAddItem}>
         <div className="row">
