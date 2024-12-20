@@ -11,6 +11,8 @@ function FreezerLog() {
     const [quantity, setQuantity] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
      const [searchTerm, setSearchTerm] = useState(''); 
+     const [editItem, setEditItem] = useState(null); 
+
 
 
 
@@ -65,6 +67,54 @@ useEffect(() => {
     const filteredItems = freezerItems.filter(item => 
         item.name.toLowerCase().includes(searchTerm)
     );
+
+    const handleEdit = (item) => {
+      setEditItem(item);
+      setName(item.name);
+      setQuantity(item.quantity);
+    };
+
+    const handleUpdateItem = async () => {
+  if (!editItem) return;
+
+  try {
+    const response = await axios.put(
+      `${import.meta.env.VITE_API_BASE_URL}/api/freezer-items/${editItem.id}`,
+      { name, quantity }
+    );
+    console.log("Item updated:", response.data);
+
+    setFreezerItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === editItem.id ? response.data : item
+      )
+    );
+
+    // Reset form
+    setEditItem(null);
+    setName("");
+    setQuantity("");
+  } catch (err) {
+    console.error("Failed to update item:", err);
+  }
+};
+
+const handleDelete = async (id) => {
+  try {
+    await axios.delete(
+      `${import.meta.env.VITE_API_BASE_URL}/api/freezer-items/${id}`
+    );
+    console.log("Item deleted:", id);
+
+    setFreezerItems((prevItems) =>
+      prevItems.filter((item) => item.id !== id)
+    );
+  } catch (err) {
+    console.error("Failed to delete item:", err);
+  }
+};
+
+
 
 
   if (loading) {
@@ -127,6 +177,45 @@ useEffect(() => {
         </div>
       </form>
 
+       {/* Form for Add/Update */}
+    <div className="mb-4">
+      <input
+        type="text"
+        className="form-control mb-2"
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <input
+        type="text"
+        className="form-control mb-2"
+        placeholder="Quantity"
+        value={quantity}
+        onChange={(e) => setQuantity(e.target.value)}
+      />
+      {editItem ? (
+        <button className="btn btn-success" onClick={handleUpdateItem}>
+          Update Item
+        </button>
+      ) : (
+        <button className="btn btn-primary" onClick={handleAddItem}>
+          Add Item
+        </button>
+      )}
+      {editItem && (
+        <button
+          className="btn btn-secondary ms-2"
+          onClick={() => {
+            setEditItem(null);
+            setName("");
+            setQuantity("");
+          }}
+        >
+          Cancel
+        </button>
+      )}
+    </div>
+
       {/* Freezer Items Table */}
       <div className="table-responsive">
         {filteredItems.length > 0 ? (
@@ -144,6 +233,18 @@ useEffect(() => {
                   <th scope="row">{item.id}</th>
                   <td>{item.name}</td>
                   <td>{item.quantity}</td>
+                    <button 
+                    className="btn btn-primary me-2" 
+                    onClick={() => handleEdit(item)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                    className="btn btn-danger"
+                    onClick={() => handleDelete(item.id)}
+                    >
+                      Delete
+                    </button>
                 </tr>
               ))}
             </tbody>
