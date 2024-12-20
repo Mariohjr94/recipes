@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 });
 
 //add an item to freezer database
-router.post('/freezer-items', async (req, res) => {
+router.post('/', async (req, res) => {
   const { name, quantity } = req.body;
   if (!name || !quantity) {
     return res.status(400).json({ error: 'Name and quantity are required.' });
