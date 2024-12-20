@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
 });
 
 //update an item to freezer database
-router.put('/freezer-items/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
   if (!name || !quantity) {
@@ -51,7 +51,7 @@ router.put('/freezer-items/:id', async (req, res) => {
 });
 
 //delete an item from freezer database
-router.delete('/freezer-items/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   try {
     await db.query('DELETE FROM freezer_items WHERE id = $1', [id]);
