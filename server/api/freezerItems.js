@@ -6,7 +6,7 @@ const db = require("../db");
 router.get("/", async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM freezer_items"); // Adjust query to your database
-    res.json(items.rows); // Return JSON data
+    res.json(result.rows); // Return JSON data
   } catch (err) {
     console.error("Failed to fetch freezer items:", err);
     res.status(500).json({ error: "Internal Server Error" });
