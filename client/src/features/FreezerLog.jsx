@@ -163,7 +163,6 @@ function FreezerLog() {
           <table className="table table-hover table-bordered align-middle">
             <thead className="table-dark">
               <tr>
-                <th>#</th>
                 <th>Name</th>
                 <th>Quantity</th>
                 <th>Actions</th>
