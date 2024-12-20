@@ -172,7 +172,6 @@ function FreezerLog() {
             <tbody>
               {filteredItems.map((item) => (
                 <tr key={item.id}>
-                  <td>{item.id}</td>
                   <td>{item.name}</td>
                   <td>{item.quantity}</td>
                   <td>
