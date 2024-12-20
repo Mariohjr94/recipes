@@ -17,8 +17,14 @@ useEffect(() => {
   const fetchFreezerItems = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`);
-      console.log("API Response for Freezer Items:", response.data);
-      setFreezerItems(response.data || []); // Ensure it is always an array
+      
+      if (response.data && Array.isArray(response.data)) {
+        setFreezerItems(response.data);
+      } else {
+        console.error("Unexpected response format:", response.data);
+        setError("Unexpected response from the server.");
+      }
+
       setLoading(false);
     } catch (err) {
       console.error("Failed to fetch freezer items:", err);
@@ -29,6 +35,7 @@ useEffect(() => {
 
   fetchFreezerItems();
 }, []);
+
 
  // Add an item to the freezer
   const handleAddItem = async (e) => {
