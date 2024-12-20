@@ -10,6 +10,7 @@ function FreezerLog() {
     const [name, setName] = useState('');
     const [quantity, setQuantity] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+     const [searchTerm, setSearchTerm] = useState(''); 
 
 
 
@@ -21,13 +22,11 @@ useEffect(() => {
       if (response.data && Array.isArray(response.data)) {
         setFreezerItems(response.data);
       } else {
-        console.error("Unexpected response format:", response.data);
         setError("Unexpected response from the server.");
       }
 
       setLoading(false);
     } catch (err) {
-      console.error("Failed to fetch freezer items:", err);
       setError("Failed to load freezer items.");
       setLoading(false);
     }
@@ -57,8 +56,26 @@ useEffect(() => {
     }
   };
 
+  //Search element 
 
-  if (loading) return <div className="text-center mt-5">Loading freezer items...</div>;
+   const handleSearch = (e) => {
+        setSearchTerm(e.target.value.toLowerCase());
+    };
+
+    const filteredItems = freezerItems.filter(item => 
+        item.name.toLowerCase().includes(searchTerm)
+    );
+
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="spinner-border text-secondary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
   if (error) return <div className="text-center text-danger mt-5">{error}</div>;
 
   return (
@@ -101,7 +118,7 @@ useEffect(() => {
 
       {/* Freezer Items Table */}
       <div className="table-responsive">
-        {freezerItems.length > 0 ? (
+        {filteredItems.length > 0 ? (
           <table className="table table-hover table-bordered align-middle">
             <thead className="table-dark">
               <tr>
@@ -111,7 +128,7 @@ useEffect(() => {
               </tr>
             </thead>
             <tbody>
-              {freezerItems.map((item) => (
+              {filteredItems.map((item) => (
                 <tr key={item.id}>
                   <th scope="row">{item.id}</th>
                   <td>{item.name}</td>
