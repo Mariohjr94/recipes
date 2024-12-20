@@ -71,6 +71,12 @@ function FreezerLog() {
     setTimeout(() => setSuccessMessage(""), 3000); // Clear success message after 3 seconds
   };
 
+  const handleEdit = (item) => {
+    setEditItem(item); // Set the item to be edited
+    setName(item.name); // Populate the form with the item's name
+    setQuantity(item.quantity); // Populate the form with the item's quantity
+  };
+
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items/${id}`);
