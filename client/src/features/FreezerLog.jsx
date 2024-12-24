@@ -14,39 +14,35 @@ function FreezerLog() {
   const [editItem, setEditItem] = useState(null);
 
   useEffect(() => {
-    const fetchFreezerItems = async () => {
-      try {
-        const itemsResponse = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`
-        );
+  const fetchFreezerItemsAndCategories = async () => {
+    try {
+      const [itemsResponse, categoriesResponse] = await Promise.all([
+        axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`),
+        axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items/categories`), // New endpoint
+      ]);
 
-        if (itemsResponse.data && Array.isArray(itemsResponse.data)) {
-          setFreezerItems(itemsResponse.data); // Set freezer items with category_name
-
-          // Extract unique categories dynamically
-          const uniqueCategories = Array.from(
-            new Set(itemsResponse.data.map((item) => item.category_name))
-          )
-            .filter((name) => name) // Exclude null categories
-            .map((name, index) => ({
-              id: index + 1, // Generate a unique ID
-              name,
-            }));
-
-          setCategories(uniqueCategories); // Set categories for dropdown
-        } else {
-          setError("Unexpected response from the server for freezer items.");
-        }
-
-        setLoading(false);
-      } catch (err) {
-        setError("Failed to load freezer items.");
-        setLoading(false);
+      if (itemsResponse.data && Array.isArray(itemsResponse.data)) {
+        setFreezerItems(itemsResponse.data);
+      } else {
+        setError("Unexpected response from the server for freezer items.");
       }
-    };
 
-    fetchFreezerItems();
-  }, []);
+      if (categoriesResponse.data && Array.isArray(categoriesResponse.data)) {
+        setCategories(categoriesResponse.data); // Use all categories from the database
+      } else {
+        setError("Unexpected response from the server for categories.");
+      }
+
+      setLoading(false);
+    } catch (err) {
+      setError("Failed to load data.");
+      setLoading(false);
+    }
+  };
+
+  fetchFreezerItemsAndCategories();
+}, []);
+
 
   const handleAddOrUpdateItem = async (e) => {
     e.preventDefault();
