@@ -15,23 +15,27 @@ function FreezerLog() {
 
   useEffect(() => {
     const fetchFreezerItems = async () => {
-        try {
-        const [itemsResponse, categoriesResponse] = await Promise.all([
-          axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`),
-          axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`),
-        ]);
-        
+      try {
+        const itemsResponse = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`
+        );
+
         if (itemsResponse.data && Array.isArray(itemsResponse.data)) {
-          setFreezerItems(itemsResponse.data);
-        } else {
-          setError("Unexpected response from the server.");
-        }
+          setFreezerItems(itemsResponse.data); // Set freezer items with category_name
 
+          // Extract unique categories dynamically
+          const uniqueCategories = Array.from(
+            new Set(itemsResponse.data.map((item) => item.category_name))
+          )
+            .filter((name) => name) // Exclude null categories
+            .map((name, index) => ({
+              id: index + 1, // Generate a unique ID
+              name,
+            }));
 
-        if (categoriesResponse.data && Array.isArray(categoriesResponse.data)) {
-          setCategories(categoriesResponse.data);
+          setCategories(uniqueCategories); // Set categories for dropdown
         } else {
-          setError("Unexpected response from the server for categories.");
+          setError("Unexpected response from the server for freezer items.");
         }
 
         setLoading(false);
@@ -45,10 +49,9 @@ function FreezerLog() {
   }, []);
 
   const handleAddOrUpdateItem = async (e) => {
-    e.preventDefault(); // Prevent form submission refresh
+    e.preventDefault();
 
     if (editItem) {
-      // Handle Update
       try {
         const response = await axios.put(
           `${import.meta.env.VITE_API_BASE_URL}/api/freezer-items/${editItem.id}`,
@@ -67,13 +70,11 @@ function FreezerLog() {
         setError("Failed to update item.");
       }
     } else {
-      // Handle Add
       try {
-        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`, {
-          name,
-          quantity,
-          category_id: categoryId,
-        });
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`,
+          { name, quantity, category_id: categoryId }
+        );
         setFreezerItems([...freezerItems, response.data]); // Update UI with the new item
         setName("");
         setQuantity("");
@@ -85,13 +86,13 @@ function FreezerLog() {
       }
     }
 
-    setTimeout(() => setSuccessMessage(""), 3000); // Clear success message after 3 seconds
+    setTimeout(() => setSuccessMessage(""), 3000);
   };
 
   const handleEdit = (item) => {
-    setEditItem(item); // Set the item to be edited
-    setName(item.name); // Populate the form with the item's name
-    setQuantity(item.quantity); // Populate the form with the item's quantity
+    setEditItem(item);
+    setName(item.name);
+    setQuantity(item.quantity);
     setCategoryId(item.category_id || "");
   };
 
@@ -133,10 +134,8 @@ function FreezerLog() {
     <div className="container mt-5">
       <h1 className="text-center mb-4">Freezer Inventory</h1>
 
-      {/* Success Message */}
       {successMessage && <div className="alert alert-success text-center">{successMessage}</div>}
 
-      {/* Search Input */}
       <div className="mb-4">
         <input
           type="text"
@@ -147,10 +146,9 @@ function FreezerLog() {
         />
       </div>
 
-      {/* Add/Update Form */}
       <form className="mb-4" onSubmit={handleAddOrUpdateItem}>
         <div className="row">
-          <div className="col-md-5 mb-2">
+          <div className="col-md-4 mb-2">
             <input
               type="text"
               className="form-control"
@@ -170,8 +168,7 @@ function FreezerLog() {
               required
             />
           </div>
-
-            <div className="col-md-3 mb-2">
+          <div className="col-md-4 mb-2">
             <select
               className="form-control"
               value={categoryId}
@@ -186,16 +183,12 @@ function FreezerLog() {
               ))}
             </select>
           </div>
-
-          <div className="col-md-3 mb-2">
-            <button type="submit" className="btn btn-secondary w-100">
-              {editItem ? "Update Item" : "Add Item"}
-            </button>
-          </div>
         </div>
+        <button type="submit" className="btn btn-secondary">
+          {editItem ? "Update Item" : "Add Item"}
+        </button>
       </form>
 
-      {/* Freezer Items Table */}
       <div className="table-responsive">
         {filteredItems.length > 0 ? (
           <table className="table table-hover table-bordered align-middle">
@@ -212,7 +205,7 @@ function FreezerLog() {
                 <tr key={item.id}>
                   <td>{item.name}</td>
                   <td>{item.quantity}</td>
-                  <td>{item.category || "Uncategorized"}</td>
+                  <td>{item.category_name || "Uncategorized"}</td>
                   <td>
                     <button className="btn btn-secondary me-2" onClick={() => handleEdit(item)}>
                       Edit
