@@ -12,18 +12,6 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// get all freezer categories
-router.get("/categories", async (req, res) => {
-  try {
-    const query = `SELECT * FROM freezer_categories`;
-    const { rows } = await db.query(query); // Fetch all categories
-    res.json(rows); // Return JSON data
-  } catch (err) {
-    console.error("Failed to fetch categories:", err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
 // Middleware to check if the user is logged in (for POST and DELETE routes)
 router.use((req, res, next) => {
   if (!req.user) {
