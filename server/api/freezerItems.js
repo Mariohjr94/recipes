@@ -66,6 +66,17 @@ router.put("/:id", async (req, res) => {
       RETURNING *
     `;
     const { rows } = await db.query(query, [name, quantity, category_id, id]);
+
+    // Fetch the updated item with the category_name
+    const itemQuery = `
+      SELECT freezer_items.*, freezer_categories.name AS category_name
+      FROM freezer_items
+      LEFT JOIN freezer_categories
+      ON freezer_items.category_id = freezer_categories.id
+      WHERE freezer_items.id = $1;
+    `;
+    const updatedItem = await db.query(itemQuery, [id]);
+
     res.status(200).json(rows[0]);
   } catch (err) {
     console.error(err);
