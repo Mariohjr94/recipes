@@ -15,10 +15,10 @@ function FreezerLog() {
 
   useEffect(() => {
     const fetchFreezerItems = async () => {
-         try {
+        try {
         const [itemsResponse, categoriesResponse] = await Promise.all([
           axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`),
-          axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-categories`),
+          axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`),
         ]);
         
         if (itemsResponse.data && Array.isArray(itemsResponse.data)) {
