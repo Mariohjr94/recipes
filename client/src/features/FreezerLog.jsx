@@ -3,23 +3,37 @@ import axios from "axios";
 
 function FreezerLog() {
   const [freezerItems, setFreezerItems] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [categoryId, setCategoryId] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [editItem, setEditItem] = useState(null);
 
   useEffect(() => {
     const fetchFreezerItems = async () => {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`);
-        if (response.data && Array.isArray(response.data)) {
-          setFreezerItems(response.data);
+         try {
+        const [itemsResponse, categoriesResponse] = await Promise.all([
+          axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`),
+          axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-categories`),
+        ]);
+        
+        if (itemsResponse.data && Array.isArray(itemsResponse.data)) {
+          setFreezerItems(itemsResponse.data);
         } else {
           setError("Unexpected response from the server.");
         }
+
+
+        if (categoriesResponse.data && Array.isArray(categoriesResponse.data)) {
+          setCategories(categoriesResponse.data);
+        } else {
+          setError("Unexpected response from the server for categories.");
+        }
+
         setLoading(false);
       } catch (err) {
         setError("Failed to load freezer items.");
@@ -38,7 +52,7 @@ function FreezerLog() {
       try {
         const response = await axios.put(
           `${import.meta.env.VITE_API_BASE_URL}/api/freezer-items/${editItem.id}`,
-          { name, quantity }
+          { name, quantity, category_id: categoryId }
         );
         setFreezerItems((prevItems) =>
           prevItems.map((item) => (item.id === editItem.id ? response.data : item))
@@ -46,6 +60,7 @@ function FreezerLog() {
         setEditItem(null);
         setName("");
         setQuantity("");
+        setCategoryId("");
         setSuccessMessage("Item updated successfully!");
       } catch (err) {
         console.error("Failed to update item:", err);
@@ -57,10 +72,12 @@ function FreezerLog() {
         const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`, {
           name,
           quantity,
+          category_id: categoryId,
         });
         setFreezerItems([...freezerItems, response.data]); // Update UI with the new item
         setName("");
         setQuantity("");
+        setCategoryId("");
         setSuccessMessage("Item added successfully!");
       } catch (err) {
         console.error("Failed to add item:", err);
@@ -75,6 +92,7 @@ function FreezerLog() {
     setEditItem(item); // Set the item to be edited
     setName(item.name); // Populate the form with the item's name
     setQuantity(item.quantity); // Populate the form with the item's quantity
+    setCategoryId(item.category_id || "");
   };
 
   const handleDelete = async (id) => {
@@ -152,6 +170,23 @@ function FreezerLog() {
               required
             />
           </div>
+
+            <div className="col-md-3 mb-2">
+            <select
+              className="form-control"
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+              required
+            >
+              <option value="">Select Category</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="col-md-3 mb-2">
             <button type="submit" className="btn btn-secondary w-100">
               {editItem ? "Update Item" : "Add Item"}
@@ -168,6 +203,7 @@ function FreezerLog() {
               <tr>
                 <th>Name</th>
                 <th>Quantity</th>
+                <th>Category</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -176,6 +212,7 @@ function FreezerLog() {
                 <tr key={item.id}>
                   <td>{item.name}</td>
                   <td>{item.quantity}</td>
+                  <td>{item.category || "Uncategorized"}</td>
                   <td>
                     <button className="btn btn-secondary me-2" onClick={() => handleEdit(item)}>
                       Edit
