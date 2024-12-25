@@ -258,17 +258,17 @@ function FreezerLog() {
                   < FaEdit />
                 </button>
                 <button
-  type="button"
-  className="btn btn-danger"
-  onClick={() => {
-    handleDelete(item.id);
-    const modal = document.getElementById(`deleteModal-${item.id}`);
-    const bootstrapModal = bootstrap.Modal.getInstance(modal); // Ensure Bootstrap instance
-    bootstrapModal.hide(); // Close the modal programmatically
-  }}
->
-  Delete
-</button>
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => {
+                    handleDelete(item.id);
+                    const modal = document.getElementById(`deleteModal-${item.id}`);
+                    const bootstrapModal = bootstrap.Modal.getInstance(modal); // Ensure Bootstrap instance
+                    bootstrapModal.hide(); // Close the modal programmatically
+                  }}
+                >
+                  <FaTrash/>
+                </button>
 
                 {/* Confirmation Modal */}
                 <div
