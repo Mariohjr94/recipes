@@ -4,6 +4,7 @@ import axios from "axios";
 function FreezerLog() {
   const [freezerItems, setFreezerItems] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [filteredItems, setFilteredItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
