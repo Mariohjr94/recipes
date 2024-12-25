@@ -245,14 +245,57 @@ function FreezerLog() {
                   <td>{item.name}</td>
                   <td>{item.quantity}</td>
                   <td>{item.category_name || "Uncategorized"}</td>
-                  <td>
-                    <button className="btn btn-secondary me-2" onClick={() => handleEdit(item)}>
-                      Edit
-                    </button>
-                    <button className="btn btn-danger" onClick={() => handleDelete(item.id)}>
-                      Delete
-                    </button>
-                  </td>
+                <td>
+  <button
+    className="btn btn-secondary btn-sm me-2"
+    data-bs-toggle="tooltip"
+    title="Edit Item"
+    onClick={() => handleEdit(item)}
+  >
+    <i className="fas fa-edit"></i>
+  </button>
+  <button
+    className="btn btn-danger btn-sm"
+    data-bs-toggle="modal"
+    data-bs-target={`#deleteModal-${item.id}`}
+    title="Delete Item"
+  >
+    <i className="fas fa-trash"></i>
+  </button>
+
+  {/* Confirmation Modal */}
+  <div
+    className="modal fade"
+    id={`deleteModal-${item.id}`}
+    tabIndex="-1"
+    aria-labelledby="deleteModalLabel"
+    aria-hidden="true"
+  >
+    <div className="modal-dialog">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div className="modal-body">
+          Are you sure you want to delete this item?
+        </div>
+        <div className="modal-footer">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={() => handleDelete(item.id)}
+            data-bs-dismiss="modal"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</td>
+
                 </tr>
               ))}
             </tbody>
