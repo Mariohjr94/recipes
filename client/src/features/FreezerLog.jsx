@@ -262,6 +262,7 @@ function FreezerLog() {
                   data-bs-toggle="modal"
                   data-bs-target={`#deleteModal-${item.id}`}
                   title="Delete Item"
+                  onClick={handleDelete}
                 >
                  <FaTrash />
                 </button>
