@@ -77,7 +77,7 @@ router.put("/:id", async (req, res) => {
     `;
     const updatedItem = await db.query(itemQuery, [id]);
 
-    res.status(200).json(rows[0]);
+    res.status(200).json(updatedItem.rows[0]);
   } catch (err) {
     console.error(err);
     res.status(500).send("Failed to update freezer item.");
