@@ -4,6 +4,7 @@ import axios from "axios";
 function FreezerLog() {
   const [freezerItems, setFreezerItems] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [name, setName] = useState("");
@@ -42,6 +43,17 @@ function FreezerLog() {
 
   fetchFreezerItemsAndCategories();
 }, []);
+
+ // Filter items based on category
+  const handleCategoryClick = (categoryId) => {
+    if (categoryId === null) {
+      setFilteredItems(freezerItems); // Show all items if "All" is selected
+    } else {
+      const filtered = freezerItems.filter((item) => item.category_id === categoryId);
+      setFilteredItems(filtered);
+    }
+    setSelectedCategory(categoryId);
+  };
 
 
   const handleAddOrUpdateItem = async (e) => {
@@ -111,9 +123,22 @@ function FreezerLog() {
     setSearchTerm(e.target.value.toLowerCase());
   };
 
-  const filteredItems = freezerItems.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm)
-  );
+  useEffect(() => {
+      let filtered = freezerItems;
+
+      if (selectedCategory !== null) {
+        filtered = filtered.filter((item) => item.category_id === selectedCategory);
+      }
+
+      if (searchTerm.trim()) {
+        filtered = filtered.filter((item) =>
+          item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }
+
+      setFilteredItems(filtered);
+    }, [freezerItems, selectedCategory, searchTerm]);
+
 
   if (loading) {
     return (
@@ -140,6 +165,23 @@ function FreezerLog() {
           value={searchTerm}
           onChange={handleSearch}
         />
+      </div>
+
+      {/* Category Buttons */}
+      <div className="mb-5 text-center category-buttons">
+        <button className={`  btbtn btn-warning mx-1 ${selectedCategory === null ? 'active' : ''}`}
+          onClick={() => handleCategoryClick(null)}>
+          All
+        </button>
+        {categories.map((category) => (
+          <button
+            key={category.id}
+            className={`btn btn-warning mx-1 ${selectedCategory === category.id ? 'active' : ''}`}
+            onClick={() => handleCategoryClick(category.id)}
+          >
+            {category.name}
+          </button>
+        ))}
       </div>
 
       <form className="mb-4" onSubmit={handleAddOrUpdateItem}>
