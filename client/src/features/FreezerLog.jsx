@@ -26,8 +26,11 @@ function FreezerLog() {
         axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items/categories`), // New endpoint
       ]);
 
-      if (itemsResponse.data && Array.isArray(itemsResponse.data)) {
-        setFreezerItems(itemsResponse.data);
+        if (itemsResponse.data && Array.isArray(itemsResponse.data)) {
+        const sortedItems = itemsResponse.data.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        ); // Sort alphabetically by name
+        setFreezerItems(sortedItems);
       } else {
         setError("Unexpected response from the server for freezer items.");
       }
@@ -60,46 +63,51 @@ function FreezerLog() {
   };
 
 
-  const handleAddOrUpdateItem = async (e) => {
-    e.preventDefault();
+const handleAddOrUpdateItem = async (e) => {
+  e.preventDefault();
 
-    if (editItem) {
-      try {
-        const response = await axios.put(
-          `${import.meta.env.VITE_API_BASE_URL}/api/freezer-items/${editItem.id}`,
-          { name, quantity, category_id: categoryId }
-        );
-        setFreezerItems((prevItems) =>
-          prevItems.map((item) => (item.id === editItem.id ? response.data : item))
-        );
-        setEditItem(null);
-        setName("");
-        setQuantity("");
-        setCategoryId("");
-        setSuccessMessage("Item updated successfully!");
-      } catch (err) {
-        console.error("Failed to update item:", err);
-        setError("Failed to update item.");
-      }
-    } else {
-      try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`,
-          { name, quantity, category_id: categoryId }
-        );
-        setFreezerItems([...freezerItems, response.data]); // Update UI with the new item
-        setName("");
-        setQuantity("");
-        setCategoryId("");
-        setSuccessMessage("Item added successfully!");
-      } catch (err) {
-        console.error("Failed to add item:", err);
-        setError("Failed to add item.");
-      }
+  if (editItem) {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_BASE_URL}/api/freezer-items/${editItem.id}`,
+        { name, quantity, category_id: categoryId }
+      );
+      const updatedItems = freezerItems.map((item) =>
+        item.id === editItem.id ? response.data : item
+      );
+      const sortedItems = updatedItems.sort((a, b) => a.name.localeCompare(b.name));
+      setFreezerItems(sortedItems);
+      setEditItem(null);
+      setName("");
+      setQuantity("");
+      setCategoryId("");
+      setSuccessMessage("Item updated successfully!");
+    } catch (err) {
+      console.error("Failed to update item:", err);
+      setError("Failed to update item.");
     }
+  } else {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`,
+        { name, quantity, category_id: categoryId }
+      );
+      const updatedItems = [...freezerItems, response.data];
+      const sortedItems = updatedItems.sort((a, b) => a.name.localeCompare(b.name));
+      setFreezerItems(sortedItems);
+      setName("");
+      setQuantity("");
+      setCategoryId("");
+      setSuccessMessage("Item added successfully!");
+    } catch (err) {
+      console.error("Failed to add item:", err);
+      setError("Failed to add item.");
+    }
+  }
 
-    setTimeout(() => setSuccessMessage(""), 3000);
-  };
+  setTimeout(() => setSuccessMessage(""), 3000);
+};
+
 
   const handleEdit = (item) => {
     setEditItem(item);
