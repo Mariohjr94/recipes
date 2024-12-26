@@ -118,9 +118,6 @@ const handleAddOrUpdateItem = async (e) => {
   };
 
   const handleDelete = async (id) => {
-    const confirmed = window.confirm("Are you sure you want to delete this item?");
-    if (!confirmed) return;
-
     try {
       await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items/${id}`);
       setFreezerItems((prevItems) => prevItems.filter((item) => item.id !== id));
