@@ -259,7 +259,7 @@ function FreezerLog() {
                 </button>
                 <button
                   type="button"
-                  className="btn btn-danger"
+                  className="btn btn-danger btn-sm me-2"
                   onClick={() => {
                     handleDelete(item.id);
                     const modal = document.getElementById(`deleteModal-${item.id}`);
