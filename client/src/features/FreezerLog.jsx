@@ -267,7 +267,7 @@ const handleAddOrUpdateItem = async (e) => {
                 </button>
                 <button
                   type="button"
-                  className="btn btn-danger btn-sm me-2"
+                  className="btn btn-danger btn-sm"
                   onClick={() => {
                     handleDelete(item.id);
                     const modal = document.getElementById(`deleteModal-${item.id}`);
