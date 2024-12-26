@@ -257,88 +257,88 @@ const handleAddOrUpdateItem = async (e) => {
                   <td>{item.quantity}</td>
                   <td>{item.category_name || "Uncategorized"}</td>
             <td>
-  <div className="dropdown w-100">
-    <button
-      className="btn btn-secondary dropdown-toggle w-100"
-      type="button"
-      id={`dropdownMenuButton-${item.id}`}
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-    >
-      Actions
-    </button>
-    <ul
-      className="dropdown-menu w-100"
-      aria-labelledby={`dropdownMenuButton-${item.id}`}
-    >
-      {/* Edit Option */}
-      <li>
-        <button
-          className="dropdown-item"
-          onClick={() => handleEdit(item)}
-        >
-          <FaEdit className="me-2" /> Edit
-        </button>
-      </li>
+            <div className="dropdown w-100">
+              <button
+                className="btn btn-secondary dropdown-toggle w-100"
+                type="button"
+                id={`dropdownMenuButton-${item.id}`}
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Actions
+              </button>
+              <ul
+                className="dropdown-menu w-100"
+                aria-labelledby={`dropdownMenuButton-${item.id}`}
+              >
+              {/* Edit Option */}
+              <li>
+                <button
+                  className="dropdown-item"
+                  onClick={() => handleEdit(item)}
+                >
+                  <FaEdit className="me-2" /> Edit
+                </button>
+              </li>
 
-      {/* Delete Option */}
-      <li>
-        <button
-          className="dropdown-item text-danger"
-          data-bs-toggle="modal"
-          data-bs-target={`#deleteModal-${item.id}`}
-        >
-          <FaTrash className="me-2" /> Delete
-        </button>
-      </li>
-    </ul>
-  </div>
+              {/* Delete Option */}
+              <li>
+                <button
+                  className="dropdown-item text-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target={`#deleteModal-${item.id}`}
+                >
+                  <FaTrash className="me-2" /> Delete
+                </button>
+              </li>
+            </ul>
+          </div>
 
-  {/* Delete Confirmation Modal */}
-  <div
-    className="modal fade"
-    id={`deleteModal-${item.id}`}
-    tabIndex="-1"
-    aria-labelledby="deleteModalLabel"
-    aria-hidden="true"
-  >
-    <div className="modal-dialog">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h5 className="modal-title" id="deleteModalLabel">
-            Confirm Deletion
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div className="modal-body">
-          Are you sure you want to delete this item?
-        </div>
-        <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            data-bs-dismiss="modal"
+          {/* Delete Confirmation Modal */}
+          <div
+            className="modal fade"
+            id={`deleteModal-${item.id}`}
+            tabIndex="-1"
+            aria-labelledby="deleteModalLabel"
+            aria-hidden="true"
           >
-            Cancel
-          </button>
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={() => handleDelete(item.id)}
-            data-bs-dismiss="modal"
-          >
-            Delete
-          </button>
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="deleteModalLabel">
+                    Confirm Deletion
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  Are you sure you want to delete this item?
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => handleDelete(item.id)}
+                    data-bs-dismiss="modal"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</td>
+      </td>
 
                 </tr>
               ))}
