@@ -1,6 +1,6 @@
 # Recipe App
 
-The Recipe App is a full-stack web application designed for restaurant staff and home cooks to easily view, add, edit, and manage recipes with detailed instructions, ingredients, and categories. The app provides both a public view for accessing recipes and an admin interface for managing them.
+The Recipe App is a full-stack web application designed for restaurant staff and home cooks to easily view, add, edit, and manage recipes with detailed instructions, ingredients, and categories. It also includes a Freezer Logger to help track and manage inventory stored in freezers. The app provides both a public view for accessing recipes and an admin interface for managing them.
 
 ## Features
 
@@ -12,6 +12,19 @@ The Recipe App is a full-stack web application designed for restaurant staff and
 - **Image Uploads**: Upload images to represent each recipe visually.
 - **Category Management**: Recipes are organized into categories for easy filtering.
 - **Responsive Design**: Optimized for both desktop and mobile devices.
+
+## Freezer Logger
+
+- **Inventory Tracking**: View a list of all freezer items, including name, quantity, and category.
+- **Add Freezer Items**: Admins can add items to the freezer inventory, specifying name, quantity, and category.
+- **Edit Freezer Items**: Admins can update existing freezer items, including their quantity and category.
+- **Delete Freezer Items**: Admins can remove items no longer stored in the freezer.
+- **Category Filtering**: Filter freezer items by category for easier management.
+- **Search Capability**: Search for freezer items by name.
+- **Responsive Design**: The Freezer Logger is fully responsive for mobile and desktop users.
+
+
+- **
 
 ## Tech Stack
 
