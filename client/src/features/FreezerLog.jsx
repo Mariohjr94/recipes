@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash, MdOutlineEdit } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
@@ -265,7 +265,7 @@ const handleAddOrUpdateItem = async (e) => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Actions
+                <MdOutlineEdit/>
               </button>
               <ul
                 className="dropdown-menu w-100"
