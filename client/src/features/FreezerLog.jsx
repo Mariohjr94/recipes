@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaEdit, FaTrash, MdOutlineEdit } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { MdOutlineEdit } from "react-icons/md";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
