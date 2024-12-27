@@ -290,7 +290,7 @@ function FreezerLog() {
             className="dropdown-item btn-sm"
             onClick={() => handleEdit(item)}
           >
-            <FaEdit />
+            <FaEdit className="me-2" /> Edit
           </button>
         </li>
         <li>
@@ -299,7 +299,7 @@ function FreezerLog() {
             data-bs-toggle="modal"
             data-bs-target={`#deleteModal-${item.id}`}
           >
-            <FaTrash />
+            <FaTrash className="me-2" /> Delete
           </button>
         </li>
       </ul>
