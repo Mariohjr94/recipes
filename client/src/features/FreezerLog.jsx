@@ -252,86 +252,61 @@ function FreezerLog() {
                   <td>{item.name}</td>
                   <td>{item.quantity}</td>
                   <td>{item.category_name || "Uncategorized"}</td>
-                  {isLoggedIn && (
-                    <td>
-                      <div className="dropdown d-none d-md-flex d-flex justify-content-center">
-                        <button
-                          className="btn btn-outline-secondary dropdown-toggle"
-                          type="button"
-                          id={`dropdownMenuButton-${item.id}`}
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                    
-                        </button>
-                        <ul
-                          className="dropdown-menu"
-                          aria-labelledby={`dropdownMenuButton-${item.id}`}
-                        >
-                          <li>
-                            <button
-                              className="dropdown-item btn-sm"
-                              onClick={() => handleEdit(item)}
-                            >
-                              <FaEdit className="me-2" /> Edit
-                            </button>
-                          </li>
-                          <li>
-                            <button
-                              className="dropdown-item text-danger"
-                              data-bs-toggle="modal"
-                              data-bs-target={`#deleteModal-${item.id}`}
-                            >
-                              <FaTrash className="me-2" /> Delete
-                            </button>
-                          </li>
-                        </ul>
-                      </div>
-                      <div
-                        className="modal fade"
-                        id={`deleteModal-${item.id}`}
-                        tabIndex="-1"
-                        aria-labelledby="deleteModalLabel"
-                        aria-hidden="true"
-                      >
-                        <div className="modal-dialog">
-                          <div className="modal-content">
-                            <div className="modal-header">
-                              <h5 className="modal-title" id="deleteModalLabel">
-                                Confirm Deletion
-                              </h5>
-                              <button
-                                type="button"
-                                className="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              ></button>
-                            </div>
-                            <div className="modal-body">
-                              Are you sure you want to delete this item?
-                            </div>
-                            <div className="modal-footer">
-                              <button
-                                type="button"
-                                className="btn btn-secondary"
-                                data-bs-dismiss="modal"
-                              >
-                                Cancel
-                              </button>
-                              <button
-                                type="button"
-                                className="btn btn-danger"
-                                onClick={() => handleDelete(item.id)}
-                                data-bs-dismiss="modal"
-                              >
-                                Delete
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  )}
+               {isLoggedIn && (
+  <td>
+    {/* For larger devices (Tablet and above) */}
+    <div className="d-none d-md-flex justify-content-around">
+      <button
+        className="btn btn-sm btn-outline-primary"
+        onClick={() => handleEdit(item)}
+      >
+        <FaEdit className="me-2" /> Edit
+      </button>
+      <button
+        className="btn btn-sm btn-outline-danger"
+        data-bs-toggle="modal"
+        data-bs-target={`#deleteModal-${item.id}`}
+      >
+        <FaTrash className="me-2" /> Delete
+      </button>
+    </div>
+
+    {/* For smaller devices (Mobile view) */}
+    <div className="dropdown d-md-none">
+      <button
+        className="btn btn-outline-secondary dropdown-toggle"
+        type="button"
+        id={`dropdownMenuButton-${item.id}`}
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        Actions
+      </button>
+      <ul
+        className="dropdown-menu"
+        aria-labelledby={`dropdownMenuButton-${item.id}`}
+      >
+        <li>
+          <button
+            className="dropdown-item btn-sm"
+            onClick={() => handleEdit(item)}
+          >
+            <FaEdit className="me-2" /> Edit
+          </button>
+        </li>
+        <li>
+          <button
+            className="dropdown-item text-danger"
+            data-bs-toggle="modal"
+            data-bs-target={`#deleteModal-${item.id}`}
+          >
+            <FaTrash className="me-2" /> Delete
+          </button>
+        </li>
+      </ul>
+    </div>
+  </td>
+)}
                 </tr>
               ))}
             </tbody>
