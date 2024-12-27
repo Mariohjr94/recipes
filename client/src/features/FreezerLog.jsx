@@ -266,7 +266,6 @@ const handleAddOrUpdateItem = async (e) => {
                 id={`dropdownMenuButton-${item.id}`}
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
-                style={{ width: 'auto', padding: '0.5rem 1rem' }}
               >
                 
               </button>
