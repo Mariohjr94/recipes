@@ -257,7 +257,8 @@ const handleAddOrUpdateItem = async (e) => {
                   <td>{item.name}</td>
                   <td>{item.quantity}</td>
                   <td>{item.category_name || "Uncategorized"}</td>
-            <td>
+                  {isLoggedIn && (
+                    <td>
             <div className="dropdown w-100">
               <button
                 className="btn btn-outline-secondary dropdown-toggle w-100"
@@ -340,6 +341,8 @@ const handleAddOrUpdateItem = async (e) => {
           </div>
         </div>
       </td>
+                  )}
+            
 
                 </tr>
               ))}
