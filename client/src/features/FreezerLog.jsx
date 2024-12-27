@@ -259,13 +259,14 @@ const handleAddOrUpdateItem = async (e) => {
                   <td>{item.category_name || "Uncategorized"}</td>
                   {isLoggedIn && (
                     <td>
-            <div className="dropdown w-100">
+            <div className="dropdown">
               <button
-                className="btn btn-outline-secondary dropdown-toggle w-100"
+                className="btn btn-outline-secondary dropdown-toggles"
                 type="button"
                 id={`dropdownMenuButton-${item.id}`}
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
+                style={{ width: 'auto', padding: '0.5rem 1rem' }}
               >
                 
               </button>
