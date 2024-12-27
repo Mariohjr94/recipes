@@ -121,17 +121,17 @@ useEffect(() => {
           filteredRecipes.map((recipe) => (
             <div key={recipe.id} className="col-4 col-sm-4 col-md-4 col-lg-3 mb-4">
               <Link to={`/recipe/${recipe.id}`} className="text-decoration-none text-dark">
-                <div className="card h-100">
-                  <img src={recipe.image} className="card-img-top" alt={recipe.name} />
-                    <div className="card-body">
-                      <p className="card-title text-center">{recipe.name}</p>
+                <div className="shadow-sm border-0 rounded h-100">
+                  <img src={recipe.image} className="card-img-top rounded-top" alt={recipe.name} />
+                    <div className="card-body text-center">
+                      <p className="card-title fw-bold">{recipe.name}</p>
                     </div>
                 </div>
               </Link>
             </div>
           ))
         ) : (
-          <p>No recipes available.</p>
+          <p className="text-center">No recipes available.</p>
         )}
       </div>
     </div>
