@@ -15,7 +15,7 @@ function RecipeDetails() {
   const [showImageModal, setShowImageModal] = useState(false);
 
   const token = useSelector((state) => state.auth.token);
-  const isLoggedIn = !!token; // Check if a token exists
+  const isLoggedIn = !!token; 
   const navigate = useNavigate();
 
   const [name, setName] = useState("");

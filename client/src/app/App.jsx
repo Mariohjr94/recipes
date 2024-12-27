@@ -29,6 +29,7 @@ function App() {
         {/* Public routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/recipe/:id" element={<RecipeDetails />} />
+        <Route path="/freezer-logger" element={<FreezerLog/>} />
 
         {/* Login Route (accessible only if not logged in) */}
         <Route
@@ -41,14 +42,12 @@ function App() {
           <>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/add-recipe" element={<RecipeForm />} />
-            <Route path="/freezer-logger" element={<FreezerLog/>} />
           </>
         ) : (
           <>
             {/* Redirect to login if trying to access dashboard or add recipe without being logged in */}
             <Route path="/dashboard" element={<Navigate to="/auth/login" />} />
             <Route path="/add-recipe" element={<RecipeForm/>} />
-           
           </>
         )}
 

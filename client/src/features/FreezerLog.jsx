@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux"; 
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { MdOutlineEdit } from "react-icons/md";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
@@ -18,6 +18,9 @@ function FreezerLog() {
   const [successMessage, setSuccessMessage] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [editItem, setEditItem] = useState(null);
+
+  const token = useSelector((state) => state.auth.token);
+  const isLoggedIn = !!token; 
 
   useEffect(() => {
   const fetchFreezerItemsAndCategories = async () => {
@@ -245,7 +248,7 @@ const handleAddOrUpdateItem = async (e) => {
                 <th>Name</th>
                 <th>Quantity</th>
                 <th>Category</th>
-                <th>Actions</th>
+                {isLoggedIn && <th>Actions</th>}
               </tr>
             </thead>
             <tbody>
