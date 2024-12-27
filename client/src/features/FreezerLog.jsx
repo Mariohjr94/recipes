@@ -255,7 +255,7 @@ function FreezerLog() {
                {isLoggedIn && (
   <td>
     {/* For larger devices (Tablet and above) */}
-    <div className="d-flex justify-content-around">
+  <div className="d-flex justify-content-around">
     <button
       className="btn btn-outline-primary btn-lg"
       onClick={() => handleEdit(item)}
@@ -271,7 +271,6 @@ function FreezerLog() {
       <FaTrash />
     </button>
   </div>
-</td>
 
     {/* For smaller devices (Mobile view) */}
     <div className="dropdown d-md-none">
