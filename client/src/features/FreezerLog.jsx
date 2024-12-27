@@ -263,7 +263,7 @@ function FreezerLog() {
                           aria-expanded="false"
                           style={{ width: "50%" }}
                         >
-                          <FaEdit/>
+                    
                         </button>
                         <ul
                           className="dropdown-menu"
