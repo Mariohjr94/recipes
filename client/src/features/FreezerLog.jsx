@@ -261,7 +261,6 @@ function FreezerLog() {
                           id={`dropdownMenuButton-${item.id}`}
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
-                          style={{ width: "50%" }}
                         >
                     
                         </button>
