@@ -260,14 +260,14 @@ function FreezerLog() {
         className="btn btn-sm btn-outline-primary"
         onClick={() => handleEdit(item)}
       >
-        <FaEdit className="me-2" />
+        <FaEdit />
       </button>
       <button
         className="btn btn-sm btn-outline-danger"
         data-bs-toggle="modal"
         data-bs-target={`#deleteModal-${item.id}`}
       >
-        <FaTrash className="me-2" />
+        <FaTrash />
       </button>
     </div>
 
