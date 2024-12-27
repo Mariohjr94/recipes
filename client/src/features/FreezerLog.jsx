@@ -261,7 +261,7 @@ const handleAddOrUpdateItem = async (e) => {
                     <td>
             <div className="dropdown">
               <button
-                className="btn btn-outline-secondary dropdown-toggles"
+                className="btn btn-outline-secondary dropdown-toggles -flex align-items-center justify-content-center"
                 type="button"
                 id={`dropdownMenuButton-${item.id}`}
                 data-bs-toggle="dropdown"
