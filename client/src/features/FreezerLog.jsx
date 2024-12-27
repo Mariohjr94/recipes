@@ -273,14 +273,17 @@ function FreezerLog() {
 
     {/* For smaller devices (Mobile view) */}
     <div className="dropdown d-md-none">
-      <button
-        className="btn btn-outline-secondary dropdown-toggle"
-        type="button"
-        id={`dropdownMenuButton-${item.id}`}
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-      </button>
+      <div className="d-flex justify-content-center align-items-center">
+    <button
+      className="btn btn-outline-secondary dropdown-toggle"
+      type="button"
+      id={`dropdownMenuButton-${item.id}`}
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+      style={{ width: "50%" }}
+    >
+    </button>
+  </div>
       <ul
         className="dropdown-menu"
         aria-labelledby={`dropdownMenuButton-${item.id}`}
