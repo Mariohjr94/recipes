@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 function FreezerLog() {
@@ -12,6 +13,8 @@ function FreezerLog() {
   const [categoryId, setCategoryId] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [editItem, setEditItem] = useState(null);
+
+  const isLoggedIn = useSelector((state) => !!state.auth.token); // Check login status
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,7 +54,6 @@ function FreezerLog() {
         setCategoryId("");
         setSuccessMessage("Item updated successfully!");
       } catch (err) {
-        console.error("Failed to update item:", err);
         setError("Failed to update item.");
       }
     } else {
@@ -66,7 +68,6 @@ function FreezerLog() {
         setCategoryId("");
         setSuccessMessage("Item added successfully!");
       } catch (err) {
-        console.error("Failed to add item:", err);
         setError("Failed to add item.");
       }
     }
@@ -87,7 +88,6 @@ function FreezerLog() {
       setFreezerItems((prevItems) => prevItems.filter((item) => item.id !== id));
       setSuccessMessage("Item deleted successfully!");
     } catch (err) {
-      console.error("Failed to delete item:", err);
       setError("Failed to delete item.");
     }
   };
@@ -109,48 +109,50 @@ function FreezerLog() {
 
       {successMessage && <div className="alert alert-success text-center">{successMessage}</div>}
 
-      <form className="mb-4" onSubmit={handleAddOrUpdateItem}>
-        <div className="row">
-          <div className="col-md-4 mb-2">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Item Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+      {isLoggedIn && (
+        <form className="mb-4" onSubmit={handleAddOrUpdateItem}>
+          <div className="row">
+            <div className="col-md-4 mb-2">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Item Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
+            <div className="col-md-4 mb-2">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Quantity (e.g., 2 kg)"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                required
+              />
+            </div>
+            <div className="col-md-4 mb-2">
+              <select
+                className="form-control"
+                value={categoryId}
+                onChange={(e) => setCategoryId(e.target.value)}
+                required
+              >
+                <option value="">Select Category</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          <div className="col-md-4 mb-2">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Quantity (e.g., 2 kg)"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-              required
-            />
-          </div>
-          <div className="col-md-4 mb-2">
-            <select
-              className="form-control"
-              value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
-              required
-            >
-              <option value="">Select Category</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <button type="submit" className="btn btn-secondary">
-          {editItem ? "Update Item" : "Add Item"}
-        </button>
-      </form>
+          <button type="submit" className="btn btn-secondary">
+            {editItem ? "Update Item" : "Add Item"}
+          </button>
+        </form>
+      )}
 
       <div className="table-responsive">
         <table className="table table-hover table-bordered align-middle">
@@ -159,7 +161,7 @@ function FreezerLog() {
               <th>Name</th>
               <th>Quantity</th>
               <th>Category</th>
-              <th>Actions</th>
+              {isLoggedIn && <th>Actions</th>}
             </tr>
           </thead>
           <tbody>
@@ -168,68 +170,70 @@ function FreezerLog() {
                 <td>{item.name}</td>
                 <td>{item.quantity}</td>
                 <td>{item.category_name || "Uncategorized"}</td>
-                <td>
-                  <button
-                    className="btn btn-secondary btn-sm me-2"
-                    title="Edit Item"
-                    onClick={() => handleEdit(item)}
-                  >
-                    <FaEdit/>
-                  </button>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    title="Delete Item"
-                    data-bs-toggle="modal"
-                    data-bs-target={`#deleteModal-${item.id}`}
-                  >
-                    <FaTrash/>
-                  </button>
+                {isLoggedIn && (
+                  <td>
+                    <button
+                      className="btn btn-secondary btn-sm me-2"
+                      title="Edit Item"
+                      onClick={() => handleEdit(item)}
+                    >
+                      <FaEdit />
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      title="Delete Item"
+                      data-bs-toggle="modal"
+                      data-bs-target={`#deleteModal-${item.id}`}
+                    >
+                      <FaTrash />
+                    </button>
 
-                  {/* Confirmation Modal */}
-                  <div
-                    className="modal fade"
-                    id={`deleteModal-${item.id}`}
-                    tabIndex="-1"
-                    aria-labelledby="deleteModalLabel"
-                    aria-hidden="true"
-                  >
-                    <div className="modal-dialog">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <h5 className="modal-title" id="deleteModalLabel">
-                            Confirm Deletion
-                          </h5>
-                          <button
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div className="modal-body">
-                          Are you sure you want to delete this item?
-                        </div>
-                        <div className="modal-footer">
-                          <button
-                            type="button"
-                            className="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-danger"
-                            onClick={() => handleDelete(item.id)}
-                            data-bs-dismiss="modal"
-                          >
-                            Delete
-                          </button>
+                    {/* Confirmation Modal */}
+                    <div
+                      className="modal fade"
+                      id={`deleteModal-${item.id}`}
+                      tabIndex="-1"
+                      aria-labelledby="deleteModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div className="modal-dialog">
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h5 className="modal-title" id="deleteModalLabel">
+                              Confirm Deletion
+                            </h5>
+                            <button
+                              type="button"
+                              className="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div className="modal-body">
+                            Are you sure you want to delete this item?
+                          </div>
+                          <div className="modal-footer">
+                            <button
+                              type="button"
+                              className="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-danger"
+                              onClick={() => handleDelete(item.id)}
+                              data-bs-dismiss="modal"
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </td>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
