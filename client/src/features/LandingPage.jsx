@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import "./LandingPage.css"; // Add this file for custom styles
+import "../index.css"; // Add this file for custom styles
 
 function LandingPage() {
   const [recipes, setRecipes] = useState([]);
