@@ -270,7 +270,7 @@ const handleAddOrUpdateItem = async (e) => {
                 
               </button>
               <ul
-                className="dropdown-menu w-100"
+                className="dropdown-menu w-50"
                 aria-labelledby={`dropdownMenuButton-${item.id}`}
               >
               {/* Edit Option */}
