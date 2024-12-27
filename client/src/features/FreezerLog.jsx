@@ -255,22 +255,23 @@ function FreezerLog() {
                {isLoggedIn && (
   <td>
     {/* For larger devices (Tablet and above) */}
-    <div className="d-none d-md-flex justify-content-around">
-      <button
-        className="btn btn-outline-primary"
-        onClick={() => handleEdit(item)}
-      >
-        <FaEdit />
-      </button>
-      <button
-        className="btn btn-outline-danger"
-        data-bs-toggle="modal"
-        data-bs-target={`#deleteModal-${item.id}`}
-        onClick={() => handleDelete(item.id)}
-      >
-        <FaTrash />
-      </button>
-    </div>
+    <div className="d-flex justify-content-around">
+    <button
+      className="btn btn-outline-primary btn-lg"
+      onClick={() => handleEdit(item)}
+    >
+      <FaEdit />
+    </button>
+    <button
+      className="btn btn-outline-danger btn-lg"
+      data-bs-toggle="modal"
+      data-bs-target={`#deleteModal-${item.id}`}
+      onClick={() => handleDelete(item.id)}
+    >
+      <FaTrash />
+    </button>
+  </div>
+</td>
 
     {/* For smaller devices (Mobile view) */}
     <div className="dropdown d-md-none">
