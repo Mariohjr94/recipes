@@ -171,9 +171,10 @@ function FreezerLog() {
                 <td>{item.quantity}</td>
                 <td>{item.category_name || "Uncategorized"}</td>
                 {isLoggedIn && (
-                  <td>
+                  <td className="text-center align-middle">
+                    <div className="d-flex justify-content-center gap-2"></div>
                     <button
-                      className="btn btn-secondary btn-sm me-2"
+                      className="btn btn-secondary btn-sm"
                       title="Edit Item"
                       onClick={() => handleEdit(item)}
                     >
