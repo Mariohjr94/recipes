@@ -255,7 +255,7 @@ function FreezerLog() {
                {isLoggedIn && (
   <td>
     {/* For larger devices (Tablet and above) */}
-    <div className="d-none d-md-flex justify-content-around">
+    <div className="d-none d-md-flex justify-content-center">
       <button
         className="btn btn-sm btn-outline-primary"
         onClick={() => handleEdit(item)}
@@ -290,12 +290,21 @@ function FreezerLog() {
         aria-labelledby={`dropdownMenuButton-${item.id}`}
       >
         <li>
-        <button className="btn btn-secondary me-2" onClick={() => handleEdit(item)}>
-          Edit
-        </button>
-        <button className="btn btn-danger" onClick={() => handleDelete(item.id)}>
-        Delete
-        </button>
+          <button
+            className="dropdown-item btn-sm"
+            onClick={() => handleEdit(item)}
+          >
+            <FaEdit className="me-2" /> Edit
+          </button>
+        </li>
+        <li>
+          <button
+            className="dropdown-item text-danger"
+            data-bs-toggle="modal"
+            data-bs-target={`#deleteModal-${item.id}`}
+          >
+            <FaTrash className="me-2" /> Delete
+          </button>
         </li>
       </ul>
     </div>
