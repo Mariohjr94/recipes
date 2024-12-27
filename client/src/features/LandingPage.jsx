@@ -124,7 +124,7 @@ useEffect(() => {
                 <div className="shadow-sm border-0 rounded h-80">
                   <img src={recipe.image} className="card-img-top rounded-top" alt={recipe.name} />
                     <div className="card-body text-center">
-                      <p className="card-title fw-bold">{recipe.name}</p>
+                      <p className="card-title fw-bold m-2">{recipe.name}</p>
                     </div>
                 </div>
               </Link>
