@@ -255,7 +255,7 @@ function FreezerLog() {
                {isLoggedIn && (
   <td>
     {/* For larger devices (Tablet and above) */}
-    <div className="d-none d-md-flex justify-content-center">
+    <div className="d-none d-md-flex justify-content-around w-100">
       <button
         className="btn btn-sm btn-outline-primary"
         onClick={() => handleEdit(item)}
