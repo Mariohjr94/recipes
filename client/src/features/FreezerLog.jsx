@@ -270,13 +270,13 @@ const handleAddOrUpdateItem = async (e) => {
                 
               </button>
               <ul
-                className="dropdown-menu w-50"
+                className="dropdown-menu w-100"
                 aria-labelledby={`dropdownMenuButton-${item.id}`}
               >
               {/* Edit Option */}
               <li>
                 <button
-                  className="dropdown-item"
+                  className="dropdown-item btn-sm"
                   onClick={() => handleEdit(item)}
                 >
                   <FaEdit className="me-2" /> Edit
