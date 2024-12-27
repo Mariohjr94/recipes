@@ -174,7 +174,7 @@ function FreezerLog() {
                     title="Edit Item"
                     onClick={() => handleEdit(item)}
                   >
-                    <i className="fas fa-edit"></i>
+                    <FaEdit/>
                   </button>
                   <button
                     className="btn btn-danger btn-sm"
@@ -182,7 +182,7 @@ function FreezerLog() {
                     data-bs-toggle="modal"
                     data-bs-target={`#deleteModal-${item.id}`}
                   >
-                    <i className="fas fa-trash"></i>
+                    <FaTrash/>
                   </button>
 
                   {/* Confirmation Modal */}
