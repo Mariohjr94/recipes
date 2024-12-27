@@ -290,21 +290,12 @@ function FreezerLog() {
         aria-labelledby={`dropdownMenuButton-${item.id}`}
       >
         <li>
-          <button
-            className="dropdown-item btn-sm"
-            onClick={() => handleEdit(item)}
-          >
-            <FaEdit className="me-2" /> Edit
-          </button>
-        </li>
-        <li>
-          <button
-            className="dropdown-item text-danger"
-            data-bs-toggle="modal"
-            data-bs-target={`#deleteModal-${item.id}`}
-          >
-            <FaTrash className="me-2" /> Delete
-          </button>
+        <button className="btn btn-secondary me-2" onClick={() => handleEdit(item)}>
+          Edit
+        </button>
+        <button className="btn btn-danger" onClick={() => handleDelete(item.id)}>
+        Delete
+        </button>
         </li>
       </ul>
     </div>
