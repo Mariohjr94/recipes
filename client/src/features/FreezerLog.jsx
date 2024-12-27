@@ -266,6 +266,7 @@ function FreezerLog() {
         className="btn btn-sm btn-outline-danger"
         data-bs-toggle="modal"
         data-bs-target={`#deleteModal-${item.id}`}
+        onClick={() => handleDelete(item.id)}
       >
         <FaTrash />
       </button>
