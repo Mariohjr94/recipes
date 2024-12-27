@@ -254,7 +254,7 @@ function FreezerLog() {
                   <td>{item.category_name || "Uncategorized"}</td>
                   {isLoggedIn && (
                     <td>
-                      <div className="dropdown d-flex justify-content-center">
+                      <div className="dropdown d-none d-md-flex d-flex justify-content-center">
                         <button
                           className="btn btn-outline-secondary dropdown-toggle"
                           type="button"
