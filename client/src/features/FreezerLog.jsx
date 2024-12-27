@@ -14,7 +14,7 @@ function FreezerLog() {
   const [successMessage, setSuccessMessage] = useState("");
   const [editItem, setEditItem] = useState(null);
 
-  const isLoggedIn = useSelector((state) => !!state.auth.token); // Check login status
+  const isLoggedIn = useSelector((state) => !!state.auth.token);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,6 +101,7 @@ function FreezerLog() {
       </div>
     );
   }
+
   if (error) return <div className="text-center text-danger mt-5">{error}</div>;
 
   return (
@@ -172,22 +173,59 @@ function FreezerLog() {
                 <td>{item.category_name || "Uncategorized"}</td>
                 {isLoggedIn && (
                   <td className="text-center align-middle">
-                    <div className="d-flex justify-content-center gap-2"></div>
-                    <button
-                      className="btn btn-secondary btn-sm"
-                      title="Edit Item"
-                      onClick={() => handleEdit(item)}
-                    >
-                      <FaEdit />
-                    </button>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      title="Delete Item"
-                      data-bs-toggle="modal"
-                      data-bs-target={`#deleteModal-${item.id}`}
-                    >
-                      <FaTrash />
-                    </button>
+                    {/* Buttons for larger screens */}
+                    <div className="d-none d-md-flex justify-content-center gap-2">
+                      <button
+                        className="btn btn-secondary btn-sm"
+                        title="Edit Item"
+                        onClick={() => handleEdit(item)}
+                      >
+                        <FaEdit />
+                      </button>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        title="Delete Item"
+                        data-bs-toggle="modal"
+                        data-bs-target={`#deleteModal-${item.id}`}
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+
+                    {/* Dropdown menu for smaller screens */}
+                    <div className="d-md-none dropdown">
+                      <button
+                        className="btn btn-outline-secondary dropdown-toggle btn-sm"
+                        type="button"
+                        id={`dropdownMenuButton-${item.id}`}
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Actions
+                      </button>
+                      <ul
+                        className="dropdown-menu"
+                        aria-labelledby={`dropdownMenuButton-${item.id}`}
+                      >
+                        <li>
+                          <button
+                            className="dropdown-item btn-sm"
+                            onClick={() => handleEdit(item)}
+                          >
+                            <FaEdit className="me-2" /> Edit
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            className="dropdown-item text-danger btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target={`#deleteModal-${item.id}`}
+                          >
+                            <FaTrash className="me-2" /> Delete
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
 
                     {/* Confirmation Modal */}
                     <div
