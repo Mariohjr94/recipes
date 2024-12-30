@@ -13,6 +13,7 @@ function FreezerLog() {
   const [categoryId, setCategoryId] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [editItem, setEditItem] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const isLoggedIn = useSelector((state) => !!state.auth.token);
 
@@ -24,8 +25,13 @@ function FreezerLog() {
           axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items/categories`),
         ]);
 
-        setFreezerItems(itemsResponse.data || []);
-        setCategories(categoriesResponse.data || []);
+
+        const sortedItems = (itemsResponse.data || []).sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+
+        setFreezerItems(sortedItems || []);
+        setCategories(sortedItems || []);
         setLoading(false);
       } catch (err) {
         setError("Failed to load data.");
@@ -36,7 +42,17 @@ function FreezerLog() {
     fetchData();
   }, []);
 
-  const handleAddOrUpdateItem = async (e) => {
+    const handleSearch = (e) => {
+    const searchValue = e.target.value.toLowerCase();
+    setSearchTerm(searchValue);
+
+    const filtered = freezerItems.filter((item) =>
+      item.name.toLowerCase().includes(searchValue)
+    );
+    setFilteredItems(filtered);
+  };
+
+    const handleAddOrUpdateItem = async (e) => {
     e.preventDefault();
 
     if (editItem) {
@@ -45,9 +61,12 @@ function FreezerLog() {
           `${import.meta.env.VITE_API_BASE_URL}/api/freezer-items/${editItem.id}`,
           { name, quantity, category_id: categoryId }
         );
-        setFreezerItems((prevItems) =>
-          prevItems.map((item) => (item.id === editItem.id ? response.data : item))
+        const updatedItems = freezerItems.map((item) =>
+          item.id === editItem.id ? response.data : item
         );
+        const sortedItems = updatedItems.sort((a, b) => a.name.localeCompare(b.name));
+        setFreezerItems(sortedItems);
+        setFilteredItems(sortedItems);
         setEditItem(null);
         setName("");
         setQuantity("");
@@ -62,7 +81,10 @@ function FreezerLog() {
           `${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`,
           { name, quantity, category_id: categoryId }
         );
-        setFreezerItems([...freezerItems, response.data]);
+        const updatedItems = [...freezerItems, response.data];
+        const sortedItems = updatedItems.sort((a, b) => a.name.localeCompare(b.name));
+        setFreezerItems(sortedItems);
+        setFilteredItems(sortedItems);
         setName("");
         setQuantity("");
         setCategoryId("");
@@ -85,7 +107,10 @@ function FreezerLog() {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items/${id}`);
-      setFreezerItems((prevItems) => prevItems.filter((item) => item.id !== id));
+      const updatedItems = freezerItems.filter((item) => item.id !== id);
+      const sortedItems = updatedItems.sort((a, b) => a.name.localeCompare(b.name));
+      setFreezerItems(sortedItems);
+      setFilteredItems(sortedItems);
       setSuccessMessage("Item deleted successfully!");
     } catch (err) {
       setError("Failed to delete item.");
@@ -109,6 +134,16 @@ function FreezerLog() {
       <h1 className="text-center mb-4">Freezer Inventory</h1>
 
       {successMessage && <div className="alert alert-success text-center">{successMessage}</div>}
+
+      <div className="mb-4">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search freezer items..."
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+      </div>
 
       {isLoggedIn && (
         <form className="mb-4" onSubmit={handleAddOrUpdateItem}>
