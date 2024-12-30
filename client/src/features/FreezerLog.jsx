@@ -195,7 +195,7 @@ function FreezerLog() {
                     {/* Dropdown menu for smaller screens */}
                     <div className="d-md-none dropdown">
                       <button
-                        className="btn btn-outline-secondary dropdown-toggle btn-sm"
+                        className="btn btn-light dropdown-toggle btn-sm"
                         type="button"
                         id={`dropdownMenuButton-${item.id}`}
                         data-bs-toggle="dropdown"
