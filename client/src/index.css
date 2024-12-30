@@ -115,3 +115,8 @@ body {
   width: 100%;
   text-align: center;
 }
+
+.divider {
+  border-top: 2px solid #e0e0e0;
+  margin: 20px 0;
+}
