@@ -104,3 +104,14 @@ body {
 }
 
 
+@media (max-width: 768px) {
+  .table th,
+  .table td {
+    font-size: 14px;
+  }
+}
+
+.dropdown-toggle {
+  width: 100%;
+  text-align: center;
+}

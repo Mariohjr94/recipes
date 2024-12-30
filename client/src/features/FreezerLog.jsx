@@ -43,6 +43,10 @@ function FreezerLog() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+  setFilteredItems(freezerItems);
+}, [freezerItems]);
+
     const handleSearch = (e) => {
     const searchValue = e.target.value.toLowerCase();
     setSearchTerm(searchValue);
