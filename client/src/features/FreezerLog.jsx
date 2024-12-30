@@ -142,7 +142,7 @@ function FreezerLog() {
   return (
     <div className="container mt-5" ref={formRef}>
       <h1 className="text-center mb-4">Freezer Inventory</h1>
-
+      <hr />
       {successMessage && <div className="alert alert-success text-center">{successMessage}</div>}
 
       <div className="mb-4">
@@ -154,7 +154,7 @@ function FreezerLog() {
           onChange={handleSearch}
         />
       </div>
-
+      <hr />
       {isLoggedIn && (
         <form className="mb-4" onSubmit={handleAddOrUpdateItem}>
           <div className="row">
@@ -199,7 +199,7 @@ function FreezerLog() {
           </button>
         </form>
       )}
-
+      <hr />
       <div className="table-responsive">
         <table className="table table-hover table-bordered align-middle">
           <thead className="table-dark">
