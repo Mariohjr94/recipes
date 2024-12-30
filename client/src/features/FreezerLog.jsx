@@ -158,8 +158,8 @@ function FreezerLog() {
       {isLoggedIn && (
         <form className="mb-4" onSubmit={handleAddOrUpdateItem}>
           <div className="row">
+            <h5 className="mb-4">Add/Edit Form</h5>
             <div className="col-md-4 mb-2">
-              <h5 className="mb-4">Add/Edit Form</h5>
               <input
                 type="text"
                 className="form-control"
