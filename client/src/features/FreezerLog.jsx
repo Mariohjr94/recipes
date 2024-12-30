@@ -6,6 +6,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 function FreezerLog() {
   const [freezerItems, setFreezerItems] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [name, setName] = useState("");
@@ -201,7 +202,7 @@ function FreezerLog() {
             </tr>
           </thead>
           <tbody>
-            {freezerItems.map((item) => (
+            {filteredItems.map((item) => (
               <tr key={item.id}>
                 <td>{item.name}</td>
                 <td>{item.quantity}</td>
