@@ -165,7 +165,7 @@ console.log("Categories Response:", categoriesResponse.data);
        {/* Category Buttons */}
       <div className="mb-4 text-center category-buttons">
         <button
-          className={`btn btn-warning mx-1 ${categoryId === null ? "active" : ""}`}
+          className={`btn btn-dark mx-1 ${categoryId === null ? "active" : ""}`}
           onClick={() => handleCategoryClick(null)}
         >
           All
