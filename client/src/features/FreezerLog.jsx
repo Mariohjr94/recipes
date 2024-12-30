@@ -26,14 +26,14 @@ function FreezerLog() {
           axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items`),
           axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/freezer-items/categories`),
         ]);
-
+console.log("Categories Response:", categoriesResponse.data);
 
         const sortedItems = (itemsResponse.data || []).sort((a, b) =>
           a.name.localeCompare(b.name)
         );
 
         setFreezerItems(sortedItems || []);
-        setCategories(sortedItems.categories || []);
+        setCategories(categories.data || []);
         setLoading(false);
       } catch (err) {
         setError("Failed to load data.");
