@@ -33,7 +33,7 @@ console.log("Categories Response:", categoriesResponse.data);
         );
 
         setFreezerItems(sortedItems || []);
-        setCategories(categories.data || []);
+        setCategories(categoriesResponse.data || []);
         setLoading(false);
       } catch (err) {
         setError("Failed to load data.");
