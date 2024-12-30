@@ -33,7 +33,7 @@ function FreezerLog() {
         );
 
         setFreezerItems(sortedItems || []);
-        setCategories(sortedItems || []);
+        setCategories(sortedItems.categories || []);
         setLoading(false);
       } catch (err) {
         setError("Failed to load data.");
