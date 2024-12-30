@@ -118,5 +118,6 @@ body {
 
 .divider {
   border-top: 2px solid #e0e0e0;
-  margin: 20px 0;
+  width: 50%;
+  margin: 20px auto;
 }
