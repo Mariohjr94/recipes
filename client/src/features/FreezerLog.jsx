@@ -108,7 +108,10 @@ function FreezerLog() {
     setName(item.name);
     setQuantity(item.quantity);
     setCategoryId(item.category_id || "");
-    formRef.current.scrollIntoView({ behavior: "smooth"});
+    formRef.current.scrollIntoView({ 
+      behavior: "smooth",
+      block: "start",
+      inline: 'nearest',});
   };
 
   const handleDelete = async (id) => {
