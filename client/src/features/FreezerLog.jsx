@@ -154,11 +154,12 @@ function FreezerLog() {
           onChange={handleSearch}
         />
       </div>
-      <div className="divider"></div>
+     
       {isLoggedIn && (
         <form className="mb-4" onSubmit={handleAddOrUpdateItem}>
           <div className="row">
             <div className="col-md-4 mb-2">
+              <h5 className="mb-4">Add/Edit Form</h5>
               <input
                 type="text"
                 className="form-control"
