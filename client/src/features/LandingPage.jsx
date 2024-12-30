@@ -100,7 +100,7 @@ useEffect(() => {
 
       {/* Category Buttons */}
       <div className="mb-5 text-center category-buttons">
-        <button className={`  btbtn btn-warning mx-1 ${selectedCategory === null ? 'active' : ''}`}
+        <button className={`btn btn-warning mx-1 ${selectedCategory === null ? 'active' : ''}`}
           onClick={() => handleCategoryClick(null)}>
           All
         </button>
