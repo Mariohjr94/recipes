@@ -58,6 +58,16 @@ function FreezerLog() {
     setFilteredItems(filtered);
   };
 
+  const handleCategoryClick = (categoryId) => {
+    setCategoryId(categoryId);
+    if (categoryId === null) {
+      setFilteredItems(freezerItems);
+    } else {
+      const filtered = freezerItems.filter((item) => item.category_id === categoryId);
+      setFilteredItems(filtered);
+    }
+  };
+
     const handleAddOrUpdateItem = async (e) => {
     e.preventDefault();
 
@@ -152,7 +162,26 @@ function FreezerLog() {
           onChange={handleSearch}
         />
       </div>
+       {/* Category Buttons */}
+      <div className="mb-4 text-center">
+        <button
+          className={`btn btn-warning mx-1 ${categoryId === null ? "active" : ""}`}
+          onClick={() => handleCategoryClick(null)}
+        >
+          All
+        </button>
+        {categories.map((category) => (
+          <button
+            key={category.id}
+            className={`btn btn-warning mx-1 ${categoryId === category.id ? "active" : ""}`}
+            onClick={() => handleCategoryClick(category.id)}
+          >
+            {category.name}
+          </button>
+        ))}
+      </div>
       <div className="divider"></div>
+
       {isLoggedIn && (
         <form className="mb-4" onSubmit={handleAddOrUpdateItem}>
           <div className="row">
