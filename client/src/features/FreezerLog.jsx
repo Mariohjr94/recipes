@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { FaEdit, FaTrash } from "react-icons/fa";
@@ -15,6 +15,7 @@ function FreezerLog() {
   const [successMessage, setSuccessMessage] = useState("");
   const [editItem, setEditItem] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const formRef = useRef(null);
 
   const isLoggedIn = useSelector((state) => !!state.auth.token);
 
@@ -107,6 +108,7 @@ function FreezerLog() {
     setName(item.name);
     setQuantity(item.quantity);
     setCategoryId(item.category_id || "");
+    formRef.current.scrollIntoView({ behavior: "smooth"});
   };
 
   const handleDelete = async (id) => {
