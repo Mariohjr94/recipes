@@ -121,7 +121,7 @@ useEffect(() => {
 <div className="row">
   {filteredRecipes.length > 0 ? (
     filteredRecipes.map((recipe) => (
-      <div key={recipe.id} className="col-sm-4 col-md-4 col-lg-3 mb-4">
+      <div key={recipe.id} className="col-4 col-md-4 col-lg-3 mb-4">
         <Link to={`/recipe/${recipe.id}`} className="text-decoration-none text-dark">
           <div className="shadow-sm border-0 rounded h-80">
             <img src={recipe.image} className="card-img-top rounded-top" alt={recipe.name} />
