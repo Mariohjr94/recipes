@@ -73,14 +73,23 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  if (!loading && filteredRecipes.length > 0) {
+  if (filteredRecipes.length > 0) {
     const grid = document.querySelector(".row");
-    new Masonry(grid, {
+    const masonry = new Masonry(grid, {
       itemSelector: ".col-6",
       percentPosition: true,
+      gutter: 16, // Matches the CSS gap
     });
+
+    // Recalculate Masonry layout after images load
+    const images = grid.querySelectorAll("img");
+    images.forEach((img) => {
+      img.onload = () => masonry.layout();
+    });
+
+    return () => masonry.destroy(); // Cleanup on unmount
   }
-}, [loading, filteredRecipes]);
+}, [filteredRecipes]);
 
   if (loading) {
     return (
