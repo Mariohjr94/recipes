@@ -118,6 +118,17 @@ body {
 
 .divider {
   border-top: 2px solid #e0e0e0;
-  width: 50 x%;
+  width: 50%;
   margin: 20px auto;
+}
+
+.masonry-grid {
+  display: flex;
+  margin-left: -15px; /* Adjust according to your column gap */
+  width: auto;
+}
+
+.masonry-grid-column {
+  padding-left: 15px; /* Adjust according to your column gap */
+  background-clip: padding-box;
 }
