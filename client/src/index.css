@@ -126,21 +126,3 @@ body {
   justify-content: center; /* Center items in the row */
 }
 
-.col {
-  flex: 1 1 auto;
-  max-width: 100%;
-}
-
-@media (min-width: 768px) { /* For tablets */
-  .col {
-    flex: 1 1 calc(33.33% - 16px); /* 3 items on tablets */
-    max-width: calc(33.33% - 16px);
-  }
-}
-
-@media (min-width: 1200px) { /* For large displays */
-  .col {
-    flex: 1 1 calc(16.66% - 16px); /* 6 items on large displays */
-    max-width: calc(16.66% - 16px);
-  }
-}
