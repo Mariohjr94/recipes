@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Masonry from "react-masonry-css";
 
 function LandingPage() {
   const [recipes, setRecipes] = useState([]);
@@ -83,6 +84,14 @@ useEffect(() => {
   }
   if (error) return <p>{error}</p>;
 
+    // Masonry breakpoint configuration
+  const breakpointColumns = {
+    default: 4, // Number of columns for default viewport
+    1100: 3,    // 3 columns for widths <= 1100px
+    768: 2,     // 2 columns for widths <= 768px
+    576: 1      // 1 column for widths <= 576px
+  };
+
    return (
     <div className="container mt-5">
       <h1 className="text-center mb-5">Recipes</h1>
@@ -100,7 +109,7 @@ useEffect(() => {
 
       {/* Category Buttons */}
       <div className="mb-5 text-center category-buttons">
-        <button className={`btn btn-dark mx-1 ${selectedCategory === null ? 'active' : ''}`}
+        <button  vcvbb={`btn btn-dark mx-1 ${selectedCategory === null ? 'active' : ''}`}
           onClick={() => handleCategoryClick(null)}>
           All
         </button>
@@ -115,17 +124,21 @@ useEffect(() => {
         ))}
       </div>
 
-      {/* Recipe Cards */}
-      <div className="row">
+  {/* Recipe Cards in Masonry Layout */}
+      <Masonry
+        breakpointCols={breakpointColumns}
+        className="masonry-grid"
+        columnClassName="masonry-grid-column"
+      >
         {filteredRecipes.length > 0 ? (
           filteredRecipes.map((recipe) => (
-            <div key={recipe.id} className="col-6 col-sm-4 col-md-4 col-lg-3 mb-4">
+            <div key={recipe.id} className="mb-4">
               <Link to={`/recipe/${recipe.id}`} className="text-decoration-none text-dark">
-                <div className="shadow-sm border-0 rounded h-80">
+                <div className="card shadow-sm border-0 rounded">
                   <img src={recipe.image} className="card-img-top rounded-top" alt={recipe.name} />
-                    <div className="card-body text-center">
-                      <p className="card-title fw-bold m-2">{recipe.name}</p>
-                    </div>
+                  <div className="card-body text-center">
+                    <p className="card-title fw-bold m-2">{recipe.name}</p>
+                  </div>
                 </div>
               </Link>
             </div>
@@ -133,7 +146,7 @@ useEffect(() => {
         ) : (
           <p className="text-center">No recipes available.</p>
         )}
-      </div>
+      </Masonry>
     </div>
   );
 }
