@@ -126,6 +126,11 @@ body {
   justify-content: center; /* Center items in the row */
 }
 
+.col {
+  flex: 1 1 auto;
+  max-width: 100%;
+}
+
 @media (min-width: 768px) { /* For tablets */
   .col {
     flex: 1 1 calc(33.33% - 16px); /* 3 items on tablets */
