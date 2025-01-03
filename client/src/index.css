@@ -18,22 +18,7 @@ body {
 }
 
 .card {
-  display: flex;
-  flex-direction: column;
-  width: 100%; /* Fill the column */
-}
-
-.card img {
-  object-fit: cover; /* Ensure the image fills the card */
-  width: 100%; /* Make image responsive */
-  max-height: 300px; /* Optional: Limit the height of taller images */
-}
-
-.card-body {
-  flex-grow: 1; /* Allow the body to grow with content */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-bottom: 16px;
 }
 
 

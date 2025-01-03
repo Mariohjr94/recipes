@@ -84,13 +84,14 @@ useEffect(() => {
   }
   if (error) return <p>{error}</p>;
 
-    // Masonry breakpoint configuration
-  const breakpointColumns = {
-    default: 4, // Number of columns for default viewport
-    1100: 3,    // 3 columns for widths <= 1100px
-    768: 2,     // 2 columns for widths <= 768px
-    576: 1      // 1 column for widths <= 576px
-  };
+ useEffect(() => {
+  const grid = document.querySelector(".row");
+  new Masonry(grid, {
+    itemSelector: ".col-6",
+    percentPosition: true,
+  });
+}, []);
+
 
    return (
     <div className="container mt-5">
@@ -124,41 +125,33 @@ useEffect(() => {
         ))}
       </div>
 
-  {/* Recipe Cards in Masonry Layout */}
-      <Masonry
-        breakpointCols={breakpointColumns}
-        className="masonry-grid"
-        columnClassName="masonry-grid-column"
-      >
-
-     <div className="row">
-        {filteredRecipes.length > 0 ? (
-          filteredRecipes.map((recipe) => (
-            <div key={recipe.id} className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
-              <Link to={`/recipe/${recipe.id}`} className="text-decoration-none text-dark w-100">
-                <div className="card shadow-sm border-0 rounded h-100">
-                  <img
-                    src={recipe.image}
-                    className="card-img-top"
-                    alt={recipe.name}
-                    style={{
-                      objectFit: "cover",
-                      width: "100%",
-                      height: "auto",
-                    }}
-                  />
-                  <div className="card-body text-center">
-                    <p className="card-title fw-bold m-2">{recipe.name}</p>
+        <div className="row" data-masonry='{"percentPosition": true }'>
+          {filteredRecipes.length > 0 ? (
+            filteredRecipes.map((recipe) => (
+              <div key={recipe.id} className="col-6 col-md-4 col-lg-3 mb-4">
+                <Link to={`/recipe/${recipe.id}`} className="text-decoration-none text-dark">
+                  <div className="card">
+                    <img
+                      src={recipe.image}
+                      className="card-img-top"
+                      alt={recipe.name}
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        objectFit: "cover",
+                      }}
+                    />
+                    <div className="card-body text-center">
+                      <p className="card-title fw-bold">{recipe.name}</p>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            </div>
-          ))
-        ) : (
-          <p className="text-center">No recipes available.</p>
-        )}
-      </div>
-      </Masonry>
+                </Link>
+              </div>
+            ))
+          ) : (
+            <p>No recipes found.</p>
+          )}
+        </div>
     </div>
   );
 }
