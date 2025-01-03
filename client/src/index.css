@@ -17,20 +17,6 @@ body {
    box-shadow: 0 5px 4px 0 rgba(0,0,0,.1);
 }
 
-.card {
-  margin: auto; /* Center the card within its column */
-}
-
-.card-img-top {
-  width: 100%;
-  height: 200px; /* Ensure consistent height */
-  object-fit: cover; /* Crop the image nicely */
-}
-
-.card-body {
-  padding: 1rem;
-}
-
 /* buttons */
 
 .category-buttons {
@@ -117,18 +103,28 @@ body {
   margin: 20px auto;
 }
 
+
+
+.card {
+  margin: auto; /* Center the card within its column */
+}
+
+.card-img-top {
+  width: 100%;
+  height: 200px; /* Ensure consistent height */
+  object-fit: cover; /* Crop the image nicely */
+}
+
+.card-body {
+  padding: 1rem;
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;
   gap: 16px; /* Space between items */
   justify-content: center; /* Center items in the row */
 }
-
-.col {
-  flex: 1 1 calc(50% - 16px); /* Default: 2 items on small screens */
-  max-width: calc(50% - 16px); /* 2 items on small screens */
-}
-
 
 @media (min-width: 768px) { /* For tablets */
   .col {
