@@ -15,9 +15,9 @@ function LandingPage() {
 const fetchRecipes = async () => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get(${import.meta.env.VITE_API_BASE_URL}/api/recipes, {
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/recipes`, {
       headers: {
-        Authorization: Bearer ${token}, 
+        Authorization: `Bearer ${token}`, 
       },
     });
     setRecipes(response.data); 
@@ -31,7 +31,7 @@ const fetchRecipes = async () => {
  // Fetch categories from API
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(${import.meta.env.VITE_API_BASE_URL}/api/categories);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/categories`);
       setCategories(response.data);
     } catch (error) {
       console.error("Failed to load categories.", error);
@@ -98,43 +98,46 @@ useEffect(() => {
         />
       </div>
 
-      {/* Category Buttons */}
-      <div className="mb-5 text-center category-buttons">
-        <button  vcvbb={btn btn-dark mx-1 ${selectedCategory === null ? 'active' : ''}}
-          onClick={() => handleCategoryClick(null)}>
-          All
-        </button>
-        {categories.map((category) => (
-          <button
-            key={category.id}
-            className={btn btn-warning mx-1 ${selectedCategory === category.id ? 'active' : ''}}
-            onClick={() => handleCategoryClick(category.id)}
-          >
-            {category.name}
-          </button>
-        ))}
-      </div>
+     {/* Category Buttons */}
+<div className="mb-5 text-center category-buttons">
+  <button
+    className={`btn btn-dark mx-1 ${selectedCategory === null ? 'active' : ''}`}
+    onClick={() => handleCategoryClick(null)}
+  >
+    All
+  </button>
+  {categories.map((category) => (
+    <button
+      key={category.id}
+      className={`btn btn-warning mx-1 ${selectedCategory === category.id ? 'active' : ''}`}
+      onClick={() => handleCategoryClick(category.id)}
+    >
+      {category.name}
+    </button>
+  ))}
+</div>
 
-      {/* Recipe Cards */}
-      <div className="row">
-        {filteredRecipes.length > 0 ? (
-          filteredRecipes.map((recipe) => (
-            <div key={recipe.id} className="col-6 col-sm-4 col-md-4 col-lg-3 mb-4">
-              <Link to={/recipe/${recipe.id}} className="text-decoration-none text-dark">
-                <div className="shadow-sm border-0 rounded h-80">
-                  <img src={recipe.image} className="card-img-top rounded-top" alt={recipe.name} />
-                    <div className="card-body text-center">
-                      <p className="card-title fw-bold m-2">{recipe.name}</p>
-                    </div>
-                </div>
-              </Link>
+{/* Recipe Cards */}
+<div className="row">
+  {filteredRecipes.length > 0 ? (
+    filteredRecipes.map((recipe) => (
+      <div key={recipe.id} className="col-6 col-sm-4 col-md-4 col-lg-3 mb-4">
+        <Link to={`/recipe/${recipe.id}`} className="text-decoration-none text-dark">
+          <div className="shadow-sm border-0 rounded h-80">
+            <img src={recipe.image} className="card-img-top rounded-top" alt={recipe.name} />
+            <div className="card-body text-center">
+              <p className="card-title fw-bold m-2">{recipe.name}</p>
             </div>
-          ))
-        ) : (
-          <p className="text-center">No recipes available.</p>
-        )}
+          </div>
+        </Link>
       </div>
-    </div>
+    ))
+  ) : (
+    <p className="text-center">No recipes available.</p>
+  )}
+</div>
+
+</div>
   );
 }
 
