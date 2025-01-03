@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Masonry from "masonry-layout";
 
 function LandingPage() {
   const [recipes, setRecipes] = useState([]);
@@ -16,9 +15,9 @@ function LandingPage() {
 const fetchRecipes = async () => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/recipes`, {
+    const response = await axios.get(${import.meta.env.VITE_API_BASE_URL}/api/recipes, {
       headers: {
-        Authorization: `Bearer ${token}`, 
+        Authorization: Bearer ${token}, 
       },
     });
     setRecipes(response.data); 
@@ -32,7 +31,7 @@ const fetchRecipes = async () => {
  // Fetch categories from API
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/categories`);
+      const response = await axios.get(${import.meta.env.VITE_API_BASE_URL}/api/categories);
       setCategories(response.data);
     } catch (error) {
       console.error("Failed to load categories.", error);
@@ -72,24 +71,6 @@ useEffect(() => {
   fetchCategories();
 }, []);
 
-useEffect(() => {
-  if (filteredRecipes.length > 0) {
-    const grid = document.querySelector(".row");
-    const masonry = new Masonry(grid, {
-      itemSelector: ".col-6",
-      percentPosition: true,
-      gutter: 16, // Matches the CSS gap
-    });
-
-    // Recalculate Masonry layout after images load
-    const images = grid.querySelectorAll("img");
-    images.forEach((img) => {
-      img.onload = () => masonry.layout();
-    });
-
-    return () => masonry.destroy(); // Cleanup on unmount
-  }
-}, [filteredRecipes]);
 
   if (loading) {
     return (
@@ -119,14 +100,14 @@ useEffect(() => {
 
       {/* Category Buttons */}
       <div className="mb-5 text-center category-buttons">
-        <button  vcvbb={`btn btn-dark mx-1 ${selectedCategory === null ? 'active' : ''}`}
+        <button  vcvbb={btn btn-dark mx-1 ${selectedCategory === null ? 'active' : ''}}
           onClick={() => handleCategoryClick(null)}>
           All
         </button>
         {categories.map((category) => (
           <button
             key={category.id}
-            className={`btn btn-warning mx-1 ${selectedCategory === category.id ? 'active' : ''}`}
+            className={btn btn-warning mx-1 ${selectedCategory === category.id ? 'active' : ''}}
             onClick={() => handleCategoryClick(category.id)}
           >
             {category.name}
@@ -134,33 +115,25 @@ useEffect(() => {
         ))}
       </div>
 
-        <div className="row" data-masonry='{"percentPosition": true }'>
-          {filteredRecipes.length > 0 ? (
-            filteredRecipes.map((recipe) => (
-              <div key={recipe.id} className="col-6 col-sm-6 col-md-4 col-lg-2 mb-4">
-                <Link to={`/recipe/${recipe.id}`} className="text-decoration-none text-dark">
-                  <div className="card">
-                    <img
-                      src={recipe.image}
-                      className="card-img-top"
-                      alt={recipe.name}
-                      style={{
-                        width: "100%",
-                        height: "auto",
-                        objectFit: "cover",
-                      }}
-                    />
+      {/* Recipe Cards */}
+      <div className="row">
+        {filteredRecipes.length > 0 ? (
+          filteredRecipes.map((recipe) => (
+            <div key={recipe.id} className="col-6 col-sm-4 col-md-4 col-lg-3 mb-4">
+              <Link to={/recipe/${recipe.id}} className="text-decoration-none text-dark">
+                <div className="shadow-sm border-0 rounded h-80">
+                  <img src={recipe.image} className="card-img-top rounded-top" alt={recipe.name} />
                     <div className="card-body text-center">
-                      <p className="card-title fw-bold">{recipe.name}</p>
+                      <p className="card-title fw-bold m-2">{recipe.name}</p>
                     </div>
-                  </div>
-                </Link>
-              </div>
-            ))
-          ) : (
-            <p>No recipes found.</p>
-          )}
-        </div>
+                </div>
+              </Link>
+            </div>
+          ))
+        ) : (
+          <p className="text-center">No recipes available.</p>
+        )}
+      </div>
     </div>
   );
 }
