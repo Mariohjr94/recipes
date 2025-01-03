@@ -18,12 +18,7 @@ body {
 }
 
 .card {
-  background-color: var(--card-bg-color);
-  border: 1px solid #e0e0e0; /* Add border for better separation */
-  border-radius: 8px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  margin: auto; /* Center the card within its column */
 }
 
 .card-img-top {
@@ -35,8 +30,6 @@ body {
 .card-body {
   padding: 1rem;
 }
-
-
 
 /* buttons */
 
@@ -125,48 +118,39 @@ body {
 }
 
 .row {
-  display: flex; /* Ensure items wrap properly */
+  display: flex;
   flex-wrap: wrap;
-  gap: 16px; /* Consistent spacing between items */
-  margin-left: -8px; /* Negative margin for proper alignment */
-  margin-right: -8px;
+  gap: 16px; /* Space between items */
+  justify-content: center; /* Center-align the items */
+  margin-left: auto;
+  margin-right: auto;
 }
 
-
-.col-6 {
-  width: 50%;
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
-.col-md-4 {
-  width: 33.33%;
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
+.col-6,
+.col-md-4,
 .col-lg-3 {
-  width: 25%;
+  flex: 0 0 auto; /* Prevent items from shrinking or growing */
   padding-left: 8px;
   padding-right: 8px;
+  max-width: 100%; /* Ensure the cards don't exceed the row width */
 }
 
 
 @media (max-width: 576px) {
   .col-6 {
-    width: 100%;
+    width: 100%; /* Full width for smaller screens */
   }
 }
 
 @media (max-width: 768px) {
   .col-md-4 {
-    width: 50%;
+    width: 50%; /* Two columns on tablets */
   }
 }
 
 @media (max-width: 992px) {
   .col-lg-3 {
-    width: 33.33%;
+    width: 33.33%; /* Three columns on smaller desktops */
   }
 }
 
