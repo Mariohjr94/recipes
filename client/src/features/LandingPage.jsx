@@ -137,7 +137,7 @@ useEffect(() => {
         <div className="row" data-masonry='{"percentPosition": true }'>
           {filteredRecipes.length > 0 ? (
             filteredRecipes.map((recipe) => (
-              <div key={recipe.id} className="col-6 col-md-4 col-lg-3 mb-4">
+              <div key={recipe.id} className="col-6 col-md-4 col-lg-2 mb-4">
                 <Link to={`/recipe/${recipe.id}`} className="text-decoration-none text-dark">
                   <div className="card">
                     <img
