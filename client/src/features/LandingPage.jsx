@@ -130,30 +130,34 @@ useEffect(() => {
         className="masonry-grid"
         columnClassName="masonry-grid-column"
       >
+
+     <div className="row">
         {filteredRecipes.length > 0 ? (
           filteredRecipes.map((recipe) => (
-            <div key={recipe.id} className="col-6 col-sm-4 col-md-4 col-lg-3 mb-4">
-        <Link to={`/recipe/${recipe.id}`} className="text-decoration-none text-dark">
-          <div className="card shadow-sm border-0 rounded">
-            <img
-              src={recipe.image}
-              className="card-img-top"
-              alt={recipe.name}
-              style={{
-                objectFit: "cover", 
-                width: "100%",
-              }}
-            />
-            <div className="card-body text-center">
-              <p className="card-title fw-bold m-2">{recipe.name}</p>
+            <div key={recipe.id} className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
+              <Link to={`/recipe/${recipe.id}`} className="text-decoration-none text-dark w-100">
+                <div className="card shadow-sm border-0 rounded h-100">
+                  <img
+                    src={recipe.image}
+                    className="card-img-top"
+                    alt={recipe.name}
+                    style={{
+                      objectFit: "cover",
+                      width: "100%",
+                      height: "auto",
+                    }}
+                  />
+                  <div className="card-body text-center">
+                    <p className="card-title fw-bold m-2">{recipe.name}</p>
+                  </div>
+                </div>
+              </Link>
             </div>
-          </div>
-        </Link>
-      </div>
           ))
         ) : (
           <p className="text-center">No recipes available.</p>
         )}
+      </div>
       </Masonry>
     </div>
   );
