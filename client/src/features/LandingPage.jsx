@@ -134,8 +134,8 @@ useEffect(() => {
           filteredRecipes.map((recipe) => (
             <div key={recipe.id} className="mb-4">
               <Link to={`/recipe/${recipe.id}`} className="text-decoration-none text-dark">
-                <div className="card shadow-sm border-0 rounded">
-                  <img src={recipe.image} className="card-img-top rounded-top" alt={recipe.name} />
+                <div className="card shadow-sm border-0 rounded h-100">
+                  <img src={recipe.image} className="card-img-top w-100" alt={recipe.name} style={{ objectFit: 'cover' }} />
                   <div className="card-body text-center">
                     <p className="card-title fw-bold m-2">{recipe.name}</p>
                   </div>
