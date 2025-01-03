@@ -72,6 +72,15 @@ useEffect(() => {
   fetchCategories();
 }, []);
 
+useEffect(() => {
+  if (!loading && filteredRecipes.length > 0) {
+    const grid = document.querySelector(".row");
+    new Masonry(grid, {
+      itemSelector: ".col-6",
+      percentPosition: true,
+    });
+  }
+}, [loading, filteredRecipes]);
 
   if (loading) {
     return (
@@ -83,15 +92,6 @@ useEffect(() => {
     );
   }
   if (error) return <p>{error}</p>;
-
- useEffect(() => {
-  const grid = document.querySelector(".row");
-  new Masonry(grid, {
-    itemSelector: ".col-6",
-    percentPosition: true,
-  });
-}, []);
-
 
    return (
     <div className="container mt-5">
